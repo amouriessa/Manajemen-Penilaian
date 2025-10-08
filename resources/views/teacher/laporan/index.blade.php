@@ -154,7 +154,8 @@
                             {{-- Filter Siswa --}}
                             <div>
                                 <label for="student_id" class="block text-sm font-medium">Nama Siswa (Opsional)</label>
-                                <select name="student_id" id="student_id" class="w-full text-sm border-gray-300 rounded">
+                                <select name="student_id" id="student_id"
+                                    class="w-full text-sm border-gray-300 rounded">
                                     <option value="">-- Semua Siswa --</option>
                                     @foreach ($studentList as $student)
                                         <option value="{{ $student->id }}"
@@ -164,6 +165,21 @@
                                     @endforeach
                                 </select>
                             </div>
+
+                            {{-- filter surah --}}
+                            {{-- <div>
+                                <label for="student_id" class="block text-sm font-medium">Surah (Opsional)</label>
+                                <select name="surah_nama" id="surah_nama"
+                                    class="w-full text-sm border-gray-300 rounded">
+                                    <option value="">-- Semua Surah --</option>
+                                    @foreach ($surahs as $surah)
+                                        <option value="{{ $surah->nama }}"
+                                            {{ request('surah_nama') == $surah->nama ? 'selected' : '' }}>
+                                            {{ $surah->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div> --}}
 
                             {{-- Filter Periode --}}
                             <div>
@@ -261,8 +277,7 @@
 
                             <div class="flex flex-wrap gap-3">
                                 {{-- Tombol Cetak --}}
-                                <a href="{{ route('teacher.laporan.cetak', request()->all()) }}"
-                                    target="_blank"
+                                <a href="{{ route('teacher.laporan.cetak', request()->all()) }}" target="_blank"
                                     class="inline-flex items-center px-4 py-2 text-sm font-medium text-white transition-colors bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">

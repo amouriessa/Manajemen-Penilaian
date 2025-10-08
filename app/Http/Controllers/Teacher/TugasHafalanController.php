@@ -8,9 +8,7 @@ use App\Models\SiswaKelas;
 use App\Models\Student;
 use App\Models\Surah;
 use App\Models\TahunAjaran;
-use App\Models\Teacher;
 use App\Models\TugasHafalan;
-use App\Models\TugasSiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -44,13 +42,10 @@ class TugasHafalanController extends Controller
             $sortOrder = 'desc';
         }
 
-        // Base query with eager loading for siswa (relasi di TugasHafalan) and surahHafalan
         $baseQuery = TugasHafalan::where('teacher_id', $teacherId)
         ->with([
-            'surahHafalan', // Memuat relasi many-to-many ke Surah
+            'surahHafalan',
             'siswa' => function($query) {
-                // Memuat relasi many-to-many ke Student
-                // Dan eager load relasi 'user' dari Student, serta 'kelasTahfidz'
                 $query->with(['user', 'kelasTahfidz']);
             }
         ]);
@@ -63,14 +58,13 @@ class TugasHafalanController extends Controller
                   ->orWhereHas('surahHafalan', function ($qr) use ($search) {
                       $qr->where('nama', 'like', '%' . $search . '%');
                   })
-                  // Cari berdasarkan nama siswa (Student) yang dituju
                   ->orWhereHas('siswa.user', function ($qr) use ($search) { // <-- PERBAIKAN DI SINI
                     $qr->where('name', 'like', '%' . $search . '%'); // <-- PERBAIKAN DI SINI, kolom 'name' di tabel 'users'
                 });
             });
         }
 
-        // --- Filter Status (No change needed here) ---
+        // --- Filter Status ---
         $activeTasksQuery = null;
         $archivedTasksQuery = null;
 
@@ -107,8 +101,6 @@ class TugasHafalanController extends Controller
         if ($request->filled('kelas_id')) {
             $kelasIdToFilter = $request->input('kelas_id');
             if ($activeTasksQuery) {
-                // Di sini, relasi tetap 'siswa.kelasTahfidz' karena relasi dari Student ke KelasTahfidz
-                // tidak berubah namanya (tetap kelasTahfidz)
                 $activeTasksQuery->whereHas('siswa.kelasTahfidz', function($q) use ($kelasIdToFilter) {
                     $q->where('kelas_tahfidz.id', $kelasIdToFilter);
                 });
@@ -120,7 +112,7 @@ class TugasHafalanController extends Controller
             }
         }
 
-        // --- Sorting (No change needed here) ---
+        // --- Sorting ---
         if ($activeTasksQuery) {
             $activeTasksQuery->orderBy($sortBy, $sortOrder);
         }
@@ -128,12 +120,11 @@ class TugasHafalanController extends Controller
             $archivedTasksQuery->orderBy($sortBy, $sortOrder);
         }
 
-        // --- Paginasi (No change needed here) ---
+        // --- Paginasi ---
         $perPage = $request->input('perPage', 10);
         $activeTasks = $activeTasksQuery ? $activeTasksQuery->paginate($perPage, ['*'], 'active_page')->appends($request->query()) : null;
         $archivedTasks = $archivedTasksQuery ? $archivedTasksQuery->paginate($perPage, ['*'], 'archived_page')->appends($request->query()) : null;
 
-        // --- Data tambahan untuk dropdown filter ---
         // Dapatkan kelas yang diajar oleh guru ini
         $kelasList = KelasTahfidz::where('teacher_id', Auth::user()->guru->id)->get();
 
@@ -183,8 +174,6 @@ class TugasHafalanController extends Controller
      */
     public function store(Request $request)
 {
-    // ... (Your validation code remains the same)
-
     DB::transaction(function () use ($request) {
         $firstSurah = $request->surah_data[0];
         $surahModel = Surah::find($firstSurah['surah_id']);
@@ -204,7 +193,6 @@ class TugasHafalanController extends Controller
             'is_for_all_student' => $request->is_for_all_student,
         ]);
 
-        // --- Perbaikan untuk surahHafalan (HasMany) ---
         // Siapkan data untuk dibuat
         $surahToCreate = [];
         foreach ($request->surah_data as $surah) {
@@ -212,14 +200,12 @@ class TugasHafalanController extends Controller
                 'surah_id' => $surah['surah_id'],
                 'ayat_awal' => $surah['ayat_awal'],
                 'ayat_akhir' => $surah['ayat_akhir'],
-                'created_at' => now(), // Important for mass assignment
-                'updated_at' => now(), // Important for mass assignment
+                'created_at' => now(),
+                'updated_at' => now(),
             ];
         }
         $tugas->surahHafalan()->createMany($surahToCreate);
-        // --- Akhir Perbaikan ---
 
-        // Assign students based on is_for_all_student (This part is correct because 'siswa' is belongsToMany)
         $studentIdsToAssign = [];
         if ($request->is_for_all_student) {
             $tahunAjaranAktif = TahunAjaran::where('status', true)->first();
@@ -240,14 +226,6 @@ class TugasHafalanController extends Controller
 }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        // Implement show logic if needed
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(TugasHafalan $tugasHafalan)
@@ -259,49 +237,41 @@ class TugasHafalanController extends Controller
         abort(403, 'Anda tidak memiliki akses untuk mengedit tugas ini.');
     }
 
-    // --- Perbaikan di sini: Muat relasi yang diperlukan ---
-    // Memuat 'kelasTahfidz' langsung pada tugasHafalan
-    // Memuat 'surahHafalan' DAN relasi 'surah' di dalamnya
-    // Memuat 'siswa' dan relasi 'user' di dalamnya
     $tugasHafalan->load([
         'kelasTahfidz', // Memuat relasi KelasTahfidz langsung pada TugasHafalan
         'surahHafalan.surah', // Memuat relasi Surah melalui SurahHafalan
-        'siswa.user' // Eager load 'user' dari Student untuk nama siswa
+        'siswa.user'
     ]);
 
-    // Ambil kelas tahfidz milik guru yang memiliki siswa dengan tahun ajaran aktif
     // Ini adalah daftar untuk dropdown pilihan kelas
     $kelasTahfidzOptions = $guru->kelasTahfidz()
         ->whereHas('siswaKelas', function ($query) {
             $query->whereHas('tahunAjaran', function ($q) {
-                // Periksa status aktif tahun ajaran, sesuaikan jika 'status' adalah boolean
-                $q->where('status', true); // Jika 'status' boolean
-                // $q->where('status', 'aktif'); // Jika 'status' string 'aktif'
+                $q->where('status', true);
             });
         })
         ->get();
 
-    // Ambil seluruh surah untuk dipilih kembali (untuk dropdown surah)
+    // untuk dropdown surah
     $surahs = Surah::orderBy('nama')->get();
 
     // Ambil surah yang sudah terhubung ke tugas ini dengan ayat awal/akhir
-    // Menggunakan relasi 'surah' yang sudah di-eager load dari SurahHafalan
     $surahHafalanTerpilih = $tugasHafalan->surahHafalan->map(function ($sh) {
         return [
-            'id' => $sh->id, // ID dari record SurahHafalan itu sendiri
+            'id' => $sh->id,
             'surah_id' => $sh->surah_id,
-            'nama' => $sh->surah->nama, // Akses nama surah melalui relasi 'surah'
+            'nama' => $sh->surah->nama,
             'ayat_awal' => $sh->ayat_awal,
             'ayat_akhir' => $sh->ayat_akhir,
         ];
     });
 
-    // Ambil siswa yang sudah ditugaskan (untuk pre-select checkbox/dropdown)
+    // Ambil siswa yang sudah ditugaskan
     $siswaTerpilihIds = $tugasHafalan->siswa->pluck('id')->toArray();
 
-    // Ambil daftar semua siswa yang relevan untuk dropdown (seperti di create)
-    $tahunAjaranAktif = TahunAjaran::where('status', true)->first(); // Sesuaikan dengan status tahun ajaran Anda
-    $studentsOptions = collect(); // Inisialisasi koleksi kosong
+    // Ambil daftar semua siswa yang relevan
+    $tahunAjaranAktif = TahunAjaran::where('status', true)->first();
+    $studentsOptions = collect();
 
     if ($tahunAjaranAktif) {
         $studentIdsInKelasGuru = SiswaKelas::whereIn('kelas_tahfidz_id', $kelasTahfidzOptions->pluck('id'))
@@ -311,17 +281,15 @@ class TugasHafalanController extends Controller
         $studentsOptions = Student::with('user')->whereIn('id', $studentIdsInKelasGuru)->get();
     }
 
-
-    // Determine if it was assigned to all or specific students based on is_for_all_student
     $isForAllStudent = $tugasHafalan->is_for_all_student;
 
     return view('teacher.tugas_hafalan.edit', compact(
         'tugasHafalan',
-        'kelasTahfidzOptions', // Gunakan nama yang lebih jelas untuk daftar pilihan kelas
+        'kelasTahfidzOptions',
         'surahs',
-        'surahHafalanTerpilih', // Gunakan nama yang lebih jelas untuk data surah yang sudah dipilih
+        'surahHafalanTerpilih',
         'siswaTerpilihIds',
-        'studentsOptions', // Daftar semua siswa yang bisa dipilih
+        'studentsOptions',
         'isForAllStudent'
     ));
 }
@@ -332,7 +300,6 @@ class TugasHafalanController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            //'nama' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'jenis_tugas' => 'required|in:baru,murajaah',
             'tenggat_waktu' => 'required|date',
@@ -342,7 +309,7 @@ class TugasHafalanController extends Controller
             'surah_data.*.surah_id' => 'required|exists:surahs,id',
             'surah_data.*.ayat_awal' => 'required|integer',
             'surah_data.*.ayat_akhir' => 'required|integer',
-            'is_for_all_student' => ['required', Rule::in([0, 1])], // Added validation
+            'is_for_all_student' => ['required', Rule::in([0, 1])],
             'student_ids' => 'nullable|array',
             'student_ids.*' => 'exists:students,id',
         ]);
@@ -369,10 +336,14 @@ class TugasHafalanController extends Controller
                 abort(403, 'Anda tidak memiliki akses untuk mengedit tugas ini.');
             }
 
-            $generatedName = $this->generateTaskName($request->surah_data, $request->jenis_tugas);
+            $firstSurah = $request->surah_data[0];
+            $surahModel = Surah::find($firstSurah['surah_id']);
+            $namaTugas = now()->format('Ymd-His') . ' - ' . $surahModel->nama .
+            ' Ayat ' . $firstSurah['ayat_awal'] . '-' . $firstSurah['ayat_akhir'] .
+            ' - ' . '(' . ucfirst($request->jenis_tugas) . ')';
 
             $tugas->update([
-                'nama' => $generatedName,
+                'nama' => $namaTugas,
                 'deskripsi' => $request->deskripsi,
                 'jenis_tugas' => $request->jenis_tugas,
                 'tenggat_waktu' => $request->tenggat_waktu,
@@ -381,38 +352,22 @@ class TugasHafalanController extends Controller
                 'is_for_all_student' => $request->is_for_all_student, // Update this value
             ]);
 
-            // // Synchronize surahs
-            // $surahSyncData = [];
-            // foreach ($request->surah_data as $surah) {
-            //     $surahSyncData[$surah['surah_id']] = [
-            //         'ayat_awal' => $surah['ayat_awal'],
-            //         'ayat_akhir' => $surah['ayat_akhir'],
-            //     ];
-            // }
-            // $tugas->surahHafalan()->sync($surahSyncData);
+        $tugas->surahHafalan()->delete();
 
-            // --- CORRECTED LOGIC FOR HASMANY RELATIONSHIP ---
-        // 1. Delete all existing SurahHafalan records for this TugasHafalan
-        $tugas->surahHafalan()->delete(); // This deletes all child records
-
-        // 2. Prepare new data for creation
         $surahToCreate = [];
         foreach ($request->surah_data as $surah) {
             $surahToCreate[] = [
                 'surah_id' => $surah['surah_id'],
                 'ayat_awal' => $surah['ayat_awal'],
                 'ayat_akhir' => $surah['ayat_akhir'],
-                // 'tugas_hafalan_id' will be automatically set by createMany
-                'created_at' => now(), // Important for mass assignment
-                'updated_at' => now(), // Important for mass assignment
+                'created_at' => now(),
+                'updated_at' => now(),
             ];
         }
 
-        // 3. Create the new SurahHafalan records
+        // surah hafalan baru
         $tugas->surahHafalan()->createMany($surahToCreate);
-        // --- END CORRECTED LOGIC ---
 
-            // Synchronize students based on is_for_all_student
             $studentIdsToAssign = [];
             if ($request->is_for_all_student) {
                 $tahunAjaranAktif = TahunAjaran::where('status', true)->first();
@@ -439,15 +394,13 @@ class TugasHafalanController extends Controller
     {
         $tugas = TugasHafalan::findOrFail($id);
 
-        // Ensure the teacher owns this task before deleting
         if ($tugas->teacher_id !== Auth::user()->guru->id) {
             abort(403, 'Anda tidak memiliki akses untuk menghapus tugas ini.');
         }
 
         DB::transaction(function () use ($tugas) {
-            // Hapus relasi pivot terlebih dahulu
             $tugas->surahHafalan()->delete();
-            $tugas->siswa()->detach(); // Detach students from tugas_siswas table
+            $tugas->siswa()->detach();
 
             $tugas->delete();
         });
@@ -455,56 +408,49 @@ class TugasHafalanController extends Controller
         return redirect()->route('teacher.tugas_hafalan.index')->with('success', 'Tugas hafalan berhasil dihapus.');
     }
 
-    private function generateTaskName(array $surahData, string $jenisTugas): string
-    {
-        $namaSurahList = [];
+    // private function generateTaskName(array $surahData, string $jenisTugas): string
+    // {
+    //     $namaSurahList = [];
 
-        foreach ($surahData as $data) {
-            $surah = Surah::find($data['surah_id']);
-            if ($surah) {
-                $namaSurahList[] = $surah->nama . ' (' . $data['ayat_awal'] . '-' . $data['ayat_akhir'] . ')';
-            }
-        }
+    //     foreach ($surahData as $data) {
+    //         $surah = Surah::find($data['surah_id']);
+    //         if ($surah) {
+    //             $namaSurahList[] = $surah->nama . ' (' . $data['ayat_awal'] . '-' . $data['ayat_akhir'] . ')';
+    //         }
+    //     }
 
-        $tanggal = now()->format('Ymd_His'); // YYYYMMDD_HHMMSS
-        $jenis = ucfirst($jenisTugas); // Baru / Murajaah
+    //     $tanggal = now()->format('Ymd_His');
+    //     $jenis = ucfirst($jenisTugas);
 
-        return "{$jenis} - " . implode(', ', $namaSurahList) . " - {$tanggal}";
-    }
+    //     return "{$jenis} - " . implode(', ', $namaSurahList) . " - {$tanggal}";
+    // }
 
     public function getSiswaByKelas($kelasTahfidzId)
     {
-        // 1. Cek Tahun Ajaran Aktif
         $tahunAjaranAktif = TahunAjaran::where('status', true)->first();
 
         if (!$tahunAjaranAktif) {
             Log::warning('Permintaan siswa untuk kelas ' . $kelasTahfidzId . ': Tidak ada Tahun Ajaran aktif ditemukan.');
-            // Mengembalikan respons 404 atau respons kosong dengan status OK,
-            // tergantung bagaimana Anda ingin JavaScript menanganinya.
-            // Jika 404, itu berarti resource (tahun ajaran aktif) tidak ditemukan.
+
             return response()->json([], 404);
-            // Atau, jika Anda hanya ingin mengembalikan array kosong tanpa error HTTP:
-            // return response()->json([]);
+
         }
 
-        // 2. Query Siswa berdasarkan Kelas dan Tahun Ajaran Aktif
         $siswa = Student::whereHas('siswaKelas', function ($query) use ($kelasTahfidzId, $tahunAjaranAktif) {
             $query->where('kelas_tahfidz_id', $kelasTahfidzId)
-                  ->where('tahun_ajaran_id', $tahunAjaranAktif->id); // Sesuaikan dengan PK TahunAjaran Anda
+                  ->where('tahun_ajaran_id', $tahunAjaranAktif->id);
         })
-        ->with('user:id,name') // Ambil relasi user dengan field id dan name
-        ->select('id', 'user_id') // Pilih kolom student_id (PK) dan user_id (FK ke users)
+        ->with('user:id,name')
+        ->select('id', 'user_id')
         ->get()
         ->map(function ($student) {
             return [
-                'id' => $student->id, // Kunci 'id' untuk value di <option>
-                'name' => $student->user->name, // Kunci 'name' untuk teks di <option>
+                'id' => $student->id,
+                'name' => $student->user->name,
             ];
         });
 
-        // 3. Logging untuk Debugging (opsional, sangat membantu)
         Log::info('Berhasil mengambil ' . $siswa->count() . ' siswa untuk kelas ID ' . $kelasTahfidzId);
-        // Log::debug('Data siswa JSON: ' . $siswa->toJson()); // Untuk melihat struktur JSON lengkap
 
         return response()->json($siswa);
     }
@@ -521,7 +467,6 @@ class TugasHafalanController extends Controller
 
     private function authorizeTaskOwner(TugasHafalan $tugasHafalan)
     {
-        // Ensure the teacher owns this task before deleting
         if ($tugasHafalan->teacher_id !== Auth::user()->guru->id) {
             abort(403, 'Anda tidak memiliki akses ke tugas ini.');
         }

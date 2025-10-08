@@ -34,18 +34,38 @@ class DashboardController extends Controller
             ->get();
 
         // Grafik contoh dummy: total nilai hafalan per kelas (opsional)
+        // $grafikHafalan = DB::table('penilaians')
+        //     ->join('students', 'penilaians.student_id', '=', 'students.id')
+        //     ->join('siswa_kelas', 'students.id', '=', 'siswa_kelas.student_id')
+        //     ->join('kelas_tahfidzs', 'siswa_kelas.kelas_tahfidz_id', '=', 'kelas_tahfidzs.id')
+        //     ->select('kelas_tahfidzs.nama', DB::raw('AVG(penilaians.nilai_total) as rata_rata'))
+        //     ->groupBy('kelas_tahfidzs.nama')
+        //     ->orderBy('kelas_tahfidzs.nama')
+        //     ->get()
+        //     ->map(function ($row) {
+        //         $row->rata_rata = (float) $row->rata_rata;
+        //         return $row;
+        //     });
+
         $grafikHafalan = DB::table('penilaians')
-            ->join('students', 'penilaians.student_id', '=', 'students.id')
-            ->join('siswa_kelas', 'students.id', '=', 'siswa_kelas.student_id')
-            ->join('kelas_tahfidzs', 'siswa_kelas.kelas_tahfidz_id', '=', 'kelas_tahfidzs.id')
-            ->select('kelas_tahfidzs.nama', DB::raw('AVG(penilaians.nilai_total) as rata_rata'))
-            ->groupBy('kelas_tahfidzs.nama')
-            ->orderBy('kelas_tahfidzs.nama')
-            ->get()
-            ->map(function ($row) {
-                $row->rata_rata = (float) $row->rata_rata;
-                return $row;
-            });
+        ->join('students', 'penilaians.student_id', '=', 'students.id')
+        ->leftJoin('siswa_kelas', function ($join) use ($tahunAjaranAktif) {
+            $join->on('students.id', '=', 'siswa_kelas.student_id')
+                ->where('siswa_kelas.tahun_ajaran_id', '=', $tahunAjaranAktif->id);
+        })
+        ->join('kelas_tahfidzs', 'siswa_kelas.kelas_tahfidz_id', '=', 'kelas_tahfidzs.id')
+        ->select(
+            DB::raw('CONCAT(kelas_tahfidzs.tingkatan_kelas, kelas_tahfidzs.nama) as kelas_label'),
+            DB::raw('AVG(penilaians.nilai_total) as rata_rata')
+        )
+        ->groupBy('kelas_tahfidzs.tingkatan_kelas', 'kelas_tahfidzs.nama')
+        ->orderBy('kelas_tahfidzs.tingkatan_kelas')
+        ->orderBy('kelas_tahfidzs.nama')
+        ->get()
+        ->map(function ($row) {
+            $row->rata_rata = round((float) $row->rata_rata, 2);
+            return $row;
+        });
 
         return view('admin.dashboard', compact(
             'guruTotal',

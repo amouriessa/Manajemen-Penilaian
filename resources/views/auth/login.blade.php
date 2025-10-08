@@ -38,13 +38,6 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <!-- Remember Me -->
-        {{-- <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="text-indigo-600 border-gray-300 rounded shadow-sm dark:bg-gray-900 dark:border-gray-700 focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="text-sm text-gray-600 ms-2 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div> --}}
         <div class="mt-8">
             <button type="submit" class="w-full px-4 py-3 font-medium text-white transition-all duration-200 transform rounded-lg shadow-md bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-300">
                 {{ __('Log in') }}

@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Student\TugasHafalanSiswaController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboard;
 use App\Http\Controllers\Teacher\LaporanController;
+use App\Http\Controllers\Teacher\LaporanKelasController;
 use App\Http\Controllers\Teacher\PengumpulanController;
 use App\Http\Controllers\Teacher\PenilaianLangsungController;
 use App\Http\Controllers\Teacher\TugasHafalanController;
@@ -126,6 +127,7 @@ Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->name('teacher.')
 
     // Laporan
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan', [LaporanKelasController::class, 'index'])->name('laporankelas.index');
     // Route::get('/api/students-by-class', [LaporanController::class, 'byClass'])
     // ->name('api.students.by-class');
     // // routes/web.php

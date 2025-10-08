@@ -75,9 +75,9 @@
 
                 <!-- Menu Item 6 -->
                 <li>
-                    <a href="{{ route('teacher.laporan.index') }}"
+                    <a href="{{ route('teacher.laporankelas.index') }}"
                         class="menu-item flex items-center px-4 py-3 text-sm font-medium
-                        {{ request()->routeIs('teacher.laporan.index') ? 'text-indigo-500' : 'text-gray-500' }}
+                        {{ request()->routeIs('teacher.laporankelas.index') ? 'text-indigo-500' : 'text-gray-500' }}
                          rounded-md cursor-pointer transition duration-200 ease-in-out
                          hover:bg-gray-100 hover:scale-[1.02]">
                         <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">

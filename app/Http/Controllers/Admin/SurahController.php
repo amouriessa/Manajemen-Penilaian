@@ -19,7 +19,9 @@ class SurahController extends Controller
 
         $surahQuery = Surah::query()
             ->when($search, function ($query) use ($search) {
-                $query->where('nama', 'like', "%{$search}%")
+                $normalizedSearch = str_replace(['-', "'", ' '], '', strtolower($search));
+
+                $query->whereRaw("REPLACE(LOWER(REPLACE(REPLACE(nama, '-', ''), '''', '')), ' ', '') LIKE ?", ["%{$normalizedSearch}%"])
                     ->orWhere('total_ayat', 'like', "%{$search}%");
             });
 

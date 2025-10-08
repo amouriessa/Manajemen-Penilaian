@@ -1,5 +1,5 @@
 <div
-    class="flex flex-col gap-4 p-6 transition-all duration-300 ease-in-out bg-white border-l-4 border-indigo-500 shadow-md fade-in-up rounded-xl dark:bg-gray-800 sm:flex-row sm:items-center sm:justify-between">
+    class="flex flex-col gap-4 p-6 transition-all duration-300 ease-in-out bg-white border-l-4 border-indigo-500 shadow-md rounded-xl dark:bg-gray-800 sm:flex-row sm:items-center sm:justify-between">
     <div>
         <h1 class="text-lg font-bold text-gray-800 dark:text-white md:text-xl">{{ $title }}</h1>
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $subtitle }}</p>

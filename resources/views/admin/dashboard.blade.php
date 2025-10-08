@@ -110,7 +110,7 @@
                 new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: @json($grafikHafalan->pluck('nama')),
+                        labels: @json($grafikHafalan->pluck('kelas_label')),
                         datasets: [{
                             label: 'Rata-rata Nilai Hafalan',
                             data: @json($grafikHafalan->pluck('rata_rata')),

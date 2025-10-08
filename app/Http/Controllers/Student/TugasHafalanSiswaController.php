@@ -29,6 +29,7 @@ class TugasHafalanSiswaController extends Controller
         $studentId = $user->siswa->id;
         $kelasId = null;
         $tahunAjaranAktif = TahunAjaran::where('status', true)->first();
+        $surahId = $request->surah_id;
 
         if (! $tahunAjaranAktif) {
             return view('student.tugas_hafalan.index', [

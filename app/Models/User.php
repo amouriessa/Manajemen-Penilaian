@@ -22,6 +22,9 @@ use Spatie\Permission\Traits\HasRoles;
  * @method bool syncRoles(array|\Spatie\Permission\Models\Role|string ...$roles)
  * @method bool hasPermissionTo(string|\Spatie\Permission\Models\Permission $permission, string|null $guardName = null)
  */
+/**
+ * @property Teacher $guru
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
