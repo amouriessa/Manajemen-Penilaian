@@ -1,313 +1,242 @@
 <x-app-layout>
     <div class="flex flex-col min-h-screen overflow-hidden md:flex-row">
-        <!-- Main Content -->
-        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        <div class="w-full overflow-y-auto">
             <main class="w-full max-w-4xl p-4 mx-auto space-y-6 sm:p-6 lg:p-8">
-                <x-header-create title="Tambah Siswa Dalam Kelas"
-                    description="Masukkan informasi siswa dan kelas dalam tahun ajaran tertentu."
-                    breadcrumbTitle="Data Siswa Kelas" :route="route('admin.manajemen_siswa_kelas.index')" breadcrumbActive="Tambah Baru"
-                    buttonText="Kembali" />
 
-                <!-- Form Card -->
-                <div
-                    class="overflow-hidden bg-white border border-gray-200 shadow-md rounded-xl dark:bg-gray-800 dark:border-gray-700">
+                <x-header-create 
+                    title="Tambah Siswa Dalam Kelas"
+                    description="Masukkan informasi siswa dan kelas dalam tahun ajaran tertentu."
+                    breadcrumbTitle="Data Siswa Kelas"
+                    :route="route('admin.manajemen_siswa_kelas.index')"
+                    breadcrumbActive="Tambah Baru"
+                    buttonText="Kembali"
+                />
+
+                <div class="overflow-hidden bg-white border border-gray-200 shadow-md rounded-xl dark:bg-gray-800 dark:border-gray-700">
+
                     @if ($errors->any())
                         <div class="p-4 border-l-4 border-red-500 bg-red-50 dark:bg-red-900/30">
-                            <div class="flex items-start">
-                                <div class="flex-shrink-0">
-                                    <svg class="w-5 h-5 text-red-500" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                                <div class="ml-3">
-                                    <h3 class="text-sm font-medium text-red-800 dark:text-red-400">Terdapat beberapa
-                                        kesalahan:</h3>
-                                    <ul class="mt-1 text-sm text-red-700 list-disc list-inside dark:text-red-300">
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
+                            <h3 class="text-sm font-semibold text-red-800 dark:text-red-400">
+                                Terdapat kesalahan pada pengisian form.
+                            </h3>
                         </div>
                     @endif
 
-                    <form action="{{ route('admin.manajemen_siswa_kelas.store') }}" method="POST"
-                        class="p-6 space-y-2">
+                    <form id="main-form" action="{{ route('admin.manajemen_siswa_kelas.store') }}" method="POST" class="p-6 space-y-6">
                         @csrf
-                        <input type="hidden" name="user_id" id="user_id" value="{{ old('user_id') }}">
 
-                        <div class="space-y-4">
-                            <!-- Label with Icon -->
-                            <div class="flex items-center justify-between">
-                                <label class="flex items-center space-x-2 text-sm font-semibold text-gray-800 dark:text-gray-200">
-                                    <span>Pilih Siswa</span>
-                                    <span class="text-red-500">*</span>
+                        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                            {{-- ========================= --}}
+                            {{-- TAHUN AJARAN --}}
+                            {{-- ========================= --}}
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-800 dark:text-gray-200">
+                                    Tahun Ajaran <span class="text-red-500">*</span>
                                 </label>
-                                <div class="text-xs text-gray-500 dark:text-gray-400">
-                                    <span id="selected-count" class="font-medium text-indigo-600 dark:text-indigo-400">0</span> siswa dipilih
-                                </div>
+
+                                <select name="tahun_ajaran_id" id="tahun_ajaran_id" required
+                                    class="w-full mt-2 text-sm border-gray-300 rounded-lg shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white @error('tahun_ajaran_id') border-red-500 ring-1 ring-red-500 @enderror">
+                                    @foreach ($tahunAjaran as $tahun)
+                                        <option value="{{ $tahun->id }}" {{ $loop->first ? 'selected' : '' }}>
+                                            {{ $tahun->tahun_ajaran }}
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                                @error('tahun_ajaran_id')
+                                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
 
-                            <!-- Students List with Checkboxes -->
-                            <div class="relative">
-                                <div class="p-4 bg-white border-2 border-gray-200 shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-600">
-                                    <!-- Search Box -->
-                                    <div class="relative mb-4">
-                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                            </svg>
-                                        </div>
-                                        <input type="text" id="student-search" placeholder="Cari nama siswa..."
-                                            class="w-full py-2 pl-10 pr-4 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
-                                            onkeyup="filterStudents()">
-                                    </div>
+                            {{-- ========================= --}}
+                            {{-- KELAS --}}
+                            {{-- ========================= --}}
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-800 dark:text-gray-200">
+                                    Pilih Kelas Tahfidz <span class="text-red-500">*</span>
+                                </label>
 
-                                    <!-- Select All Option -->
-                                    <div class="flex items-center justify-between p-3 mb-3 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700/50 dark:border-gray-600">
-                                        <label class="flex items-center space-x-3 cursor-pointer">
-                                            <div class="relative">
-                                                <input type="checkbox" id="select-all" class="sr-only" onchange="toggleSelectAll()">
-                                                <div class="w-5 h-5 transition-all duration-200 bg-white border-2 border-gray-300 rounded dark:bg-gray-600 dark:border-gray-500" id="select-all-checkbox">
-                                                    <svg class="w-3 h-3 text-white transition-opacity duration-200 opacity-0" fill="currentColor" viewBox="0 0 20 20" style="margin: 1px;">
-                                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Pilih Semua Siswa</span>
-                                        </label>
-                                        <span class="text-xs text-gray-500 dark:text-gray-400" id="total-students">{{ count($students) }} siswa</span>
-                                    </div>
+                                <select name="kelas_tahfidz_id" id="kelas_tahfidz_id" required
+                                    class="w-full mt-2 text-sm border-gray-300 rounded-lg shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white @error('kelas_tahfidz_id') border-red-500 ring-1 ring-red-500 @enderror">
+                                    <option value="" class="text-gray-500">-- Pilih kelas --</option>
+                                    @foreach ($kelasTahfidz as $kelas)
+                                        <option value="{{ $kelas->id }}">
+                                            {{ $kelas->tingkatan_label ?? '-' }} ({{ $kelas->nama }})
+                                        </option>
+                                    @endforeach
+                                </select>
 
-                                    <!-- Students List -->
-                                    <div class="space-y-2 overflow-y-auto max-h-64" id="students-container">
-                                        @foreach ($students as $student)
-                                            <div class="flex items-center p-3 transition-all duration-200 border border-gray-100 rounded-lg student-item hover:bg-gray-50 hover:border-gray-200 dark:border-gray-700 dark:hover:bg-gray-700/50"
-                                                 data-name="{{ strtolower($student->user->name ?? '-') }}">
-                                                <label class="flex items-center w-full space-x-3 cursor-pointer">
-                                                    <div class="relative">
-                                                        <input type="checkbox" name="student_ids[]" value="{{ $student->id }}"
-                                                            class="sr-only student-checkbox" onchange="updateSelectedCount()">
-                                                        <div class="w-5 h-5 transition-all duration-200 bg-white border-2 border-gray-300 rounded dark:bg-gray-600 dark:border-gray-500 checkbox-design">
-                                                            <svg class="w-3 h-3 text-white transition-opacity duration-200 opacity-0" fill="currentColor" viewBox="0 0 20 20" style="margin: 1px;">
-                                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-1">
-                                                        <div class="flex items-center justify-between">
-                                                            <span class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $student->user->name ?? '-' }}</span>
-                                                            <div class="flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-400">
-                                                                @if($student->user->email ?? false)
-                                                                    <span>{{ $student->user->email }}</span>
-                                                                @endif
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
-
-                                    <!-- No Results Message -->
-                                    <div id="no-results" class="hidden py-8 text-center">
-                                        <svg class="w-12 h-12 mx-auto text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.175-5.5-2.709"/>
-                                        </svg>
-                                        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Tidak ada siswa yang ditemukan</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Selected Students Preview -->
-                            <div id="selected-preview" class="hidden p-4 border border-indigo-200 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 dark:border-indigo-800/50">
-                                <div class="flex items-start space-x-3">
-                                    <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                    </svg>
-                                    <div class="flex-1">
-                                        <p class="text-sm font-medium text-indigo-900 dark:text-indigo-300">Siswa yang Dipilih:</p>
-                                        <div id="selected-names" class="flex flex-wrap gap-2 mt-2"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Quick Actions -->
-                            <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800/50 dark:border-gray-700">
-                                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Aksi Cepat:</span>
-                                <div class="flex space-x-2">
-                                    <button type="button" onclick="selectAllStudents()"
-                                        class="px-3 py-1 text-xs font-medium text-indigo-700 transition-colors duration-200 bg-indigo-100 rounded-md hover:bg-indigo-200 dark:bg-indigo-900/50 dark:text-indigo-300 dark:hover:bg-indigo-900/70">
-                                        <svg class="inline w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                        </svg>
-                                        Pilih Semua
-                                    </button>
-                                    <button type="button" onclick="clearAllStudents()"
-                                        class="px-3 py-1 text-xs font-medium text-gray-700 transition-colors duration-200 bg-gray-100 rounded-md hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
-                                        <svg class="inline w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                        </svg>
-                                        Hapus Semua
-                                    </button>
-                                </div>
+                                @error('kelas_tahfidz_id')
+                                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
 
-                        <style>
-                        .student-checkbox:checked + .checkbox-design {
-                            @apply bg-indigo-600 border-indigo-600;
-                        }
-                        .student-checkbox:checked + .checkbox-design svg {
-                            @apply opacity-100;
-                        }
-                        #select-all:checked + #select-all-checkbox {
-                            @apply bg-indigo-600 border-indigo-600;
-                        }
-                        #select-all:checked + #select-all-checkbox svg {
-                            @apply opacity-100;
-                        }
-                        </style>
+                        {{-- ========================= --}}
+                        {{-- SISWA --}}
+                        {{-- ========================= --}}
+                        <div id="student-section" class="space-y-4 opacity-50 pointer-events-none transition-all duration-200">
 
-                        <script>
-                        function updateSelectedCount() {
-                            const checkboxes = document.querySelectorAll('.student-checkbox:checked');
-                            const count = checkboxes.length;
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                                    Pilih Siswa <span class="text-red-500">*</span>
+                                </label>
+                                <span class="text-xs text-gray-500">
+                                    <span id="selected-count" class="font-medium text-indigo-600">0</span> dipilih
+                                </span>
+                            </div>
 
-                            // Update counter
-                            document.getElementById('selected-count').textContent = count;
+                            @error('student_ids')
+                                <p class="text-xs text-red-600">{{ $message }}</p>
+                            @enderror
 
-                            // Update preview
-                            const preview = document.getElementById('selected-preview');
-                            const namesContainer = document.getElementById('selected-names');
+                            {{-- Search --}}
+                            <input type="text"
+                                   id="student-search"
+                                   placeholder="Cari nama siswa..."
+                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-600 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
 
-                            if (count > 0) {
-                                preview.classList.remove('hidden');
-                                const names = Array.from(checkboxes).map(cb => {
-                                    const label = cb.closest('.student-item').querySelector('span').textContent;
-                                    return `<span class="px-2 py-1 text-xs font-medium text-indigo-800 bg-indigo-100 rounded-full dark:bg-indigo-900/50 dark:text-indigo-300">${label}</span>`;
-                                }).join(' ');
-                                namesContainer.innerHTML = names;
-                            } else {
-                                preview.classList.add('hidden');
-                            }
+                            {{-- Select All --}}
+                            <div class="flex items-center justify-between p-3 border rounded-lg bg-gray-50 dark:bg-gray-700/50">
+                                <label class="flex items-center space-x-2 text-sm cursor-pointer">
+                                    <input type="checkbox" id="select-all" class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                                    <span>Pilih Semua (yang terlihat)</span>
+                                </label>
+                                <span class="text-xs text-gray-500">{{ count($students) }} total siswa</span>
+                            </div>
 
-                            // Update select all checkbox
-                            const totalCheckboxes = document.querySelectorAll('.student-checkbox').length;
-                            const selectAllCheckbox = document.getElementById('select-all');
-                            selectAllCheckbox.checked = count === totalCheckboxes && count > 0;
-                        }
-
-                        function toggleSelectAll() {
-                            const selectAllCheckbox = document.getElementById('select-all');
-                            const studentCheckboxes = document.querySelectorAll('.student-checkbox');
-
-                            studentCheckboxes.forEach(checkbox => {
-                                checkbox.checked = selectAllCheckbox.checked;
-                            });
-
-                            updateSelectedCount();
-                        }
-
-                        function selectAllStudents() {
-                            const studentCheckboxes = document.querySelectorAll('.student-checkbox');
-                            studentCheckboxes.forEach(checkbox => {
-                                checkbox.checked = true;
-                            });
-                            updateSelectedCount();
-                        }
-
-                        function clearAllStudents() {
-                            const studentCheckboxes = document.querySelectorAll('.student-checkbox');
-                            studentCheckboxes.forEach(checkbox => {
-                                checkbox.checked = false;
-                            });
-                            updateSelectedCount();
-                        }
-
-                        function filterStudents() {
-                            const searchTerm = document.getElementById('student-search').value.toLowerCase();
-                            const studentItems = document.querySelectorAll('.student-item');
-                            const noResults = document.getElementById('no-results');
-                            let visibleCount = 0;
-
-                            studentItems.forEach(item => {
-                                const studentName = item.dataset.name;
-                                if (studentName.includes(searchTerm)) {
-                                    item.style.display = 'flex';
-                                    visibleCount++;
-                                } else {
-                                    item.style.display = 'none';
-                                }
-                            });
-
-                            // Show/hide no results message
-                            if (visibleCount === 0 && searchTerm !== '') {
-                                noResults.classList.remove('hidden');
-                            } else {
-                                noResults.classList.add('hidden');
-                            }
-                        }
-
-                        // Initialize on page load
-                        document.addEventListener('DOMContentLoaded', function() {
-                            updateSelectedCount();
-                        });
-                        </script>
-
-                        <div class="space-y-2">
-                            <label for="kelas_tahfidz_id"
-                            class="block text-sm font-semibold text-gray-800 dark:text-gray-300">Pilih Kelas
-                                Tahfidz <span class="text-red-500">*</span></label>
-                            <select name="kelas_tahfidz_id" id="kelas_tahfidz_id" required
-                                class="text-sm block w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('kelas_tahfidz_id') border-red-500 ring-1 ring-red-500 @enderror">
-                                <option value="">-- Pilih Kelas --</option>
-                                @foreach ($kelasTahfidz as $kelas)
-                                    <option value="{{ $kelas->id }}">
-                                        {{ $kelas->tingkatan_label ?? '-' }} ({{ $kelas->nama }})
-                                    </option>
+                            {{-- Student List --}}
+                            <div id="students-container" class="space-y-2 max-h-64 overflow-y-auto border p-2 rounded-lg">
+                                @foreach ($students as $student)
+                                    <label class="flex items-center p-2 space-x-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 student-item"
+                                           data-name="{{ strtolower($student->user->name ?? '-') }}">
+                                        <input type="checkbox"
+                                               name="student_ids[]"
+                                               value="{{ $student->id }}"
+                                               class="student-checkbox rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                                        <span class="text-sm text-gray-800 dark:text-gray-200">
+                                            {{ $student->user->name ?? '-' }}
+                                        </span>
+                                    </label>
                                 @endforeach
-                            </select>
+                            </div>
+
+                            {{-- Preview --}}
+                            <div id="selected-preview"
+                                 class="hidden p-3 border border-indigo-200 rounded-lg bg-indigo-50">
+                                <p class="text-sm font-medium text-indigo-700">
+                                    Siswa Dipilih:
+                                </p>
+                                <div id="selected-names" class="flex flex-wrap gap-2 mt-2"></div>
+                            </div>
+
                         </div>
 
-                        <div class="space-y-2">
-                            <label for="tahun_ajaran_id"
-                            class="block text-sm font-semibold text-gray-800 dark:text-gray-300">Tahun
-                                Ajaran <span class="text-red-500">*</span></label>
-                            <select name="tahun_ajaran_id" id="tahun_ajaran_id" required
-                            class="text-sm block w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('tahun_ajaran_id') border-red-500 ring-1 ring-red-500 @enderror">
-                                {{-- <option value="">-- Pilih Tahun Ajaran --</option> --}}
-                                @foreach ($tahunAjaran as $tahun)
-                                    <option value="{{ $tahun->id }}" {{ $loop->first ? 'selected' : '' }}>
-                                        {{ $tahun->tahun_ajaran }}
-                                    </option>
-                                @endforeach
-
-                            </select>
-                        </div>
-
-                        <div class="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        {{-- Submit --}}
+                        <div class="flex justify-end gap-3 pt-4 border-t">
                             <a href="{{ route('admin.manajemen_siswa_kelas.index') }}"
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 transition duration-200 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
+                               class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 transition duration-200 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
                                 Batal
                             </a>
+
                             <button type="submit"
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white transition duration-200 bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
+                                    id="submit-btn"
+                                    disabled
+                                    class="px-4 py-2 text-sm text-white bg-indigo-600 rounded-lg disabled:opacity-50 hover:bg-indigo-700">
                                 Simpan Data
                             </button>
                         </div>
+
                     </form>
                 </div>
             </main>
         </div>
     </div>
 </x-app-layout>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const kelasSelect = document.getElementById('kelas_tahfidz_id');
+    const studentSection = document.getElementById('student-section');
+    const searchInput = document.getElementById('student-search');
+    const selectAll = document.getElementById('select-all');
+    const checkboxes = document.querySelectorAll('.student-checkbox');
+    const selectedCount = document.getElementById('selected-count');
+    const preview = document.getElementById('selected-preview');
+    const previewContainer = document.getElementById('selected-names');
+    const submitBtn = document.getElementById('submit-btn');
+
+    function enableStudents() {
+        if (kelasSelect.value !== '') {
+            studentSection.classList.remove('opacity-50', 'pointer-events-none');
+        } else {
+            studentSection.classList.add('opacity-50', 'pointer-events-none');
+        }
+        validateForm();
+    }
+
+    function visibleCheckboxes() {
+        return Array.from(document.querySelectorAll('.student-item'))
+            .filter(item => item.style.display !== 'none')
+            .map(item => item.querySelector('.student-checkbox'));
+    }
+
+    function updateSelection() {
+        const checked = document.querySelectorAll('.student-checkbox:checked');
+        selectedCount.textContent = checked.length;
+
+        if (checked.length > 0) {
+            preview.classList.remove('hidden');
+            const names = Array.from(checked).map(cb =>
+                cb.closest('.student-item').querySelector('span').textContent
+            );
+
+            let display = names.slice(0, 5).map(name =>
+                `<span class="px-2 py-1 text-xs bg-indigo-100 text-indigo-800 rounded-full">${name}</span>`
+            ).join('');
+
+            if (names.length > 5) {
+                display += `<span class="px-2 py-1 text-xs bg-gray-200 rounded-full">+${names.length - 5} lainnya</span>`;
+            }
+
+            previewContainer.innerHTML = display;
+        } else {
+            preview.classList.add('hidden');
+        }
+
+        validateForm();
+    }
+
+    function validateForm() {
+        const anyChecked = document.querySelectorAll('.student-checkbox:checked').length > 0;
+        submitBtn.disabled = !(kelasSelect.value !== '' && anyChecked);
+    }
+
+    function filterStudents() {
+        const term = searchInput.value.toLowerCase();
+        document.querySelectorAll('.student-item').forEach(item => {
+            item.style.display = item.dataset.name.includes(term) ? 'flex' : 'none';
+        });
+    }
+
+    // Events
+    kelasSelect.addEventListener('change', enableStudents);
+    searchInput.addEventListener('keyup', filterStudents);
+
+    selectAll.addEventListener('change', function () {
+        visibleCheckboxes().forEach(cb => cb.checked = this.checked);
+        updateSelection();
+    });
+
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', updateSelection);
+    });
+
+    document.getElementById('main-form').addEventListener('submit', function () {
+        submitBtn.disabled = true;
+        submitBtn.innerText = 'Menyimpan...';
+    });
+
+});
+</script>

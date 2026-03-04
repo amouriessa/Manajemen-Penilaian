@@ -5,7 +5,7 @@
             <x-sidebar-admin />
         </x-slot>
         <!-- Main Content -->
-        <div class="flex-1 overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        <div class="flex-1 overflow-y-auto">
             <main class="p-4 mx-auto space-y-6 sm:p-6 lg:p-8">
                 <x-header title="Tahun Angkatan" subtitle="Mengelola informasi tahun angkatan" :route="route('admin.tahun_angkatan.create')"
                     buttonText="Tambah Tahun" />
@@ -24,7 +24,7 @@
                     <!-- Table -->
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50 dark:bg-gray-700">
+                            <thead class="bg-white dark:bg-gray-700">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300">
                                         Tahun Angkatan
@@ -39,7 +39,7 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                 @forelse ($tahunAngkatan as $tahun_angkatan)
-                                <tr class="transition-colors hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <tr class="transition-colors">
 
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900 dark:text-white">{{ $tahun_angkatan->tahun_angkatan ?? '-' }}</div>
@@ -53,7 +53,7 @@
                                     <td class="px-6 py-4 text-sm font-medium text-center text-gray-900 dark:text-white whitespace-nowrap">
                                         <div class="flex justify-center gap-2">
 
-                                            <a href="{{ route('admin.tahun_angkatan.edit', $tahun_angkatan) }}" class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                                            <a href="{{ route('admin.tahun_angkatan.edit', $tahun_angkatan) }}" class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-150">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1"
                                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -65,7 +65,7 @@
                                             <button
                                                 onclick="confirmDelete('{{ $tahun_angkatan->id }}')"
                                                 type="button"
-                                                class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150">
+                                                class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-150">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -97,7 +97,7 @@
                                                 @endif
                                             </p>
                                             <div class="mt-6">
-                                                <a href="{{ route('admin.tahun_angkatan.create') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                <a href="{{ route('admin.tahun_angkatan.create') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
                                                     <svg class="w-5 h-5 mr-2 -ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                                     </svg>
@@ -203,7 +203,7 @@
                         <!-- Mobile page selector -->
                         <div class="mt-3 sm:hidden">
                             <select onchange="window.location.href=this.value"
-                                class="block w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                class="block w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-600 focus:border-indigo-500">
                                 @for ($i = 1; $i <= $tahunAngkatan->lastPage(); $i++)
                                     <option value="{{ $tahunAngkatan->url($i) }}"
                                         {{ $i == $tahunAngkatan->currentPage() ? 'selected' : '' }}>

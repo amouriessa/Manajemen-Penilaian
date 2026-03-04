@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex flex-col min-h-screen overflow-hidden md:flex-row">
         <!-- Main Content -->
-        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto">
             <main class="w-full max-w-4xl p-4 mx-auto space-y-6 sm:p-6 lg:p-8">
                 <x-header-create title="Update Data Siswa"
                     description="Perbarui data siswa sesuai dengan informasi yang terbaru."
@@ -47,7 +47,7 @@
                                 </label>
                                 {{-- Isi `user_id` dengan nilai siswa yang sedang diedit --}}
                                 <select name="user_id" id="user_id" required
-                                    class="block w-full mt-1 text-sm border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                    class="block w-full mt-1 text-sm border-gray-300 rounded-lg shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-white dark:border-gray-600">
                                     {{-- Opsi awal untuk user yang sedang diedit --}}
                                     <option value="{{ $student->user->id }}" selected>{{ $student->user->name }}</option>
                                 </select>
@@ -65,7 +65,7 @@
                                 </label>
                                 {{-- Isi `user_email` dengan email siswa yang sedang diedit --}}
                                 <input type="text" id="user_email" readonly value="{{ $student->user->email }}"
-                                    class="block w-full mt-1 text-sm bg-gray-100 border-gray-300 rounded-sm shadow-sm cursor-not-allowed focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
+                                    class="block w-full mt-1 text-sm bg-gray-100 border-gray-300 rounded-sm shadow-sm cursor-not-allowed focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
                                 <p class="text-xs text-gray-500 dark:text-gray-400">Email akan terisi otomatis saat nama
                                     dipilih.</p>
                             </div>
@@ -119,7 +119,7 @@
                                 </label>
                                 {{-- Isi `nis` dengan nilai siswa yang sedang diedit --}}
                                 <input type="text" name="nis" id="nis" value="{{ old('nis', $student->nis) }}" required
-                                    class="block text-sm w-full mt-1 border-gray-300 rounded-sm shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('nis') border-red-500 ring-1 ring-red-500 @enderror">
+                                    class="block text-sm w-full mt-1 border-gray-300 rounded-sm shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('nis') border-red-500 ring-1 ring-red-500 @enderror">
                                 @error('nis')
                                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
@@ -135,14 +135,14 @@
                                     <div class="flex items-center">
                                         <input id="gender_l" name="jenis_kelamin" type="radio" value="L"
                                             {{ old('jenis_kelamin', $student->jenis_kelamin) == 'L' ? 'checked' : '' }}
-                                            class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600">
+                                            class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-600 dark:bg-gray-700 dark:border-gray-600">
                                         <label for="gender_l"
                                             class="ml-2 text-sm text-gray-700 dark:text-gray-300">Laki-laki</label>
                                     </div>
                                     <div class="flex items-center">
                                         <input id="gender_p" name="jenis_kelamin" type="radio" value="P"
                                             {{ old('jenis_kelamin', $student->jenis_kelamin) == 'P' ? 'checked' : '' }}
-                                            class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600">
+                                            class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-600 dark:bg-gray-700 dark:border-gray-600">
                                         <label for="gender_p"
                                             class="ml-2 text-sm text-gray-700 dark:text-gray-300">Perempuan</label>
                                     </div>
@@ -159,7 +159,7 @@
                                 </label>
                                 {{-- Isi `birthdate` dengan nilai siswa yang sedang diedit --}}
                                 <input type="date" name="tanggal_lahir" id="tanggal_lahir" value="{{ old('tanggal_lahir', $student->tanggal_lahir) }}"
-                                    class="text-sm block w-full mt-1 border-gray-300 rounded-sm shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('tanggal_lahir') border-red-500 ring-1 ring-red-500 @enderror">
+                                    class="text-sm block w-full mt-1 border-gray-300 rounded-sm shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('tanggal_lahir') border-red-500 ring-1 ring-red-500 @enderror">
                                 @error('tanggal_lahir')
                                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
@@ -171,7 +171,7 @@
                                     Tahun Angkatan <span class="text-red-500">*</span>
                                 </label>
                                 <select name="tahun_angkatan_id" id="tahun_angkatan_id" required
-                                    class="block w-full mt-1 text-sm border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('tahun_angkatan_id') border-red-500 ring-1 ring-red-500 @enderror">
+                                    class="block w-full mt-1 text-sm border-gray-300 rounded-lg shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('tahun_angkatan_id') border-red-500 ring-1 ring-red-500 @enderror">
                                     <option value="">-- Pilih Tahun Angkatan --</option>
                                     @foreach ($tahunAngkatan as $tahun_angkatan)
                                         <option value="{{ $tahun_angkatan->id }}"
@@ -204,7 +204,7 @@
                                     Status Siswa <span class="text-red-500">*</span>
                                 </label>
                                 <select id="status" name="status"
-                                    class="block w-full mt-1 text-sm border-gray-300 rounded-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white @error('status') border-red-500 ring-1 ring-red-500 @enderror"
+                                    class="block w-full mt-1 text-sm border-gray-300 rounded-sm shadow-sm focus:border-indigo-700 focus:ring-indigo-100 dark:bg-gray-700 dark:border-gray-600 dark:text-white @error('status') border-red-500 ring-1 ring-red-500 @enderror"
                                     required>
                                     <option value="" disabled {{ old('status', $student->status) === null ? 'selected' : '' }}>--
                                         Pilih status --</option>
@@ -229,7 +229,7 @@
                                 </label>
                                 {{-- Isi `address` dengan nilai siswa yang sedang diedit --}}
                                 <textarea name="alamat" id="alamat" rows="3" placeholder="Alamat lengkap"
-                                    class="text-sm block w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('alamat') border-red-500 ring-1 ring-red-500 @enderror">{{ old('alamat', $student->alamat) }}</textarea>
+                                    class="text-sm block w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('alamat') border-red-500 ring-1 ring-red-500 @enderror">{{ old('alamat', $student->alamat) }}</textarea>
                                 @error('alamat')
                                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
@@ -238,12 +238,12 @@
 
                         <div class="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                             <a href="{{ route('admin.siswa.index') }}"
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 transition duration-200 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
+                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 transition duration-200 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
                                 Batal
                             </a>
                             {{-- Ubah teks tombol menjadi Perbarui Data --}}
                             <button type="submit"
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white transition duration-200 bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50">
+                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white transition duration-200 bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 disabled:opacity-50">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

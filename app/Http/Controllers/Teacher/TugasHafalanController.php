@@ -174,6 +174,19 @@ class TugasHafalanController extends Controller
      */
     public function store(Request $request)
 {
+    $request->validate([
+    'kelas_tahfidz_id' => 'required|exists:kelas_tahfidzs,id',
+    'jenis_tugas' => 'required|in:baru,murajaah',
+    'tenggat_waktu' => 'required|date',
+    'surah_data' => 'required|array|min:1',
+    'surah_data.*.surah_id' => 'required|exists:surahs,id',
+    'surah_data.*.ayat_awal' => 'required|integer|min:1',
+    'surah_data.*.ayat_akhir' => 'required|integer|min:1',
+    'is_for_all_student' => ['required', Rule::in([0, 1])],
+    'student_ids' => 'nullable|array',
+    'student_ids.*' => 'exists:students,id',
+]);
+
     DB::transaction(function () use ($request) {
         $firstSurah = $request->surah_data[0];
         $surahModel = Surah::find($firstSurah['surah_id']);
@@ -188,7 +201,7 @@ class TugasHafalanController extends Controller
             'deskripsi' => $request->deskripsi,
             'jenis_tugas' => $request->jenis_tugas,
             'tenggat_waktu' => $request->tenggat_waktu,
-            'status' => 'aktif',
+
             'is_archived' => false,
             'is_for_all_student' => $request->is_for_all_student,
         ]);
@@ -303,7 +316,7 @@ class TugasHafalanController extends Controller
             'deskripsi' => 'nullable|string',
             'jenis_tugas' => 'required|in:baru,murajaah',
             'tenggat_waktu' => 'required|date',
-            'status' => 'required|in:aktif,nonaktif',
+
             'kelas_tahfidz_id' => 'required|exists:kelas_tahfidzs,id',
             'surah_data' => 'required|array',
             'surah_data.*.surah_id' => 'required|exists:surahs,id',
@@ -347,7 +360,7 @@ class TugasHafalanController extends Controller
                 'deskripsi' => $request->deskripsi,
                 'jenis_tugas' => $request->jenis_tugas,
                 'tenggat_waktu' => $request->tenggat_waktu,
-                'status' => $request->status,
+
                 'kelas_tahfidz_id' => $request->kelas_tahfidz_id,
                 'is_for_all_student' => $request->is_for_all_student, // Update this value
             ]);

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="flex min-h-screen overflow-hidden bg-gray-100">
+    <div class="flex min-h-screen overflow-hidden">
         <!-- Sidebar -->
         <x-slot name="sidebar">
             <x-sidebar-guru />
@@ -8,26 +8,17 @@
         <!-- Main Content -->
         <div class="flex-1 p-4 overflow-y-auto md:p-6">
             <div class="mx-auto max-w-7xl">
-                <!-- Header Section -->
-                <div class="flex flex-col items-start justify-between gap-4 mb-10 sm:flex-row sm:items-center">
-                    <div>
-                        <h1 class="text-xl font-bold text-gray-800 md:text-2xl">Selamat Datang, {{ Auth::user()->name }}
-                        </h1>
-                        <p class="mt-1 text-sm text-gray-600">Kelola tugas hafalan, penilaian, dan laporan siswa Anda.
-                        </p>
-                    </div>
-                </div>
-
                 <!-- Stats Section -->
                 <div class="grid grid-cols-1 gap-4 mb-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
                     <div
-                        class="p-4 text-white transition transform shadow-md sm:p-5 rounded-xl bg-gradient-to-r from-indigo-300 to-indigo-500 hover:scale-105">
+                        class="p-4 text-white transition transform shadow-md sm:p-5 rounded-xl bg-[linear-gradient(145deg,#2D3F63_0%,#1E2A40_100%)] hover:scale-105">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h3 class="text-lg font-medium">Total Tugas Hafalan Aktif</h3>
-                                <p class="mt-2 text-4xl font-bold">{{ $totalTugasAktif }}</p>
+                                <h3 class="text-sm font-medium">Total Tugas Hafalan Aktif</h3>
+                                <p class="mt-2 font-serif text-4xl font-medium">{{ $totalTugasAktif ?? 0 }}</p>
                             </div>
-                            <div>
+                            <div
+                                class="flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 opacity-50" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -38,13 +29,14 @@
                     </div>
 
                     <div
-                        class="p-5 text-white transition transform shadow-md rounded-xl bg-gradient-to-r from-yellow-300 to-yellow-500 hover:scale-105">
+                        class="p-5 text-white transition transform shadow-md rounded-xl bg-[linear-gradient(145deg,#D4A355_0%,#B07833_100%)] hover:scale-105">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h3 class="text-lg font-medium">Total Pengumpulan Hari Ini</h3>
-                                <p class="mt-2 text-4xl font-bold">{{ $totalPengumpulanHariIni }}</p>
+                                <h3 class="text-sm font-medium">Total Pengumpulan Hari Ini</h3>
+                                <p class="mt-2 font-serif text-4xl font-medium">{{ $totalPengumpulanHariIni ?? 0 }}</p>
                             </div>
-                            <div>
+                            <div
+                                class="flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm">
                                 <svg class="w-10 h-10 opacity-50" viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" />
@@ -55,13 +47,14 @@
                     </div>
 
                     <div
-                        class="p-5 text-white transition transform shadow-md rounded-xl bg-gradient-to-r from-red-300 to-red-500 hover:scale-105">
+                        class="p-5 text-white transition transform shadow-md rounded-xl bg-[linear-gradient(145deg,#B5655A_0%,#8B4040_100%)] hover:scale-105">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h3 class="text-lg font-medium">Total Penilaian Tertunda</h3>
-                                <p class="mt-2 text-4xl font-bold">{{ $totalPenilaianTertunda }}</p>
+                                <h3 class="text-sm font-medium">Total Penilaian Tertunda</h3>
+                                <p class="mt-2 font-serif text-4xl font-medium">{{ $totalPenilaianTertunda ?? 0 }}</p>
                             </div>
-                            <div>
+                            <div
+                                class="flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm">
                                 <svg class="w-10 h-10 opacity-50" viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" />
@@ -78,11 +71,11 @@
                 <!-- Recent Submissions -->
                 <div class="bg-white shadow rounded-xl">
                     <div class="p-5 border-b">
-                        <h2 class="text-lg font-semibold text-gray-800">Pengumpulan Hari Ini</h2>
+                        <h2 class="text-sm font-serif font-semibold text-[#3A3028]">Pengumpulan Hari Ini</h2>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+                            <thead class="bg-white">
                                 <tr>
                                     <th scope="col"
                                         class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">

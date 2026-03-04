@@ -5,7 +5,7 @@
             <x-sidebar-admin />
         </x-slot>
         <!-- Main Content -->
-        <div class="flex-1 overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        <div class="flex-1 overflow-y-auto">
             <main class="p-4 mx-auto space-y-6 sm:p-6 lg:p-8">
                 <x-header title="Data Kelas Tahfidz" subtitle="Mengelola informasi kelas tahfidz" :route="route('admin.kelas_tahfidz.create')"
                     buttonText="Tambah Kelas" />
@@ -24,7 +24,7 @@
                     <!-- Table -->
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50 dark:bg-gray-700">
+                            <thead class="bg-white dark:bg-gray-700">
                                 <tr>
                                     <th scope="col"
                                         class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300">
@@ -49,7 +49,7 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                 @forelse ($kelasTahfidz as $kelas_tahfidz)
-                                <tr class="transition-colors hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <tr class="transition-colors">
                                     <td class="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">
                                         {{ ($kelasTahfidz->currentPage() - 1) * $kelasTahfidz->perPage() + $loop->iteration }}
                                     </td>
@@ -68,7 +68,7 @@
                                     <td class="px-6 py-4 text-sm font-medium text-center text-gray-900 dark:text-white whitespace-nowrap">
                                         <div class="flex justify-center gap-2">
 
-                                            <a href="{{ route('admin.kelas_tahfidz.edit', $kelas_tahfidz) }}" class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                                            <a href="{{ route('admin.kelas_tahfidz.edit', $kelas_tahfidz) }}" class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-150">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1"
                                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -80,7 +80,7 @@
                                             <button
                                                 onclick="confirmDelete('{{ $kelas_tahfidz->id }}')"
                                                 type="button"
-                                                class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150">
+                                                class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-150">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"

@@ -127,11 +127,8 @@ Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->name('teacher.')
 
     // Laporan
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
-    Route::get('/laporan', [LaporanKelasController::class, 'index'])->name('laporankelas.index');
-    // Route::get('/api/students-by-class', [LaporanController::class, 'byClass'])
-    // ->name('api.students.by-class');
-    // // routes/web.php
-    // Route::get('/teacher/laporan/siswa-by-kelas', [LaporanController::class, 'byClass'])->name('laporan.siswa-by-kelas');
+    
+    Route::get('/laporan/siswa-by-kelas', [LaporanController::class, 'siswaByKelas'])->name('laporan.siswa-by-kelas');
 
     Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
 });

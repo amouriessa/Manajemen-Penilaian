@@ -5,11 +5,11 @@
             <x-sidebar-guru />
         </x-slot>
         <!-- Main Content -->
-        <div class="flex-1 overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        <div class="flex-1 overflow-y-auto">
             <main class="p-4 mx-auto space-y-6 sm:p-6 lg:p-8">
                 <!-- Header Section -->
                 <div
-                    class="flex flex-col gap-4 p-6 transition-all duration-300 ease-in-out bg-white border-l-4 border-indigo-500 shadow-md fade-in-up rounded-xl dark:bg-gray-800 sm:flex-row sm:items-center sm:justify-between">
+                    class="flex flex-col gap-4 p-6 transition-all duration-300 ease-in-out bg-white border-l-4 border-indigo-600 shadow-md fade-in-up rounded-xl dark:bg-gray-800 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h1 class="text-lg font-bold text-gray-800 dark:text-white md:text-xl">Daftar Pengumpulan Siswa
                         </h1>
@@ -17,8 +17,8 @@
                             siswa</p>
                     </div>
                     <div class="flex items-center space-x-3">
-                        <div class="px-4 py-2 bg-blue-100 rounded-full dark:bg-blue-900/30">
-                            <span class="text-xs font-medium text-blue-800 dark:text-blue-200">
+                        <div class="px-4 py-2 bg-indigo-100 rounded-full">
+                            <span class="text-xs font-medium text-indigo-700">
                                 Total: {{ $pengumpulans->count() }} pengumpulan
                             </span>
                         </div>
@@ -49,7 +49,7 @@
                                     </div>
                                     <input type="text" name="search" value="{{ request('search') }}"
                                         placeholder="Cari data..."
-                                        class="w-full py-2.5 pl-10 pr-4 border border-gray-300 text-sm rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:focus:ring-indigo-600 dark:focus:border-indigo-600">
+                                        class="w-full py-2.5 pl-10 pr-4 border border-gray-300 text-sm rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:focus:ring-indigo-600 dark:focus:border-indigo-600">
                                     @if (request('search'))
                                         <a href="{{ route('teacher.pengumpulan.index') }}"
                                             class="absolute text-xs text-gray-500 right-16 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500">
@@ -67,19 +67,9 @@
                         <!-- Sorting and Display Options -->
                         <form method="GET" action="{{ route('teacher.pengumpulan.index') }}">
                             <div class="flex flex-wrap items-center gap-3">
-                                @php
-                                    $statusTexts = [
-                                        'dikumpulkan' => 'Belum Dinilai',
-                                        'dinilai' => 'Dinilai',
-                                        'ditolak' => 'Ditolak',
-                                        'mengulang' => 'Mengulang',
-                                        'telat' => 'Terlambat',
-
-                                    ];
-                                @endphp
                                 <div class="w-full sm:w-auto">
                                     <select name="filter" onchange="this.form.submit()"
-                                        class="text-sm mr-5 block w-full py-2.5 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                        class="text-sm mr-5 block w-full py-2.5 px-3 border border-gray-300 rounded-lg focus:ring-2 1 focus:ring-indigo-100 focus:border-indigo-700">
                                         <optgroup label="Urutkan">
                                             <option value="sort:newest"
                                                 {{ request('filter') == 'sort:newest' ? 'selected' : '' }}>Terbaru
@@ -89,12 +79,18 @@
                                             </option>
                                         </optgroup>
 
-                                        <optgroup label="Status">
-                                            @foreach ($statusTexts as $status => $label)
-                                                <option value="status:{{ $status }}" @selected(request('status') === $status)>
-                                                    {{ $label }}
-                                                </option>
-                                            @endforeach
+                                        <optgroup label="Status Penilaian">
+
+                                            <option value="status:belum_dinilai"
+                                                {{ request('filter') == 'status:belum_dinilai' ? 'selected' : '' }}>
+                                                Belum Dinilai
+                                            </option>
+
+                                            <option value="status:dinilai"
+                                                {{ request('filter') == 'status:dinilai' ? 'selected' : '' }}>
+                                                Sudah Dinilai
+                                            </option>
+
                                         </optgroup>
                                     </select>
                                 </div>
@@ -102,7 +98,7 @@
                                 <!-- Tombol Reset -->
                                 @if (request('filter') || request('status'))
                                     <a href="{{ route('teacher.pengumpulan.index') }}"
-                                        class="inline-flex items-center px-3 py-2.5 text-sm text-gray-500 hover:text-red-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600 transition-colors duration-200">
+                                        class="inline-flex items-center px-3 py-2.5 text-sm text-gray-500 hover:text-red-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 1 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600 transition-colors duration-200">
                                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -115,7 +111,7 @@
 
                                 <div class="w-full sm:w-auto">
                                     <select name="perPage" id="perPage" onchange="this.form.submit()"
-                                        class="text-sm mr-5 block w-full py-2.5 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                        class="text-sm mr-5 block w-full py-2.5 px-3 border border-gray-300 rounded-lg focus:ring-2 1 focus:ring-indigo-100 focus:border-indigo-700">
                                         <option value="10" {{ request('perPage', 10) == 10 ? 'selected' : '' }}>10
                                             per halaman</option>
                                         <option value="25" {{ request('perPage') == 25 ? 'selected' : '' }}>25
@@ -136,12 +132,11 @@
                 </div>
 
                 <!-- pengumpulan Table/Cards -->
-                <div class="overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
+                <div class="overflow-hidden bg-white rounded-lg shadow-md">
                     @if ($pengumpulans->count() > 0)
                         <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
-                                id="pengumpulanTable">
-                                <thead class="bg-gray-50 dark:bg-gray-700">
+                            <table class="min-w-full divide-y divide-gray-200" id="pengumpulanTable">
+                                <thead class="bg-white">
                                     <tr>
                                         <th scope="col"
                                             class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300">
@@ -155,10 +150,10 @@
                                             class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300">
                                             Tugas & File
                                         </th>
-                                        <th scope="col"
+                                        {{-- <th scope="col"
                                             class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300">
                                             Status
-                                        </th>
+                                        </th> --}}
                                         {{-- <th scope="col"
                                         class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300">
                                         Tenggat Waktu
@@ -177,9 +172,9 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                <tbody class="bg-white divide-y divide-gray-200">
                                     @foreach ($pengumpulans as $pengumpulan)
-                                        <tr class="transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-700"
+                                        <tr class="transition-colors duration-150 dark:hover:bg-gray-700"
                                             data-status="{{ $pengumpulan->status }}"
                                             data-student="{{ strtolower($pengumpulan->siswa->user->name ?? '') }}"
                                             data-task="{{ strtolower($pengumpulan->tugasHafalan->nama ?? '') }}">
@@ -195,9 +190,9 @@
                                                                 alt="{{ $pengumpulan->siswa->user->name }}">
                                                         @else
                                                             <div
-                                                                class="flex items-center justify-center w-10 h-10 bg-indigo-100 rounded-full dark:bg-indigo-900">
+                                                                class="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full dark:bg-indigo-900">
                                                                 <span
-                                                                    class="text-sm font-medium text-indigo-800 dark:text-indigo-200">{{ substr($pengumpulan->siswa->user->name, 0, 2) }}</span>
+                                                                    class="text-sm font-medium text-white">{{ strtoupper(substr($pengumpulan->siswa->user->name, 0, 2)) }}</span>
                                                             </div>
                                                         @endif
                                                     </div>
@@ -250,7 +245,7 @@
                                                     @endif
                                                 </div>
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
+                                            {{-- <td class="px-6 py-4 whitespace-nowrap">
                                                 @php
                                                     $statusClasses = [
                                                         'dikumpulkan' =>
@@ -263,7 +258,6 @@
                                                             'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
                                                         'telat' =>
                                                             'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
-
                                                     ];
                                                     $statusTexts = [
                                                         'dikumpulkan' => 'Belum Dinilai',
@@ -271,14 +265,13 @@
                                                         'ditolak' => 'Ditolak',
                                                         'mengulang' => 'Mengulang',
                                                         'telat' => 'Terlambat',
-
                                                     ];
                                                 @endphp
                                                 <span
                                                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $statusClasses[$pengumpulan->status] ?? 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' }}">
                                                     {{ $statusTexts[$pengumpulan->status] ?? ucfirst($pengumpulan->status) }}
                                                 </span>
-                                            </td>
+                                            </td> --}}
                                             <td
                                                 class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap dark:text-white">
                                                 <div class="font-medium">
@@ -367,7 +360,7 @@
                                                     {{-- Tombol Download --}}
                                                     @if ($pengumpulan->file_pengumpulan)
                                                         <a href="{{ route('teacher.pengumpulan.download', $pengumpulan) }}"
-                                                            class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition duration-150"
+                                                            class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 transition duration-150"
                                                             title="Download File">
                                                             <svg class="h-3.5 w-3.5 mr-1" fill="none"
                                                                 stroke="currentColor" viewBox="0 0 24 24">
@@ -527,7 +520,7 @@
                         <!-- Mobile page selector -->
                         <div class="mt-3 sm:hidden">
                             <select onchange="window.location.href=this.value"
-                                class="block w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                class="block w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none 1">
                                 @for ($i = 1; $i <= $pengumpulans->lastPage(); $i++)
                                     <option value="{{ $pengumpulans->url($i) }}"
                                         {{ $i == $pengumpulans->currentPage() ? 'selected' : '' }}>

@@ -6,11 +6,11 @@
         </x-slot>
 
         <!-- Main Content -->
-        <div class="flex-1 overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        <div class="flex-1 overflow-y-auto">
             <main class="p-4 mx-auto space-y-6 sm:p-6 lg:p-8">
                 <!-- Header Section -->
                 <div
-                    class="flex flex-col gap-4 p-6 transition-all duration-300 ease-in-out bg-white border-l-4 border-indigo-500 shadow-md fade-in-up rounded-xl dark:bg-gray-800 sm:flex-row sm:items-center sm:justify-between">
+                    class="flex flex-col gap-4 p-6 transition-all duration-300 ease-in-out bg-white border-l-4 border-indigo-600 shadow-md fade-in-up rounded-xl dark:bg-gray-800 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h1 class="text-lg font-bold text-gray-800 dark:text-white md:text-xl">Penilaian Langsung
                         </h1>
@@ -18,7 +18,7 @@
                             siswa secara langsung</p>
                     </div>
                     <a href="{{ route('teacher.penilaian.langsung.create') }}"
-                        class="inline-flex items-center px-4 py-2.5 text-sm font-medium text-white transition duration-200 bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none group">
+                        class="inline-flex items-center px-4 py-2.5 text-sm font-medium text-white transition duration-200 bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 focus:outline-none group">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             class="w-5 h-5 mr-2 transition-transform duration-200 group-hover:scale-110" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
@@ -110,7 +110,7 @@
                                     </div>
                                     <input type="text" name="search" value="{{ request('search') }}"
                                         placeholder="Cari data..."
-                                        class="w-full py-2.5 pl-10 pr-4 border border-gray-300 text-sm rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:focus:ring-indigo-600 dark:focus:border-indigo-600">
+                                        class="w-full py-2.5 pl-10 pr-4 border border-gray-300 text-sm rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:focus:ring-indigo-600 dark:focus:border-indigo-600">
                                     @if (request('search'))
                                         <a href="{{ route('teacher.penilaian.langsung.index') }}"
                                             class="absolute text-xs text-gray-500 right-16 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500">
@@ -118,7 +118,7 @@
                                         </a>
                                     @endif
                                     <button type="submit"
-                                        class="absolute inset-y-0 right-0 flex items-center px-3 text-indigo-600 dark:text-indigo-400">
+                                        class="absolute inset-y-0 right-0 flex items-center px-3 text-indigo-600">
                                         <span class="text-sm font-medium">Cari</span>
                                     </button>
                                 </div>
@@ -131,7 +131,7 @@
 
                                 <div class="w-full sm:w-auto">
                                     <select name="filter" onchange="this.form.submit()"
-                                        class="text-sm mr-5 block w-full py-2.5 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                        class="text-sm mr-5 block w-full py-2.5 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-white dark:border-gray-600">
                                         <optgroup label="Urutkan">
                                             <option value="sort:newest"
                                                 {{ request('filter') == 'sort:newest' ? 'selected' : '' }}>Terbaru
@@ -164,7 +164,7 @@
                                 <!-- Tombol Reset -->
                                 @if (request('filter') || request('status'))
                                     <a href="{{ route('teacher.penilaian.langsung.index') }}"
-                                        class="inline-flex items-center px-3 py-2.5 text-sm text-gray-500 hover:text-red-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600 transition-colors duration-200">
+                                        class="inline-flex items-center px-3 py-2.5 text-sm text-gray-500 hover:text-red-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600 transition-colors duration-200">
                                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -177,7 +177,7 @@
 
                                 <div class="w-full sm:w-auto">
                                     <select name="perPage" id="perPage" onchange="this.form.submit()"
-                                        class="text-sm mr-5 block w-full py-2.5 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                        class="text-sm mr-5 block w-full py-2.5 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-white dark:border-gray-600">
                                         <option value="10" {{ request('perPage', 10) == 10 ? 'selected' : '' }}>10
                                             per halaman</option>
                                         <option value="25" {{ request('perPage') == 25 ? 'selected' : '' }}>25
@@ -200,9 +200,9 @@
                 <!-- Stats Cards -->
                 <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-3">
                     <div
-                        class="p-6 transition-shadow duration-300 bg-white border-l-4 border-indigo-500 shadow-lg rounded-xl hover:shadow-xl">
+                        class="p-6 transition-shadow duration-300 bg-white border-l-4 border-indigo-600 shadow-lg rounded-xl hover:shadow-xl">
                         <div class="flex items-center">
-                            <div class="p-3 mr-4 text-indigo-500 bg-indigo-100 rounded-full dark:text-indigo-400 dark:bg-indigo-900">
+                            <div class="p-3 mr-4 text-indigo-600 bg-indigo-100 rounded-full">
                                 <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -218,9 +218,9 @@
                     </div>
 
                     <div
-                        class="p-6 transition-shadow duration-300 bg-white border-l-4 border-green-500 shadow-lg rounded-xl hover:shadow-xl">
+                        class="p-6 transition-shadow duration-300 bg-white border-l-4 border-green-600 shadow-lg rounded-xl hover:shadow-xl">
                         <div class="flex items-center">
-                            <div class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-green-400 dark:bg-green-900">
+                            <div class="p-3 mr-4 text-green-600 bg-green-100 rounded-full">
                                 <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -236,10 +236,10 @@
                     </div>
 
                     <div
-                        class="p-6 transition-shadow duration-300 bg-white border-l-4 border-purple-500 shadow-lg rounded-xl hover:shadow-xl">
+                        class="p-6 transition-shadow duration-300 bg-white border-l-4 border-red-600 shadow-lg rounded-xl hover:shadow-xl">
                         <div class="flex items-center">
-                            <div class="p-3 mr-4 text-purple-500 bg-purple-100 rounded-full dark:text-purple-400 dark:bg-purple-900">
-                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor"
+                            <div class="p-3 mr-4 text-red-600 bg-red-100 rounded-full">
+                                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
@@ -264,7 +264,7 @@
 
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+                            <thead class="bg-white">
                                 <tr>
                                     <th
                                         class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
@@ -294,7 +294,7 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse ($penilaian as $assessment)
-                                    <tr class="transition-colors duration-200 hover:bg-gray-50">
+                                    <tr class="transition-colors duration-200">
                                         <td class="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">
                                             {{ ($penilaian->currentPage() - 1) * $penilaian->perPage() + $loop->iteration }}
                                         </td>
@@ -400,7 +400,7 @@
                                                 </a>
 
                                                 <button onclick="confirmDelete('{{ $assessment->id }}')"
-                                                    class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150">
+                                                    class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-150">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -462,7 +462,7 @@
                                                 </p>
                                                 <div class="mt-6">
                                                     <a href="{{ route('teacher.penilaian.langsung.create') }}"
-                                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 6">
                                                         <svg class="w-5 h-5 mr-2 -ml-1"
                                                             xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke="currentColor">
@@ -481,7 +481,7 @@
                     </div>
 
                     <!-- Pagination -->
-                    <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
+                    <div class="px-6 py-4 bg-white border-t border-gray-200">
                         {{ $penilaian->links() }}
                     </div>
                 </div>

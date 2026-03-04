@@ -1,6 +1,6 @@
 @props(['action', 'search' => '', 'sortOptions' => [], 'perPageOptions' => [10, 25, 50, 100]])
 
-<div class="p-6 bg-white shadow-md rounded-xl dark:bg-gray-800">
+<div class="p-6 bg-[#FDFAF5] shadow-md rounded-xl dark:bg-gray-800">
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <!-- Search -->
         <div class="w-full md:w-1/2 lg:w-1/3">
@@ -14,15 +14,15 @@
                         </svg>
                     </div>
                     <input type="text" name="search" value="{!! $search !!}" placeholder="Cari data..."
-                        class="w-full py-2.5 pl-10 pr-4 border border-gray-300 text-sm rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:focus:ring-indigo-600 dark:focus:border-indigo-600">
+                        class="w-full py-2.5 pl-10 pr-4 border text-sm rounded-lg focus:ring-2 border-gray-300 focus:border-[#1E2A40] focus:ring-[#D6E3F5]">
                     @if (request('search'))
                         <a href="{{ $action }}"
-                            class="absolute text-xs text-gray-500 right-16 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500">
+                            class="absolute text-xs text-gray-500 right-16 hover:text-[#8B4040]">
                             Reset
                         </a>
                     @endif
                     <button type="submit"
-                        class="absolute inset-y-0 right-0 flex items-center px-3 text-indigo-600 dark:text-indigo-400">
+                        class="absolute inset-y-0 right-0 flex items-center px-3 text-[#2D3F63]">
                         <span class="text-sm font-medium">Cari</span>
                     </button>
                 </div>
@@ -34,7 +34,7 @@
             <div class="flex flex-wrap items-center gap-3">
                 <div class="w-full sm:w-auto">
                     <select name="sort" onchange="this.form.submit()"
-                        class="text-sm mr-5 block w-full py-2.5 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                        class="text-sm mr-5 block w-full py-2.5 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-[#1E2A40] focus:ring-[#D6E3F5]">
                         @foreach ($sortOptions as $value => $label)
                             <option value="{{ $value }}" {{ request('sort') == $value ? 'selected' : '' }}>
                                 {{ $label }}
@@ -46,7 +46,7 @@
                 <!-- Tombol Reset -->
                 @if (request('sort'))
                     <a href="{{ $action }}"
-                        class="inline-flex items-center px-3 py-2.5 text-sm text-gray-500 hover:text-red-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600 transition-colors duration-200">
+                        class="inline-flex items-center px-3 py-2.5 text-sm text-gray-500 hover:text-[#8B4040] bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:border-[#1E2A40] focus:ring-[#D6E3F5] transition-colors duration-200">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
@@ -58,7 +58,7 @@
 
                 <div class="w-full sm:w-auto">
                     <select name="perPage" onchange="this.form.submit()"
-                        class="text-sm mr-5 block w-full py-2.5 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                        class="text-sm mr-5 block w-full py-2.5 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-[#1E2A40] focus:ring-[#D6E3F5]">
                         @foreach ($perPageOptions as $option)
                             <option value="{{ $option }}"
                                 {{ request('perPage', 10) == $option ? 'selected' : '' }}>

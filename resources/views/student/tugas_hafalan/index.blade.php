@@ -7,7 +7,7 @@
 
         @if (session('success'))
             <div id="success-alert"
-                class="p-4 mb-6 text-sm text-green-700 bg-green-100 border border-green-200 rounded-lg" role="alert">
+                class="p-4 mb-6 text-sm text-green-600 bg-green-100 border border-green-200 rounded-lg" role="alert">
                 <div class="flex">
                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
@@ -19,7 +19,7 @@
                         {{ session('success') }}
                     </div>
                     <button type="button" onclick="document.getElementById('success-alert').remove()"
-                        class="ml-auto -mx-1.5 -my-1.5 text-green-700 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8">
+                        class="ml-auto -mx-1.5 -my-1.5 text-green-600 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

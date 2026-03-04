@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex flex-col min-h-screen overflow-hidden md:flex-row">
         <!-- Main Content -->
-        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto">
             <main class="w-full max-w-4xl p-4 mx-auto space-y-6 sm:p-6 lg:p-8">
                 <x-header-create title="Update Data Guru"
                     description="Perbarui data guru sesuai dengan informasi yang terbaru."
@@ -46,7 +46,7 @@
                                     Nama Lengkap User <span class="text-red-500">*</span>
                                 </label>
                                 <input type="text" id="user_name" value="{{ $teacher->user->name }}" readonly
-                                    class="block w-full mt-1 text-sm border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                    class="block w-full mt-1 text-sm border-gray-300 rounded-lg shadow-sm focus:border-[#1E2A40] focus:ring-[#D6E3F5]">
                                 <p class="text-xs text-gray-500 dark:text-gray-400">Nama user tidak dapat di-edit.</p>
                             </div>
 
@@ -66,7 +66,7 @@
                                     NIP
                                 </label>
                                 <input type="text" name="nip" id="nip" value="{{ old('nip', $teacher->nip) }}" placeholder="Contoh: 198307152010011002"
-                                    class="text-sm block w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('nip') border-red-500 ring-1 ring-red-500 @enderror">
+                                    class="text-sm block w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:border-[#1E2A40] focus:ring-[#D6E3F5] dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('nip') border-red-500 ring-1 ring-red-500 @enderror">
                                 @error('nip')
                                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
@@ -101,7 +101,7 @@
                                     Tanggal Lahir
                                 </label>
                                 <input type="date" name="tanggal_lahir" id="tanggal_lahir" value="{{ old('tanggal_lahir', $teacher->tanggal_lahir) }}"
-                                    class="text-sm block w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('tanggal_lahir') border-red-500 ring-1 ring-red-500 @enderror">
+                                    class="text-sm block w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:border-[#1E2A40] focus:ring-[#D6E3F5] dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('tanggal_lahir') border-red-500 ring-1 ring-red-500 @enderror">
                                 @error('tanggal_lahir')
                                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
@@ -117,7 +117,7 @@
                                         <span class="text-gray-500 dark:text-gray-400">+62</span>
                                     </div>
                                     <input type="text" name="nomor_telp" id="nomor_telp" value="{{ old('nomor_telp', $teacher->nomor_telp) }}" placeholder="812xxxxxxx" required
-                                        class="text-sm block w-full pl-12 mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('nomor_telp') border-red-500 ring-1 ring-red-500 @enderror">
+                                        class="text-sm block w-full pl-12 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-[#1E2A40] focus:ring-[#D6E3F5] dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('nomor_telp') border-red-500 ring-1 ring-red-500 @enderror">
                                 </div>
                                 @error('nomor_telp')
                                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -131,7 +131,7 @@
                                     Bidang Mengajar <span class="text-red-500">*</span>
                                 </label>
                                 <input type="text" name="subject" id="subject" value="{{ old('subject', $teacher->subject) }}" placeholder="Contoh: Fiqih, Hadits" required
-                                    class="text-sm block w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('subject') border-red-500 ring-1 ring-red-500 @enderror">
+                                    class="text-sm block w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:border-[#1E2A40] focus:ring-[#D6E3F5] dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('subject') border-red-500 ring-1 ring-red-500 @enderror">
                                 @error('subject')
                                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
@@ -166,7 +166,7 @@
                                     Alamat
                                 </label>
                                 <textarea name="alamat" id="alamat" rows="3" placeholder="Alamat lengkap"
-                                    class="text-sm block w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('alamat') border-red-500 ring-1 ring-red-500 @enderror">{{ old('alamat', $teacher->alamat) }}</textarea>
+                                    class="text-sm block w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:border-[#1E2A40] focus:ring-[#D6E3F5] dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('alamat') border-red-500 ring-1 ring-red-500 @enderror">{{ old('alamat', $teacher->alamat) }}</textarea>
                                 @error('alamat')
                                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
@@ -175,12 +175,12 @@
 
                         <div class="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                             <a href="{{ route('admin.guru.index') }}"
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 transition duration-200 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
+                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 transition duration-200 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
                                 Batal
                             </a>
                             {{-- Ubah teks tombol menjadi Perbarui Data --}}
                             <button type="submit"
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white transition duration-200 bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50">
+                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white transition duration-200 bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 disabled:opacity-50">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

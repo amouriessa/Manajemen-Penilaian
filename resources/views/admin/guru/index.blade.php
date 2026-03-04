@@ -5,7 +5,7 @@
             <x-sidebar-admin />
         </x-slot>
         <!-- Main Content -->
-        <div class="flex-1 overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        <div class="flex-1 overflow-y-auto">
             <main class="p-4 mx-auto space-y-6 sm:p-6 lg:p-8">
                 <x-header title="Data Guru" subtitle="Mengelola informasi dan seluruh data guru" :route="route('admin.guru.create')"
                     buttonText="Tambah Guru" />
@@ -26,7 +26,7 @@
                     <!-- Table -->
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50 dark:bg-gray-700">
+                            <thead class="bg-white dark:bg-gray-700">
                                 <tr>
                                     <th scope="col"
                                         class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300">
@@ -56,7 +56,7 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                 @forelse ($teachers as $teacher)
-                                    <tr class="transition-colors hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <tr class="transition-colors">
                                         <td class="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">
                                             {{ ($teachers->currentPage() - 1) * $teachers->perPage() + $loop->iteration }}
                                         </td>
@@ -73,9 +73,9 @@
                                                             src="{{ $avatarUrl }}" alt="{{ $teacher->user->name }}">
                                                     @else
                                                         <div
-                                                            class="flex items-center justify-center w-10 h-10 bg-indigo-100 rounded-full dark:bg-indigo-900">
+                                                            class="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full dark:bg-indigo-900">
                                                             <span
-                                                                class="text-sm font-medium text-indigo-800 dark:text-indigo-200">
+                                                                class="text-sm font-medium text-white dark:text-indigo-200">
                                                                 {{ strtoupper(substr($teacher->user->name, 0, 2)) }}
                                                             </span>
                                                         </div>
@@ -120,7 +120,7 @@
                                                     Detail
                                                 </a>
                                                 <a href="{{ route('admin.guru.edit', $teacher) }}"
-                                                    class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                                                    class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-150">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -130,7 +130,7 @@
                                                     Edit
                                                 </a>
                                                 <button onclick="confirmDelete('{{ $teacher->id }}')" type="button"
-                                                    class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150">
+                                                    class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-150">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -169,7 +169,7 @@
                                                 </p>
                                                 <div class="mt-6">
                                                     <a href="{{ route('admin.guru.create') }}"
-                                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
                                                         <svg class="w-5 h-5 mr-2 -ml-1"
                                                             xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke="currentColor">
@@ -278,7 +278,7 @@
                         <!-- Mobile page selector -->
                         <div class="mt-3 sm:hidden">
                             <select onchange="window.location.href=this.value"
-                                class="block w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                class="block w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-600 focus:border-indigo-500">
                                 @for ($i = 1; $i <= $teachers->lastPage(); $i++)
                                     <option value="{{ $teachers->url($i) }}"
                                         {{ $i == $teachers->currentPage() ? 'selected' : '' }}>

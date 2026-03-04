@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex flex-col min-h-screen overflow-hidden md:flex-row">
         <!-- Main Content -->
-        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto">
             <main class="w-full max-w-4xl p-4 mx-auto space-y-6 sm:p-6 lg:p-8">
                 <x-header-create title="Detail Data Siswa"
                     description="Berikut adalah detail informasi siswa yang dipilih." breadcrumbTitle="Data Siswa"

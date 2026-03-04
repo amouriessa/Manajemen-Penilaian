@@ -1,35 +1,17 @@
 <x-app-layout>
     <div class="flex flex-col min-h-screen overflow-hidden md:flex-row">
         <!-- Main Content -->
-        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto">
             <main class="w-full max-w-4xl p-4 mx-auto space-y-6 sm:p-6 lg:p-8">
                 <!-- Header -->
-                <div class="flex flex-col items-start justify-between gap-4 mb-6 sm:flex-row sm:items-center">
-                    <div>
-                        <div class="flex items-center gap-2 mb-1 text-sm text-gray-500 dark:text-gray-400">
-                            <a href="{{ route('teacher.pengumpulan.index') }}"
-                                class="hover:text-indigo-600 dark:hover:text-indigo-400">Pengumpulan</a>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
-                            <span class="font-medium text-gray-700 dark:text-gray-300">Nilai</span>
-                        </div>
-                        <h1 class="text-xl font-bold text-gray-800 dark:text-white md:text-2xl">Nilai Hafalan Siswa</h1>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Menilai hafalan siswa berdasarkan tugas
-                            yang telah dikumpulkan.</p>
-                    </div>
-                    <a href="{{ route('teacher.pengumpulan.index') }}"
-                        class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white transition duration-200 bg-gray-600 rounded-lg shadow-sm hover:bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:outline-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                        </svg>
-                        Kembali
-                    </a>
-                </div>
+                <x-header-create
+                    title="Edit Nilai Hafalan Siswa"
+                    description="Memperbarui nilai hafalan siswa berdasarkan tugas yang telah dikumpulkan."
+                    breadcrumbTitle="Pengumpulan"
+                    :route="route('teacher.pengumpulan.index')"
+                    breadcrumbActive="Nilai"
+                    buttonText="Kembali"
+                />
 
                 @if (session('success'))
                     <div class="p-4 mb-4 text-green-700 bg-green-100 border-l-4 border-green-500 alert alert-success"
@@ -63,7 +45,7 @@
                                     ({{ $pengumpulan->surahHafalan->ayat_awal }}–{{ $pengumpulan->surahHafalan->ayat_akhir }})
                                 @endif --}}
                                 @foreach ($pengumpulan->tugasHafalan->surahHafalan as $surah)
-                                    {{ $surah->nama }}
+                                    {{ $surah->surah->nama }}
                                     ({{ $surah->ayat_awal }}-{{ $surah->ayat_akhir }})
                                     <br>
                                 @endforeach
@@ -201,14 +183,20 @@
                             @enderror
                         </div>
 
-                        <div class="flex justify-end">
+                        <div class="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <a href="{{ route('teacher.pengumpulan.index') }}"
+                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 transition duration-200 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
+                                Batal
+                            </a>
+                            {{-- Ubah teks tombol menjadi Perbarui Data --}}
                             <button type="submit"
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white transition duration-200 bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 disabled:opacity-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M5 13l4 4L19 7" />
                                 </svg>
-                                Perbarui Penilaian
+                                Perbarui Data
                             </button>
                         </div>
                     </form>

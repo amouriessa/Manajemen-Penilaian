@@ -52,7 +52,7 @@ class TugasHafalanSiswaController extends Controller
             }
         })
         ->where('is_archived', false)
-        ->where('status', 'aktif')
+        // ->where('status', 'aktif')
         ->with(['surahHafalan', 'guru.user'])
         ->with(['pengumpulan' => fn($q) => $q->where('student_id', $studentId)])
         ->orderBy('tenggat_waktu', 'asc');

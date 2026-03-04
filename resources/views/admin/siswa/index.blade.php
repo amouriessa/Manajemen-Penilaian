@@ -5,7 +5,7 @@
             <x-sidebar-admin />
         </x-slot>
         <!-- Main Content -->
-        <div class="flex-1 overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        <div class="flex-1 overflow-y-auto">
             <main class="p-4 mx-auto space-y-6 sm:p-6 lg:p-8">
                 <x-header title="Data Siswa" subtitle="Mengelola informasi dan seluruh data siswa" :route="route('admin.siswa.create')"
                     buttonText="Tambah Siswa" />
@@ -24,7 +24,7 @@
                     <!-- Table -->
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50 dark:bg-gray-700">
+                            <thead class="bg-white dark:bg-gray-700">
                                 <tr>
                                     <th scope="col"
                                         class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300">
@@ -54,7 +54,7 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                 @forelse ($students as $student)
-                                    <tr class="transition-colors hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <tr class="transition-colors">
                                         <td class="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">
                                             {{ ($students->currentPage() - 1) * $students->perPage() + $loop->iteration }}
                                         </td>
@@ -71,9 +71,9 @@
                                                             src="{{ $avatarUrl }}" alt="{{ $student->user->name }}">
                                                     @else
                                                         <div
-                                                            class="flex items-center justify-center w-10 h-10 bg-indigo-100 rounded-full dark:bg-indigo-900">
+                                                            class="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full dark:bg-indigo-900">
                                                             <span
-                                                                class="text-sm font-medium text-indigo-800 dark:text-indigo-200">
+                                                                class="text-sm font-medium text-white">
                                                                 {{ strtoupper(substr($student->user->name, 0, 2)) }}
                                                             </span>
                                                         </div>
@@ -124,7 +124,7 @@
                                                     Detail
                                                 </a>
                                                 <a href="{{ route('admin.siswa.edit', $student) }}"
-                                                    class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                                                    class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-150">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -134,7 +134,7 @@
                                                     Edit
                                                 </a>
                                                 <button onclick="confirmDelete('{{ $student->id }}')" type="button"
-                                                    class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150">
+                                                    class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-150">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"

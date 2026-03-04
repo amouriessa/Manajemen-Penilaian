@@ -22,32 +22,56 @@ class DashboardController extends Controller
         $kelasYangDiajarIds = Auth::user()->guru->kelasTahfidz->pluck('id')->toArray();
 
         // 1. Hitungan Total Tugas Hafalan Aktif
+        // $totalTugasAktif = TugasHafalan::where('teacher_id', $teacherId)
+        // ->where('status', 'aktif')
+        // ->where('is_archived', false)
+        // ->where(function ($query) use ($kelasYangDiajarIds, $teacherId) {
+        //     $query->where(function ($q) use ($kelasYangDiajarIds) {
+        //         // Tugas untuk semua siswa di kelas
+        //         $q->where('is_for_all_student', true)
+        //         ->whereIn('kelas_tahfidz_id', $kelasYangDiajarIds);
+        //     })
+        //     ->orWhere(function ($q) use ($teacherId) {
+        //         // Tugas khusus untuk siswa tertentu
+        //         $q->where('is_for_all_student', false)
+        //         ->whereHas('siswa', function ($siswaQuery) use ($teacherId) {
+        //             $siswaQuery->whereHas('siswaKelas', function ($skQuery) use ($teacherId) {
+        //                 $skQuery->whereHas('kelasTahfidz', function ($ktQuery) use ($teacherId) {
+        //                     $ktQuery->where('teacher_id', $teacherId);
+        //                 });
+        //             });
+        //         })
+        //         ->whereDoesntHave('penilaian', function ($penilaianQuery) use ($teacherId) {
+        //             $penilaianQuery->where('teacher_id', $teacherId)
+        //                             ->where('assessed_at', '!=', null); // atau whereNotNull('nilai')
+        //         });
+        //     });
+        // })
+        // ->count();
+
         $totalTugasAktif = TugasHafalan::where('teacher_id', $teacherId)
-        ->where('status', 'aktif')
-        ->where('is_archived', false)
-        ->where(function ($query) use ($kelasYangDiajarIds, $teacherId) {
-            $query->where(function ($q) use ($kelasYangDiajarIds) {
-                // Tugas untuk semua siswa di kelas
-                $q->where('is_for_all_student', true)
-                ->whereIn('kelas_tahfidz_id', $kelasYangDiajarIds);
-            })
-            ->orWhere(function ($q) use ($teacherId) {
-                // Tugas khusus untuk siswa tertentu
-                $q->where('is_for_all_student', false)
-                ->whereHas('siswa', function ($siswaQuery) use ($teacherId) {
-                    $siswaQuery->whereHas('siswaKelas', function ($skQuery) use ($teacherId) {
-                        $skQuery->whereHas('kelasTahfidz', function ($ktQuery) use ($teacherId) {
-                            $ktQuery->where('teacher_id', $teacherId);
-                        });
-                    });
+            ->where('is_archived', false)
+            ->where(function ($query) use ($kelasYangDiajarIds, $teacherId) {
+                $query->where(function ($q) use ($kelasYangDiajarIds) {
+                    $q->where('is_for_all_student', true)
+                    ->whereIn('kelas_tahfidz_id', $kelasYangDiajarIds);
                 })
-                ->whereDoesntHave('penilaian', function ($penilaianQuery) use ($teacherId) {
-                    $penilaianQuery->where('teacher_id', $teacherId)
-                                    ->where('assessed_at', '!=', null); // atau whereNotNull('nilai')
+                ->orWhere(function ($q) use ($teacherId) {
+                    $q->where('is_for_all_student', false)
+                    ->whereHas('siswa', function ($siswaQuery) use ($teacherId) {
+                        $siswaQuery->whereHas('siswaKelas', function ($skQuery) use ($teacherId) {
+                            $skQuery->whereHas('kelasTahfidz', function ($ktQuery) use ($teacherId) {
+                                $ktQuery->where('teacher_id', $teacherId);
+                            });
+                        });
+                    })
+                    ->whereDoesntHave('penilaian', function ($penilaianQuery) use ($teacherId) {
+                        $penilaianQuery->where('teacher_id', $teacherId)
+                                        ->whereNotNull('assessed_at');
+                    });
                 });
-            });
-        })
-        ->count();
+            })
+            ->count();
 
         // Total pengumpulan hari ini (logika sebelumnya sudah benar)
         // $totalPengumpulanHariIni = Pengumpulan::whereHas('tugasHafalan', function ($query) use ($teacherId) {

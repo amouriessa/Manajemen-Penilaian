@@ -13,7 +13,7 @@ class Pengumpulan extends Model
         'tugas_hafalan_id',
         'student_id',
         'file_pengumpulan',
-        'status',
+        // 'status',
         'submitted_at'
     ];
     public function tugasHafalan()

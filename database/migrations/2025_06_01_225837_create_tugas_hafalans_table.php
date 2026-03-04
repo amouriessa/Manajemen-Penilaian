@@ -19,7 +19,6 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->enum('jenis_tugas', ['baru', 'murajaah']);
             $table->date('tenggat_waktu');
-            $table->enum('status', ['pending', 'aktif', 'telat', 'selesai', 'dibatalkan'])->default('pending');
             $table->boolean('is_archived')->default(false);
             $table->boolean('is_for_all_student')->default(false);
             $table->timestamps();

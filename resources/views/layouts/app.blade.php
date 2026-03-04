@@ -11,7 +11,13 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+
+    <link
+        href="https://fonts.googleapis.com/css2?
+        family=Poppins:wght@400;500;600;700&
+        family=Koulen&family=Manrope:wght@200..800&
+        family=Cormorant:ital,wght@0,300..700;1,300..700&
+        display=swap"
         rel="stylesheet">
 
     <!-- Tom Select CSS -->
@@ -26,7 +32,7 @@
 
 </head>
 
-<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900">
+<body class="overflow-hidden font-sans antialiased bg-[#E8E0D5]">
 
     <div class="flex h-screen overflow-hidden">
 
@@ -47,37 +53,61 @@
 
             <!-- Mobile Navbar -->
             <header
-                class="flex items-center justify-between px-4 py-4 bg-white border-b md:hidden dark:bg-gray-800 dark:border-gray-700">
-                @if (!empty($sidebar))
-                    <button @click="sidebarOpen = !sidebarOpen" class="text-gray-700 dark:text-gray-200">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                @endif
-                <div class="flex items-center space-x-3">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block w-auto text-gray-800 fill-current h-9 dark:text-gray-200" />
-                    </a>
-                    <h1 class="text-xl font-semibold text-gray-800 dark:text-white">SMP ISLAMIYAH</h1>
+                class="flex items-center justify-between px-4 py-3 bg-[#FDFAF5] border-b md:hidden">
+
+                <!-- LEFT: Sidebar Toggle + Greeting -->
+                <div class="flex items-center gap-3">
+
+                    @if (!empty($sidebar))
+                        <button @click="sidebarOpen = !sidebarOpen"
+                            class="p-2 text-gray-700 rounded-md hover:bg-gray-100">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+                    @endif
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-[#3A3028] leading-none">
+                            Halo 👋
+                        </p>
+                        <p class="text-base font-semibold text-gray-900 truncate max-w-[120px]">
+                            {{ Auth::user()->name }}
+                        </p>
+                    </div>
                 </div>
 
-                <div class="flex items-center ms-6"> <x-dropdown align="right" width="48">
-                        <x-slot name="trigger">
-                            <button
-                                class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
-                                <div>{{ Auth::user()->name }}</div>
+                <!-- RIGHT: Avatar + Dropdown -->
+                <div class="flex items-center gap-2">
 
-                                <div class="ms-1">
-                                    <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                            clip-rule="evenodd" />
-                                    </svg>
+                    <!-- Date small -->
+                    <div class="hidden sm:block text-[10px] text-[#8C8070]">
+                        {{ now()->translatedFormat('j M Y') }}
+                    </div>
+
+                    <x-dropdown align="right" width="40">
+                        <x-slot name="trigger">
+                            <button class="flex items-center gap-2 focus:outline-none">
+
+                                <!-- Avatar -->
+                                <div class="w-9 h-9">
+                                    @if (Auth::user()->avatar)
+                                        <img src="{{ asset('storage/' . Auth::user()->avatar) }}"
+                                            class="object-cover w-full h-full rounded-full">
+                                    @else
+                                        <div
+                                            class="flex items-center justify-center w-full h-full
+                                            text-xs font-semibold text-white
+                                            rounded-full bg-[#2D3F63]">
+                                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                        </div>
+                                    @endif
                                 </div>
+
                             </button>
                         </x-slot>
 
@@ -87,15 +117,23 @@
                                     {{ __('Profile') }}
                                 </x-dropdown-link>
                             @endunless
-
+                            <div class="px-4 py-2 border-b">
+                                <div class="text-sm font-medium text-gray-900">
+                                    {{ Auth::user()->name }}
+                                </div>
+                                <div class="text-xs text-gray-500">
+                                    {{ ucfirst(Auth::user()->getRoleNames()->first() ?? 'User') }}
+                                </div>
+                            </div>
 
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
 
                                 <x-dropdown-link :href="route('logout')"
+                                    class="text-sm font-medium text-gray-900"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                    {{ __('Log Out') }}
+                                    {{ __('Logout') }}
                                 </x-dropdown-link>
                             </form>
                         </x-slot>
@@ -119,7 +157,7 @@
             @endisset
 
             <!-- Page Content Scrollable -->
-            <main class="flex-1 px-4 py-6 overflow-y-auto sm:px-6 lg:px-8">
+            <main class="flex-1 px-4 py-6 overflow-y-auto sm:px-6 lg:px-8 overscroll-contain">
                 {{ $slot }}
             </main>
         </div>

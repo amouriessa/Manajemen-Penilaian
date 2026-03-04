@@ -1,16 +1,41 @@
-<div class="flex flex-col w-64 h-screen text-gray-900 bg-white shadow-md">
-    {{-- <div class="flex items-center justify-center h-16 bg-gray-300">
-        <h1 class="text-2xl font-semibold">Dashboard</h1>
-    </div> --}}
+<div class="flex flex-col w-64 h-screen bg-[#1E2A40] text-[rgba(215,228,248,0.75)] shadow-md">
+    @php
+        $baseMenu = 'menu-item flex items-center gap-3 px-4 py-2.5 mx-2 mt-1 rounded-lg text-sm font-medium
+             cursor-pointer transition-all duration-150
+             hover:bg-white/5 hover:text-[rgba(215,228,248,0.95)]';
 
-    <div class="flex-1 overflow-y-auto">
+        $activeMenu = 'bg-[linear-gradient(135deg,rgba(212,163,85,0.18),rgba(212,163,85,0.08))]
+             text-[#E8C990] border border-[#D4A355]/20';
+
+        $inactiveMenu = 'text-[rgba(215,228,248,0.65)]';
+    @endphp
+
+    <!-- HEADER -->
+    <li class="relative px-4 py-6 mb-4 text-center border-b border-white/10">
+        <a href="{{ route('dashboard') }}" class="flex flex-col items-center gap-3">
+            <div class="flex items-center justify-center w-12 h-12">
+                <x-application-logo class="text-white w-7 h-7" />
+            </div>
+
+            <div>
+                <p class="font-serif text-sm font-medium leading-tight text-white">
+                    SMP Islamiyah
+                </p>
+                <p class="text-[10px] tracking-wide text-[#E8C990]">
+                    Widodaren · Ngawi
+                </p>
+            </div>
+        </a>
+    </li>
+
+    <div class="flex-1 overflow-y-auto sidebar-scroll">
         <nav class="mt-6">
             <ul id="sidebarMenu">
                 <!-- Menu Item 1 -->
                 <li>
                     <a href="{{ route('teacher.dashboard') }}"
-                        class="menu-item flex items-center px-4 py-3 text-sm font-medium
-                              {{ request()->routeIs('teacher.dashboard') ? 'text-indigo-500' : 'text-gray-500' }}
+                        class="{{ $baseMenu }}
+                              {{ request()->routeIs('teacher.dashboard') ? $activeMenu : $inactiveMenu }}
                               rounded-md cursor-pointer transition duration-200 ease-in-out
                               hover:bg-gray-100 hover:scale-[1.02]">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
@@ -25,8 +50,8 @@
                 <!-- Menu Item 2 -->
                 <li>
                     <a href="{{ route('teacher.tugas_hafalan.index') }}"
-                        class="menu-item flex items-center px-4 py-3 text-sm font-medium
-                              {{ request()->routeIs('teacher.tugas_hafalan.index') ? 'text-indigo-500' : 'text-gray-500' }}
+                        class="{{ $baseMenu }}
+                              {{ request()->routeIs('teacher.tugas_hafalan.index') ? $activeMenu : $inactiveMenu }}
                               rounded-md cursor-pointer transition duration-200 ease-in-out
                               hover:bg-gray-100 hover:scale-[1.02]">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24"
@@ -41,8 +66,8 @@
                 <!-- Menu Item 3 -->
                 <li>
                     <a href="{{ route('teacher.pengumpulan.index') }}"
-                        class="menu-item flex items-center px-4 py-3 text-sm font-medium
-                                {{ request()->routeIs('teacher.pengumpulan.index') ? 'text-indigo-500' : 'text-gray-500' }}
+                        class="{{ $baseMenu }}
+                                {{ request()->routeIs('teacher.pengumpulan.index') ? $activeMenu : $inactiveMenu }}
                                 rounded-md cursor-pointer transition duration-200 ease-in-out
                                 hover:bg-gray-100 hover:scale-[1.02]">
                         <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
@@ -58,8 +83,8 @@
                 <!-- Menu Item 4 -->
                 <li>
                     <a href="{{ route('teacher.penilaian.langsung.index') }}"
-                        class="menu-item flex items-center px-4 py-3 text-sm font-medium
-                            {{ request()->routeIs('teacher.penilaian.langsung.index') ? 'text-indigo-500' : 'text-gray-500' }}
+                        class="{{ $baseMenu }}
+                            {{ request()->routeIs('teacher.penilaian.langsung.index') ? $activeMenu : $inactiveMenu }}
                              rounded-md cursor-pointer transition duration-200 ease-in-out
                               hover:bg-gray-100 hover:scale-[1.02]">
                         <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
@@ -75,9 +100,9 @@
 
                 <!-- Menu Item 6 -->
                 <li>
-                    <a href="{{ route('teacher.laporankelas.index') }}"
-                        class="menu-item flex items-center px-4 py-3 text-sm font-medium
-                        {{ request()->routeIs('teacher.laporankelas.index') ? 'text-indigo-500' : 'text-gray-500' }}
+                    <a href="{{ route('teacher.laporan.index') }}"
+                        class="{{ $baseMenu }}
+                        {{ request()->routeIs('teacher.laporankelas.index') ? $activeMenu : $inactiveMenu }}
                          rounded-md cursor-pointer transition duration-200 ease-in-out
                          hover:bg-gray-100 hover:scale-[1.02]">
                         <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">

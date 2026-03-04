@@ -5,354 +5,171 @@ namespace App\Http\Controllers\Teacher;
 use App\Http\Controllers\Controller;
 use App\Models\KelasTahfidz;
 use App\Models\Penilaian;
-use App\Models\SiswaKelas;
 use App\Models\Student;
-use App\Models\Surah;
 use App\Models\TahunAjaran;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class LaporanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    // public function index(Request $request)
-    // {
-    //     // Ambil data filter
-    //     $kelasId = $request->kelas_id;
-    //     $studentId = $request->student_id;
-    //     $periode = $request->periode; // 'tanggal', 'bulan', 'semester', atau 'custom'
-    //     $tahunAjaranId = $request->tahun_ajaran_id;
-    //     $selectedStudent = null;
-
-    //     if ($studentId) {
-    //         $selectedStudent = Student::with(['user', 'siswaKelas.kelasTahfidz'])->find($studentId);
-    //         $siswaIds = [$studentId]; // tetap ambil 1 siswa untuk penilaian
-    //     }
-
-    //     // Ambil semua siswa dalam kelas dan tahun ajaran yang dipilih
-    //     $siswaIds = SiswaKelas::where('kelas_tahfidz_id', $kelasId)
-    //         ->where('tahun_ajaran_id', $tahunAjaranId)
-    //         ->pluck('student_id');
-
-    //     // Jika user memilih salah satu siswa (opsional)
-    //     if ($studentId) {
-    //         $siswaIds = [$studentId];
-    //     }
-
-    //     // Set default tanggal (seluruh data)
-    //     $tanggalAwal = now()->startOfYear();
-    //     $tanggalAkhir = now()->endOfYear();
-
-    //     // Logika filter periode
-    //     switch ($periode) {
-    //         case 'tanggal':
-    //             $tanggalAwal = $request->dari_tanggal;
-    //             $tanggalAkhir = $request->sampai_tanggal;
-    //             break;
-
-    //         case 'bulan':
-    //             $bulan = $request->bulan; // format: 1-12
-    //             $tahun = $request->tahun ?? now()->year;
-    //             $tanggalAwal = \Carbon\Carbon::create($tahun, $bulan, 1)->startOfMonth();
-    //             $tanggalAkhir = \Carbon\Carbon::create($tahun, $bulan, 1)->endOfMonth();
-    //             break;
-
-    //         case 'semester':
-    //             $semester = $request->semester; // 'ganjil' atau 'genap'
-    //             $tahun = $request->tahun ?? now()->year;
-
-    //             if ($semester == 'ganjil') {
-    //                 $tanggalAwal = \Carbon\Carbon::create($tahun, 7, 1); // Juli
-    //                 $tanggalAkhir = \Carbon\Carbon::create($tahun, 12, 31); // Desember
-    //             } else {
-    //                 $tanggalAwal = \Carbon\Carbon::create($tahun + 1, 1, 1); // Januari
-    //                 $tanggalAkhir = \Carbon\Carbon::create($tahun + 1, 6, 30); // Juni
-    //             }
-    //             break;
-
-    //         case 'custom':
-    //             $tanggalAwal = $request->custom_dari;
-    //             $tanggalAkhir = $request->custom_sampai;
-    //             break;
-    //     }
-
-    //     // Ambil data penilaian sesuai filter
-    //     // $penilaian = Penilaian::whereIn('student_id', $siswaIds)
-    //     //     ->whereBetween('created_at', [$tanggalAwal, $tanggalAkhir])
-    //     //     ->with(['siswa', 'surahHafalanPenilaian.surah', 'tugasHafalan.surahHafalan.surah']) // relasi yang ingin dimuat
-    //     //     ->get();
-
-    //     // if ($request->filled('surah_nama')) {
-    //     //     $surahNama = $request->input('surah_nama');
-
-    //     //     $penilaian->whereHas('surahHafalanPenilaian.surah', function ($q) use ($surahNama) {
-    //     //         $q->where('nama', 'like', '%' . $surahNama . '%');
-    //     //     })->orWhereHas('tugasHafalan.surahHafalan.surah', function ($q) use ($surahNama) {
-    //     //         $q->where('nama', 'like', '%' . $surahNama . '%');
-    //     //     });
-    //     // }
-
-    //     $query = Penilaian::whereIn('student_id', $siswaIds)
-    //         ->whereBetween('created_at', [$tanggalAwal, $tanggalAkhir])
-    //         ->with(['siswa', 'surahHafalanPenilaian.surah', 'tugasHafalan.surahHafalan.surah']);
-
-    //     if ($request->filled('surah_nama')) {
-    //         $surahNama = $request->input('surah_nama');
-
-    //         $query->where(function ($q) use ($surahNama) {
-    //             $q->whereHas('surahHafalanPenilaian.surah', function ($q2) use ($surahNama) {
-    //                 $q2->where('nama', 'like', '%' . $surahNama . '%');
-    //             })->orWhereHas('tugasHafalan.surahHafalan.surah', function ($q3) use ($surahNama) {
-    //                 $q3->where('nama', 'like', '%' . $surahNama . '%');
-    //             });
-    //         });
-    //     }
-
-    //     $penilaian = $query->get();
-    //     $surahs = Surah::orderBy('nama')->get();
-
-    //     return view('teacher.laporan.index', [
-    //         'kelasList' => KelasTahfidz::all(),
-    //         'tahunAjaranList' => TahunAjaran::all(),
-    //         'studentList' => Student::with('user')->get(),
-    //         'penilaian' => $penilaian,
-    //         'tanggalAwal' => $tanggalAwal,
-    //         'tanggalAkhir' => $tanggalAkhir,
-    //         'selectedStudent' => $selectedStudent,
-    //         'surahs' => $surahs,
-    //     ]);
-    // }
-
-    // public function cetak(Request $request)
-    // {
-    //     $studentId = $request->student_id;
-    //     $periode = $request->periode;
-    //     $tanggalAwal = now()->startOfYear();
-    //     $tanggalAkhir = now()->endOfYear();
-
-    //     switch ($periode) {
-    //         case 'tanggal':
-    //             $tanggalAwal = $request->dari_tanggal;
-    //             $tanggalAkhir = $request->sampai_tanggal;
-    //             break;
-
-    //         case 'bulan':
-    //             $bulan = $request->bulan;
-    //             $tahun = $request->tahun ?? now()->year;
-    //             $tanggalAwal = \Carbon\Carbon::create($tahun, $bulan, 1)->startOfMonth();
-    //             $tanggalAkhir = \Carbon\Carbon::create($tahun, $bulan, 1)->endOfMonth();
-    //             break;
-
-    //         case 'semester':
-    //             $semester = $request->semester;
-    //             $tahun = $request->tahun ?? now()->year;
-
-    //             if ($semester == 'ganjil') {
-    //                 $tanggalAwal = \Carbon\Carbon::create($tahun, 7, 1);
-    //                 $tanggalAkhir = \Carbon\Carbon::create($tahun, 12, 31);
-    //             } else {
-    //                 $tanggalAwal = \Carbon\Carbon::create($tahun + 1, 1, 1);
-    //                 $tanggalAkhir = \Carbon\Carbon::create($tahun + 1, 6, 30);
-    //             }
-    //             break;
-
-    //         case 'custom':
-    //             $tanggalAwal = $request->custom_dari;
-    //             $tanggalAkhir = $request->custom_sampai;
-    //             break;
-    //     }
-
-    //     $siswa = Student::with([
-    //         'user',
-    //         'siswaKelas.kelasTahfidz',
-    //         'siswaKelas.tahunAjaran'
-    //     ])->findOrFail($studentId);
-
-    //     $penilaian = Penilaian::with([
-    //         'guru.user',
-    //         'surahHafalanPenilaian.surah',
-    //         'tugasHafalan.surahHafalan.surah'
-    //     ])
-    //         ->where('student_id', $studentId)
-    //         ->whereBetween('created_at', [$tanggalAwal, $tanggalAkhir])
-    //         ->orderBy('created_at', 'desc')
-    //         ->get();
-
-    //     $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('teacher.laporan.cetak', compact('siswa', 'penilaian', 'tanggalAwal', 'tanggalAkhir'));
-    //     return $pdf->stream('laporan_penilaian_' . $siswa->user->name . '.pdf');
-    // }
-
     public function index(Request $request)
-{
-    $kelasId = $request->kelas_id;
-    $studentId = $request->student_id;
-    $periode = $request->periode;
-    $tahunAjaranId = $request->tahun_ajaran_id;
-    $surahId = $request->surah_id;
-
-    $selectedStudent = null;
-
-    $siswaQuery = SiswaKelas::query();
-
-    if ($kelasId) {
-        $siswaQuery->where('kelas_tahfidz_id', $kelasId);
-    }
-    if ($tahunAjaranId) {
-        $siswaQuery->where('tahun_ajaran_id', $tahunAjaranId);
-    }
-
-    $siswaIds = $siswaQuery->pluck('student_id');
-
-    // Jika memilih siswa spesifik
-    if ($studentId) {
-        $selectedStudent = Student::with(['user', 'siswaKelas.kelasTahfidz'])->find($studentId);
-        $siswaIds = [$studentId];
-    }
-
-    // Jika memilih kelas dan surah TANPA memilih siswa
-    if ($kelasId && $surahId && !$studentId) {
-        // Ambil semua student_id di kelas yg punya penilaian surah tersebut
-        $studentIdsWithPenilaian = Penilaian::whereIn('student_id', $siswaIds)
-            ->where(function ($q) use ($surahId) {
-                $q->whereHas('surahHafalanPenilaian.surah', function ($q2) use ($surahId) {
-                    $q2->where('id', $surahId);
-                })->orWhereHas('tugasHafalan.surahHafalan.surah', function ($q3) use ($surahId) {
-                    $q3->where('id', $surahId);
-                });
-            })
-            ->pluck('student_id')
-            ->unique();
-
-        $siswaIds = $studentIdsWithPenilaian;
-    }
-
-    // Tanggal default
-    $tanggalAwal = Carbon::now()->startOfYear();
-    $tanggalAkhir = Carbon::now()->endOfYear();
-
-    switch ($periode) {
-        case 'tanggal':
-            $tanggalAwal = $request->dari_tanggal;
-            $tanggalAkhir = $request->sampai_tanggal;
-            break;
-        case 'bulan':
-            $bulan = $request->bulan;
-            $tahun = $request->tahun ?? Carbon::now()->year;
-            $tanggalAwal = Carbon::create($tahun, $bulan, 1)->startOfMonth();
-            $tanggalAkhir = Carbon::create($tahun, $bulan, 1)->endOfMonth();
-            break;
-        case 'semester':
-            $semester = $request->semester;
-            $tahun = $request->tahun ?? Carbon::now()->year;
-            if ($semester == 'ganjil') {
-                $tanggalAwal = Carbon::create($tahun, 7, 1);
-                $tanggalAkhir = Carbon::create($tahun, 12, 31);
-            } else {
-                $tanggalAwal = Carbon::create($tahun + 1, 1, 1);
-                $tanggalAkhir = Carbon::create($tahun + 1, 6, 30);
-            }
-            break;
-        case 'custom':
-            $tanggalAwal = $request->custom_dari;
-            $tanggalAkhir = $request->custom_sampai;
-            break;
-    }
-
-    // Ambil penilaian sesuai semua filter
-    $query = Penilaian::whereIn('student_id', $siswaIds)
-        ->whereBetween('created_at', [$tanggalAwal, $tanggalAkhir])
-        ->with(['siswa', 'surahHafalanPenilaian.surah', 'tugasHafalan.surahHafalan.surah']);
-
-    if ($surahId) {
-        $query->where(function ($q) use ($surahId) {
-            $q->whereHas('surahHafalanPenilaian.surah', function ($q2) use ($surahId) {
-                $q2->where('id', $surahId);
-            })->orWhereHas('tugasHafalan.surahHafalan.surah', function ($q3) use ($surahId) {
-                $q3->where('id', $surahId);
-            });
-        });
-    }
-
-    $penilaian = $query->get();
-    $surahs = Surah::orderBy('nama')->get();
-
-    return view('teacher.laporan.index', [
-        'kelasList' => KelasTahfidz::all(),
-        'tahunAjaranList' => TahunAjaran::all(),
-        'studentList' => Student::with('user')->get(),
-        'penilaian' => $penilaian,
-        'tanggalAwal' => $tanggalAwal,
-        'tanggalAkhir' => $tanggalAkhir,
-        'selectedStudent' => $selectedStudent,
-        'surahs' => $surahs,
-        'selectedSurahId' => $surahId,
-    ]);
-}    
-
-    public function cetak(Request $request)
     {
-        // Logika cetak juga perlu diperbarui untuk menyertakan filter surah
-        // Namun, dari deskripsi, laporan cetak masih per siswa, jadi tidak perlu menambahkan filter surah di sini
-        // Jika di masa depan laporan cetak juga bisa per surah, maka logika di sini perlu disesuaikan.
-        $studentId = $request->student_id;
-        $periode = $request->periode;
-        $tanggalAwal = Carbon::now()->startOfYear();
-        $tanggalAkhir = Carbon::now()->endOfYear();
+        // ==============================================================
+        // Data untuk dropdown filter
+        // ==============================================================
+        $kelasList = KelasTahfidz::orderBy('tingkatan_kelas')->orderBy('nama')->get();
+        $tahunAjaranList = TahunAjaran::orderByDesc('tahun_ajaran')->get();
+        $studentList = collect();
 
-        switch ($periode) {
-            case 'tanggal':
-                $tanggalAwal = $request->dari_tanggal;
-                $tanggalAkhir = $request->sampai_tanggal;
-                break;
-
-            case 'bulan':
-                $bulan = $request->bulan;
-                $tahun = $request->tahun ?? Carbon::now()->year;
-                $tanggalAwal = Carbon::create($tahun, $bulan, 1)->startOfMonth();
-                $tanggalAkhir = Carbon::create($tahun, $bulan, 1)->endOfMonth();
-                break;
-
-            case 'semester':
-                $semester = $request->semester;
-                $tahun = $request->tahun ?? Carbon::now()->year;
-
-                if ($semester == 'ganjil') {
-                    $tanggalAwal = Carbon::create($tahun, 7, 1);
-                    $tanggalAkhir = Carbon::create($tahun, 12, 31);
-                } else {
-                    $tanggalAwal = Carbon::create($tahun + 1, 1, 1);
-                    $tanggalAkhir = Carbon::create($tahun + 1, 6, 30);
-                }
-                break;
-
-            case 'custom':
-                $tanggalAwal = $request->custom_dari;
-                $tanggalAkhir = $request->custom_sampai;
-                break;
+        // Populate siswa jika kelas sudah dipilih (untuk saat page reload)
+        if ($request->filled('kelas_tahfidz_id')) {
+            $studentList = Student::with('user')
+    ->whereHas('riwayatKelas', function ($q) use ($request) {
+        $q->where('kelas_tahfidz_id', $request->kelas_tahfidz_id);
+    })
+    ->whereHas('user')
+    ->get()
+    ->sortBy('user.name');
         }
 
-        $siswa = Student::with([
-            'user',
-            'siswaKelas.kelasTahfidz',
-            'siswaKelas.tahunAjaran'
-        ])->findOrFail($studentId);
+        // ==============================================================
+        // Validasi — hanya jalankan jika form benar-benar di-submit
+        // (ditandai dengan adanya salah satu parameter filter)
+        // ==============================================================
+        $selectedStudent = null;
+        $penilaian = collect();
 
-        $penilaian = Penilaian::with([
-            'guru.user',
-            'surahHafalanPenilaian.surah',
-            'tugasHafalan.surahHafalan.surah'
-        ])
-            ->where('student_id', $studentId)
-            ->whereBetween('created_at', [$tanggalAwal, $tanggalAkhir])
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $isSubmitted = $request->hasAny(['kelas_tahfidz_id', 'student_id', 'periode', 'tahun_ajaran_id']);
 
-        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('teacher.laporan.cetak', compact('siswa', 'penilaian', 'tanggalAwal', 'tanggalAkhir'));
-        return $pdf->stream('laporan_penilaian_' . $siswa->user->name . '.pdf');
+        if ($isSubmitted) {
+            $errors = [];
+
+            if (! $request->filled('kelas_tahfidz_id'))        $errors[] = 'Kelas wajib dipilih.';
+            if (! $request->filled('tahun_ajaran_id')) $errors[] = 'Tahun ajaran wajib dipilih.';
+            if (! $request->filled('student_id'))      $errors[] = 'Siswa wajib dipilih.';
+            if (! $request->filled('periode'))         $errors[] = 'Filter periode wajib dipilih.';
+
+            // Validasi input spesifik periode
+            if ($request->periode === 'tanggal') {
+                if (! $request->filled('dari_tanggal'))   $errors[] = 'Dari tanggal wajib diisi.';
+                if (! $request->filled('sampai_tanggal')) $errors[] = 'Sampai tanggal wajib diisi.';
+            } elseif ($request->periode === 'bulan') {
+                if (! $request->filled('bulan')) $errors[] = 'Bulan wajib dipilih.';
+                if (! $request->filled('tahun')) $errors[] = 'Tahun wajib diisi.';
+            }
+
+            if (! empty($errors)) {
+                return back()
+                    ->withInput()
+                    ->withErrors($errors);
+            }
+
+            // ==============================================================
+            // Ambil data siswa yang dipilih
+            // ==============================================================
+            $selectedStudent = Student::with(['user', 'kelastahfidz'])
+                ->findOrFail($request->student_id);
+
+            // ==============================================================
+            // Query penilaian dengan eager loading semua relasi yang dibutuhkan
+            // ==============================================================
+            $query = Penilaian::with([
+                    // Untuk penilaian langsung: surah-surah hafalannya
+                    'surahHafalanPenilaian.surah',
+                    // Untuk penilaian pengumpulan: tugas → surah hafalan tugas
+                    'tugasHafalan.surahHafalan.surah',
+                ])
+                ->where('student_id', $request->student_id)
+                ->orderBy('assessed_at', 'desc');
+
+            // ==============================================================
+            // Filter Periode
+            // ==============================================================
+            if ($request->periode === 'tanggal') {
+                $dari = Carbon::parse($request->dari_tanggal)->startOfDay();
+                $sampai = Carbon::parse($request->sampai_tanggal)->endOfDay();
+                $query->whereBetween('assessed_at', [$dari, $sampai]);
+
+            } elseif ($request->periode === 'bulan') {
+                $query->whereMonth('assessed_at', $request->bulan)
+                      ->whereYear('assessed_at', $request->tahun);
+            }
+
+            $penilaian = $query->get();
+        }
+
+        return view('teacher.laporan.index', compact(
+            'kelasList',
+            'tahunAjaranList',
+            'studentList',
+            'selectedStudent',
+            'penilaian'
+        ));
     }
 
+    /**
+     * AJAX endpoint — kembalikan daftar siswa berdasarkan kelas_tahfidz_id.
+     * Route: GET /teacher/laporan/siswa-by-kelas?kelas_tahfidz_id=X
+     */
+    public function siswaByKelas(Request $request)
+{
+    abort_if(! $request->filled('kelas_tahfidz_id'), 400, 'kelas_tahfidz_id diperlukan');
 
+    // Cari siswa yang terdaftar di kelas tersebut lewat tabel pivot siswa_kelas
+    // Filter juga berdasarkan tahun ajaran aktif (opsional tapi direkomendasikan)
+    $tahunAjaranAktif = TahunAjaran::where('status', true)->first();
 
+    $siswa = Student::with('user')
+        ->whereHas('riwayatKelas', function ($q) use ($request, $tahunAjaranAktif) {
+            $q->where('kelas_tahfidz_id', $request->kelas_tahfidz_id);
+
+            // Kalau mau dibatasi tahun ajaran aktif, uncomment baris ini:
+            // if ($tahunAjaranAktif) {
+            //     $q->where('tahun_ajaran_id', $tahunAjaranAktif->id);
+            // }
+        })
+        ->whereHas('user') // pastikan data user tidak null
+        ->get()
+        ->sortBy('user.name')
+        ->map(fn($s) => [
+            'id'   => $s->id,
+            'name' => $s->user->name,
+        ])
+        ->values();
+
+    return response()->json($siswa);
+}
+
+    /**
+     * Halaman cetak / PDF — gunakan view terpisah yang print-friendly.
+     */
+    public function cetak(Request $request)
+    {
+        // Validasi minimal
+        abort_if(! $request->filled('student_id'), 400, 'student_id diperlukan');
+
+        // $selectedStudent = Student::with(['user', 'kelastahfidz'])->findOrFail($request->student_id);
+        $selectedStudent = Student::with(['user', 'riwayatKelas.kelasTahfidz'])->findOrFail($request->student_id);
+
+        $query = Penilaian::with([
+                'surahHafalanPenilaian.surah',
+                'tugasHafalan.surahHafalan.surah',
+            ])
+            ->where('student_id', $request->student_id)
+            ->orderBy('assessed_at', 'asc'); // asc untuk laporan cetak
+
+        if ($request->periode === 'tanggal') {
+            $query->whereBetween('assessed_at', [
+                Carbon::parse($request->dari_tanggal)->startOfDay(),
+                Carbon::parse($request->sampai_tanggal)->endOfDay(),
+            ]);
+        } elseif ($request->periode === 'bulan') {
+            $query->whereMonth('assessed_at', $request->bulan)
+                  ->whereYear('assessed_at', $request->tahun);
+        }
+
+        $penilaian = $query->get();
+
+        return view('teacher.laporan.cetak', compact('selectedStudent', 'penilaian'));
+    }
 }

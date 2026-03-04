@@ -1,10 +1,12 @@
 @php
-    $filterAktif =
-        request()->has('kelas_id') ||
-        request()->has('surah_id') ||
-        request()->has('student_id') ||
-        request()->has('periode') ||
-        request()->has('tahun_ajaran_id');
+$filterAktif =
+    request()->filled('kelas_id') ||
+    request()->filled('surah_id') ||
+    request()->filled('student_id') ||
+    request()->filled('periode') ||
+    request()->filled('tahun_ajaran_id') ||
+    request()->filled('dari_tanggal') ||
+    request()->filled('sampai_tanggal');
 @endphp
 
 
@@ -96,23 +98,6 @@
                 <!-- Row 2 -->
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                     <div>
-                        <label for="periode" class="block mb-2 text-sm font-medium text-gray-700">
-                            Periode
-                        </label>
-                        <select name="periode" id="periode"
-                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option value="">Tahun Ini</option>
-                            <option value="tanggal" {{ request('periode') == 'tanggal' ? 'selected' : '' }}>Tanggal
-                            </option>
-                            <option value="bulan" {{ request('periode') == 'bulan' ? 'selected' : '' }}>Bulan</option>
-                            <option value="semester" {{ request('periode') == 'semester' ? 'selected' : '' }}>Semester
-                            </option>
-                            <option value="custom" {{ request('periode') == 'custom' ? 'selected' : '' }}>Custom
-                            </option>
-                        </select>
-                    </div>
-
-                    <div>
                         <label for="dari_tanggal" class="block mb-2 text-sm font-medium text-gray-700">
                             Dari Tanggal
                         </label>
@@ -172,116 +157,115 @@
                 {{-- Tampilkan tabel jika sudah submit filter --}}
                 <!-- Table Section -->
                 <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
+                    <table class="w-full text-sm border-collapse">
                         <thead class="bg-gray-100 border-b border-gray-200">
                             <tr>
-                                <th class="px-4 py-3 font-medium text-left text-gray-700 border-r border-gray-200">
-                                    No
-                                </th>
-                                <th class="px-4 py-3 font-medium text-left text-gray-700 border-r border-gray-200">
-                                    Nama Siswa
-                                </th>
-                                <th class="px-4 py-3 font-medium text-left text-gray-700 border-r border-gray-200">
-                                    Surah
-                                </th>
-                                <th
-                                    class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">
-                                    Jenis Penilaian</th>
-                                <th
-                                    class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">
-                                    Jenis Hafalan</th>
-                                <th class="px-4 py-3 font-medium text-left text-gray-700 border-r border-gray-200">
-                                    Tanggal
-                                </th>
-                                <th
-                                    class="px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase dark:text-gray-400">
-                                    Tajwid</th>
-                                <th
-                                    class="px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase dark:text-gray-400">
-                                    Harakat</th>
-                                <th
-                                    class="px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase dark:text-gray-400">
-                                    Makhraj</th>
-                                <th
-                                    class="px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase dark:text-gray-400">
-                                    Total</th>
-                                <th
-                                    class="px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase dark:text-gray-400">
-                                    Predikat</th>
-                                <th class="px-4 py-3 font-medium text-left text-gray-700">
-                                    Keterangan
-                                </th>
+                                <th class="px-4 py-3 text-left border-r">No</th>
+                                <th class="px-4 py-3 text-left border-r">Nama Siswa</th>
+                                <th class="px-4 py-3 text-left border-r">Surah</th>
+                                <th class="px-4 py-3 text-left border-r">Jenis Penilaian</th>
+                                <th class="px-4 py-3 text-left border-r">Jenis Hafalan</th>
+                                <th class="px-4 py-3 text-left border-r">Tanggal</th>
+                                <th class="px-4 py-3 text-center border-r">Tajwid</th>
+                                <th class="px-4 py-3 text-center border-r">Harakat</th>
+                                <th class="px-4 py-3 text-center border-r">Makhraj</th>
+                                <th class="px-4 py-3 text-center border-r">Total</th>
+                                <th class="px-4 py-3 text-center border-r">Predikat</th>
+                                <th class="px-4 py-3 text-left">Keterangan</th>
                             </tr>
                         </thead>
+
                         <tbody class="divide-y divide-gray-200">
                             @forelse ($penilaian as $i => $p)
-                                <tr class="transition-colors duration-150 hover:bg-gray-50">
-                                    <td class="px-4 py-3 text-gray-700 border-r border-gray-200">
-                                        {{ $i + 1 }}
+                                <tr class="hover:bg-gray-50">
+
+                                    <td class="px-4 py-3 border-r">
+                                        {{ $penilaian->firstItem() + $i }}
                                     </td>
-                                    <td class="px-4 py-3 font-medium text-gray-800 border-r border-gray-200">
+
+                                    <td class="px-4 py-3 font-medium border-r">
                                         {{ $p->siswa->user->name ?? '-' }}
                                     </td>
-                                    <td class="px-4 py-3 text-gray-700 border-r border-gray-200">
+
+                                    <td class="px-4 py-3 border-r">
                                         {{ optional($p->surahHafalanPenilaian->first()?->surah)->nama ??
                                             (optional($p->tugasHafalan->surahHafalan->first()?->surah)->nama ?? '-') }}
                                     </td>
-                                    <td class="px-4 py-3 text-sm text-gray-900 capitalize dark:text-gray-100">
+
+                                    <td class="px-4 py-3 border-r">
                                         <span
                                             class="inline-flex px-2 py-1 text-xs font-semibold rounded-full
-                                                            @if ($p->jenis_penilaian == 'langsung') bg-blue-100 text-blue-800
-                                                            @elseif($p->jenis_penilaian == 'pengumpulan')
-                                                                bg-purple-100 text-purple-800
-                                                            @else
-                                                                bg-gray-100 text-gray-800 @endif">
+@if ($p->jenis_penilaian == 'langsung') bg-blue-100 text-blue-800
+@elseif($p->jenis_penilaian == 'pengumpulan') bg-purple-100 text-purple-800
+@else bg-gray-100 text-gray-800 @endif">
                                             {{ $p->jenis_penilaian }}
                                         </span>
                                     </td>
-                                    <td class="px-4 py-3 text-sm text-gray-900 capitalize dark:text-gray-100">
-                                        <span class="font-medium">{{ $p->jenis_hafalan }}</span>
+
+                                    <td class="px-4 py-3 capitalize border-r">
+                                        {{ $p->jenis_hafalan }}
                                     </td>
-                                    <td class="px-4 py-3 text-gray-700 border-r border-gray-200">
+
+                                    <td class="px-4 py-3 border-r">
                                         {{ $p->created_at->format('d-m-Y') }}
                                     </td>
-                                    <td class="px-4 py-3 text-sm text-center text-gray-900 dark:text-gray-100">
-                                        <span class="font-medium">{{ $p->nilai_tajwid }}</span>
+
+                                    <td class="px-4 py-3 text-center border-r">
+                                        {{ $p->nilai_tajwid }}
                                     </td>
-                                    <td class="px-4 py-3 text-sm text-center text-gray-900 dark:text-gray-100">
-                                        <span class="font-medium">{{ $p->nilai_harakat }}</span>
+
+                                    <td class="px-4 py-3 text-center border-r">
+                                        {{ $p->nilai_harakat }}
                                     </td>
-                                    <td class="px-4 py-3 text-sm text-center text-gray-900 dark:text-gray-100">
-                                        <span class="font-medium">{{ $p->nilai_makhraj }}</span>
+
+                                    <td class="px-4 py-3 text-center border-r">
+                                        {{ $p->nilai_makhraj }}
                                     </td>
-                                    <td class="px-4 py-3 text-sm text-center text-gray-900 dark:text-gray-100">
-                                        <span
-                                            class="font-bold text-indigo-600 dark:text-indigo-400">{{ $p->nilai_total }}</span>
+
+                                    <td class="px-4 py-3 font-bold text-center text-indigo-600 border-r">
+                                        {{ $p->nilai_total }}
                                     </td>
-                                    <td class="px-4 py-3 text-sm text-center">
+
+                                    <td class="px-4 py-3 text-center border-r">
+
                                         <span
                                             class="inline-flex px-2 py-1 text-xs font-semibold rounded-full
-                                                            @if ($p->nilai_total >= 90) bg-green-100 text-green-800
-                                                            @elseif($p->nilai_total >= 80) bg-blue-100 text-blue-800
-                                                            @elseif($p->nilai_total >= 70) bg-yellow-100 text-yellow-800
-                                                            @else bg-red-100 text-red-800 @endif">
+@if ($p->nilai_total >= 90) bg-green-100 text-green-800
+@elseif($p->nilai_total >= 80) bg-blue-100 text-blue-800
+@elseif($p->nilai_total >= 70) bg-yellow-100 text-yellow-800
+@else bg-red-100 text-red-800 @endif">
+
                                             {{ $p->predikat_label }}
+
                                         </span>
+
                                     </td>
-                                    <td class="px-4 py-3 text-gray-700">
+
+                                    <td class="px-4 py-3">
                                         {{ $p->catatan ?? '-' }}
                                     </td>
+
                                 </tr>
+
                             @empty
+
                                 <tr>
-                                    <td colspan="6" class="px-4 py-12 text-center text-gray-500">
+                                    <td colspan="12" class="px-4 py-12 text-center text-gray-500">
+
                                         <div class="flex flex-col items-center">
+
                                             <i class="mb-4 text-4xl text-gray-300 fas fa-search"></i>
-                                            <p class="text-lg font-medium text-gray-400">Tidak ada data penilaian
-                                                ditemukan
+
+                                            <p class="text-lg font-medium text-gray-400">
+                                                Tidak ada data penilaian ditemukan
                                             </p>
-                                            <p class="mt-1 text-sm text-gray-400">Silakan ubah filter untuk melihat
-                                                data
-                                                yang berbeda</p>
+
+                                            <p class="mt-1 text-sm text-gray-400">
+                                                Silakan ubah filter untuk melihat data yang berbeda
+                                            </p>
+
                                         </div>
+
                                     </td>
                                 </tr>
                             @endforelse

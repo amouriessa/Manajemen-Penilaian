@@ -1,25 +1,25 @@
 <x-app-layout>
     <div class="flex flex-col min-h-screen overflow-hidden md:flex-row">
         <!-- Main Content -->
-        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto">
             <main class="w-full max-w-4xl p-4 mx-auto space-y-6 sm:p-6 lg:p-8">
 
                 <!-- Header -->
                 <div class="flex flex-col items-start justify-between gap-4 mb-6 sm:flex-row sm:items-center">
                     <div>
-                        <div class="flex items-center gap-2 mb-1 text-sm text-gray-500 dark:text-gray-400">
+                        <div class="flex items-center gap-2 mb-1 text-sm text-[#8C8070]">
                             <a href="{{ route('teacher.penilaian.langsung.index') }}"
-                                class="hover:text-indigo-600 dark:hover:text-indigo-400">Pengumpulan</a>
+                                class="hover:text-indigo-600 ">Pengumpulan</a>
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 5l7 7-7 7" />
                             </svg>
-                            <span class="font-medium text-gray-700 dark:text-gray-300">Nilai</span>
+                            <span class="font-medium text-[#3A3028]">Nilai</span>
                         </div>
-                        <h1 class="text-xl font-bold text-gray-800 dark:text-white md:text-2xl">Tambah Penilaian
+                        <h1 class="text-xl font-bold text-[#3A3028] md:text-2xl">Tambah Penilaian
                             Langsung</h1>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Buat penilaian hafalan siswa secara
+                        <p class="mt-1 text-sm text-[#8C8070]">Buat penilaian hafalan siswa secara
                             langsung.</p>
                     </div>
                     <a href="{{ route('teacher.penilaian.langsung.index') }}"
@@ -71,7 +71,7 @@
                                     Nama <span class="text-red-500">*</span>
                                 </label>
                                 <select name="student_id" id="student_id" required
-                                    class="block w-full mt-1 text-sm border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                    class="block w-full mt-1 text-sm border-gray-300 rounded-lg shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-white dark:border-gray-600">
                                 </select>
                                 @error('student_id')
                                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -87,7 +87,7 @@
                                     Email
                                 </label>
                                 <input type="text" id="user_email" readonly
-                                    class="block w-full mt-1 text-sm bg-gray-100 border-gray-300 rounded-sm shadow-sm cursor-not-allowed focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
+                                    class="block w-full mt-1 text-sm bg-gray-100 border-gray-300 rounded-sm shadow-sm cursor-not-allowed focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
                                 <p class="text-xs text-gray-500 dark:text-gray-400">Email akan terisi otomatis saat nama
                                     dipilih.</p>
                             </div>
@@ -161,7 +161,7 @@
                                     Jenis Hafalan <span class="text-red-500">*</span>
                                 </label>
                                 <select name="jenis_tugas" id="jenis_tugas" required
-                                    class="block w-full mt-1 text-sm border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                    class="block w-full mt-1 text-sm border-gray-300 rounded-lg shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-white dark:border-gray-600">
                                     <option value="">-- Pilih Jenis Hafalan --</option>
                                     <option value="baru" {{ old('jenis_tugas') == 'baru' ? 'selected' : '' }}>
                                         Baru</option>
@@ -197,8 +197,8 @@
                                     </div>
                                 </div>
 
-                                <button type="button" id="add-surah-row" class="mt-1 text-sm text-blue-600">+ Tambah
-                                    Surah</button>
+                                {{-- <button type="button" id="add-surah-row" class="p-2 text-xs font-medium text-indigo-600 rounded-lg bg-indigo-100/50 hover:bg-indigo-100 hover:text-indigo-700">+ Tambah
+                                    Surah</button> --}}
                             </div>
 
                             <div class="space-y-2">
@@ -207,7 +207,7 @@
                                     (0-100)</label>
                                 <input type="number" name="nilai_tajwid" id="nilai_tajwid" min="0"
                                     max="100" value="{{ old('nilai_tajwid') }}"
-                                    class="block w-full mt-1 text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    class="block w-full mt-1 text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-700 focus:ring-indigo-100 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                     required>
                                 @error('nilai_tajwid')
                                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -219,7 +219,7 @@
                                     (0-100)</label>
                                 <input type="number" name="nilai_harakat" id="nilai_harakat" min="0"
                                     max="100" value="{{ old('nilai_harakat') }}"
-                                    class="block w-full mt-1 text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    class="block w-full mt-1 text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-700 focus:ring-indigo-100 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                     required>
                                 @error('nilai_harakat')
                                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -231,7 +231,7 @@
                                     (0-100)</label>
                                 <input type="number" name="nilai_makhraj" id="nilai_makhraj" min="0"
                                     max="100" value="{{ old('nilai_makhraj') }}"
-                                    class="block w-full mt-1 text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    class="block w-full mt-1 text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-700 focus:ring-indigo-100 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                     required>
                                 @error('nilai_makhraj')
                                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -243,7 +243,7 @@
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-300">Catatan
                                     (Opsional)</label>
                                 <textarea name="catatan" id="catatan" rows="4"
-                                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">{{ old('catatan') }}</textarea>
+                                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-700 focus:ring-indigo-100 dark:bg-gray-700 dark:border-gray-600 dark:text-white">{{ old('catatan') }}</textarea>
                                 @error('catatan')
                                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -254,16 +254,17 @@
                         <div
                             class="flex items-center justify-end gap-4 pt-5 mt-6 border-t border-gray-200 dark:border-gray-700">
                             <a href="{{ route('teacher.penilaian.langsung.index') }}"
-                                class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
                                 Batal
                             </a>
                             <button type="submit"
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        d="M5 13l4 4L19 7" />
                                 </svg>
-                                Simpan Penilaian
+                                Simpan Data
                             </button>
                         </div>
                     </form>

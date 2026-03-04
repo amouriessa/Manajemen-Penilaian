@@ -13,7 +13,6 @@ class TugasHafalan extends Model
         'deskripsi',
         'jenis_tugas',
         'tenggat_waktu',
-        'status',
         'is_archived',
         'is_for_all_student'
     ];

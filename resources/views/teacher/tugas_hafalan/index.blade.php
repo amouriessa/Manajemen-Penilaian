@@ -5,7 +5,7 @@
             <x-sidebar-guru />
         </x-slot>
         <!-- Main Content -->
-        <div class="flex-1 overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        <div class="flex-1 overflow-y-auto">
             <main class="p-4 mx-auto space-y-6 sm:p-6 lg:p-8">
                 <x-header title="Daftar Tugas Hafalan"
                     subtitle="Kelola dan pantau tugas hafalan untuk semua siswa dan kelas tahfidz" :route="route('teacher.tugas_hafalan.create')"
@@ -15,32 +15,7 @@
 
                 <div class="w-full md:w-1/2 lg:w-1/3">
                     <form action="{{ route('teacher.tugas_hafalan.index') }}" method="GET" class="relative">
-                        {{-- <div class="flex-grow">
-                            <label for="search" class="sr-only">Cari Tugas...</label>
-                            <input
-                                type="text"
-                                id="search"
-                                name="search"
-                                placeholder="Cari berdasarkan nama tugas, surah, atau siswa..."
-                                value="{{ request('search') }}"
-                                class="w-full px-4 py-2 transition duration-200 ease-in-out border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                            >
-                        </div>
-                        <button
-                            type="submit"
-                            class="px-6 py-2 font-semibold text-white transition duration-200 ease-in-out bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        >
-                            Cari
-                        </button>
-                        <!-- Tombol untuk mereset pencarian (opsional) -->
-                        @if (request('search'))
-                            <a href="{{ route('teacher.tugas_hafalan.index') }}"
-                            class="px-6 py-2 font-semibold text-center text-white transition duration-200 ease-in-out bg-red-500 rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                            >
-                                Reset
-                            </a>
-                        @endif --}}
-
+                        <input type="hidden" name="tab" id="tabInput" value="{{ request('tab', 'active') }}">
                         <div class="flex items-center">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                 <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
@@ -51,9 +26,9 @@
                             </div>
                             <input type="text" name="search" value="{{ request('search') }}"
                                 placeholder="Cari data..."
-                                class="w-full py-2.5 pl-10 pr-4 border border-gray-300 text-sm rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:focus:ring-indigo-600 dark:focus:border-indigo-600">
+                                class="w-full py-2.5 pl-10 pr-4 border border-gray-300 text-sm rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-700">
                             @if (request('search'))
-                                <a href="{{ route('teacher.tugas_hafalan.index') }}"
+                                <a href="{{ route('teacher.tugas_hafalan.index', ['tab' => request('tab', 'active')]) }}" 
                                     class="absolute text-xs text-gray-500 right-16 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500">
                                     Reset
                                 </a>
@@ -113,7 +88,7 @@
                                     baru untuk siswa</p>
                                 <div class="mt-6">
                                     <a href="{{ route('teacher.tugas_hafalan.create') }}"
-                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 -ml-1"
                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -126,7 +101,7 @@
                         @else
                             <div class="overflow-x-auto">
                                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <thead class="bg-white dark:bg-gray-700">
                                         <tr>
                                             <th scope="col"
                                                 class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300">
@@ -162,7 +137,7 @@
                                         class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                         @if ($activeTasks)
                                             @foreach ($activeTasks as $task)
-                                                <tr class="transition-colors hover:bg-gray-50 dark:hover:bg-gray-700">
+                                                <tr class="transition-colors">
                                                     <td class="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">
                                                         {{ ($activeTasks->currentPage() - 1) * $activeTasks->perPage() + $loop->iteration }}
                                                     </td>
@@ -228,11 +203,13 @@
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     @if ($task->is_archived)
-                                                        <span class="inline-flex px-2 text-xs font-semibold leading-5 text-purple-800 bg-purple-100 rounded-full">
+                                                        <span
+                                                            class="inline-flex px-2 text-xs font-semibold leading-5 text-purple-800 bg-purple-100 rounded-full">
                                                             Diarsipkan
                                                         </span>
                                                     @else
-                                                        <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
+                                                        <span
+                                                            class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
                                                             Aktif
                                                         </span>
                                                     @endif
@@ -241,7 +218,7 @@
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     <div class="flex justify-center gap-2">
                                                         <a href="{{ route('teacher.tugas_hafalan.edit', $task) }}"
-                                                            class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                                                            class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-150">
                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                 class="h-3.5 w-3.5 mr-1" fill="none"
                                                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -267,7 +244,7 @@
 
 
                                                         <button onclick="confirmDelete('{{ $task->id }}')"
-                                                            class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150">
+                                                            class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-150">
                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                 class="h-3.5 w-3.5 mr-1" fill="none"
                                                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -336,7 +313,7 @@
                     @else
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                <thead class="bg-white dark:bg-gray-700">
                                     <tr>
                                         <th scope="col"
                                             class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300">
@@ -434,11 +411,13 @@
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 @if ($task->is_archived)
-                                                    <span class="inline-flex px-2 text-xs font-semibold leading-5 text-purple-800 bg-purple-100 rounded-full">
+                                                    <span
+                                                        class="inline-flex px-2 text-xs font-semibold leading-5 text-purple-800 bg-purple-100 rounded-full">
                                                         Diarsipkan
                                                     </span>
                                                 @else
-                                                    <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
+                                                    <span
+                                                        class="inline-flex px-2 text-xs font-semibold leading-5 text-green-600 bg-green-100 rounded-full">
                                                         Aktif
                                                     </span>
                                                 @endif
@@ -446,7 +425,7 @@
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="flex justify-center gap-2">
                                                     <button onclick="confirmRestore('{{ $task->id }}')"
-                                                        class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                                                        class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-150">
                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                             class="h-3.5 w-3.5 mr-1" fill="none"
                                                             viewBox="0 0 24 24" stroke="currentColor">
@@ -458,7 +437,7 @@
                                                     </button>
 
                                                     <button onclick="confirmDelete('{{ $task->id }}')"
-                                                        class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150">
+                                                        class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-150">
                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                             class="h-3.5 w-3.5 mr-1" fill="none"
                                                             viewBox="0 0 24 24" stroke="currentColor">
@@ -539,11 +518,11 @@
     </div>
     <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
         <button type="button" id="confirmArchiveBtn"
-            class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
+            class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 sm:ml-3 sm:w-auto sm:text-sm">
             Arsipkan
         </button>
         <button type="button" onclick="closeArchiveModal()"
-            class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+            class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 sm:mt-0 sm:w-auto sm:text-sm">
             Batal
         </button>
     </div>
@@ -582,7 +561,7 @@
             Pulihkan
         </button>
         <button type="button" onclick="closeRestoreModal()"
-            class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+            class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 sm:mt-0 sm:w-auto sm:text-sm">
             Batal
         </button>
     </div>
@@ -602,6 +581,11 @@ description="Apakah Anda yakin ingin menghapus data tugas ini? Tindakan ini tida
         const archivedTasks = document.getElementById('archived-tasks');
         const activeTab = document.getElementById('active-tab');
         const archivedTab = document.getElementById('archived-tab');
+
+        const tabInput = document.getElementById('tabInput');
+        if (tabInput) {
+            tabInput.value = tabName;
+        }
 
         if (tabName === 'active') {
             activeTasks.classList.remove('hidden');
@@ -631,34 +615,64 @@ description="Apakah Anda yakin ingin menghapus data tugas ini? Tindakan ini tida
         }, 500);
     }
 
-    // Search Functionality
-    document.getElementById('search').addEventListener('keyup', function(e) {
-        const searchTerm = e.target.value.toLowerCase();
-        const taskCards = document.querySelectorAll('.task-card');
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        const results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
 
-        taskCards.forEach(card => {
-            const taskText = card.textContent.toLowerCase();
-            if (taskText.includes(searchTerm)) {
-                card.style.display = '';
-            } else {
-                card.style.display = 'none';
-            }
+    // Panggil switchTab saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // Ambil nilai parameter 'tab' dari URL, default ke 'active' jika tidak ada
+        const currentTab = getUrlParameter('tab') || 'active';
+
+        // Panggil switchTab dengan nilai dari URL
+        switchTab(currentTab);
+
+        // Perbaikan: Hapus/komentari fungsi search yang tidak perlu karena Anda menggunakan form submit
+        /*
+        document.getElementById('search').addEventListener('keyup', function(e) {
+            // ... kode pencarian dihilangkan karena Anda menggunakan form GET submit
         });
+        */
+
+        // Perbaikan: Hapus/komentari bagian ini jika filter statusnya tidak digunakan lagi
+        /*
+        document.getElementById('status-filter').addEventListener('change', function(e) {
+            // ... kode filter status dihilangkan
+        });
+        */
     });
+
+    // Search Functionality
+    // document.getElementById('search').addEventListener('keyup', function(e) {
+    //     const searchTerm = e.target.value.toLowerCase();
+    //     const taskCards = document.querySelectorAll('.task-card');
+
+    //     taskCards.forEach(card => {
+    //         const taskText = card.textContent.toLowerCase();
+    //         if (taskText.includes(searchTerm)) {
+    //             card.style.display = '';
+    //         } else {
+    //             card.style.display = 'none';
+    //         }
+    //     });
+    // });
 
     // Status Filter Functionality
-    document.getElementById('status-filter').addEventListener('change', function(e) {
-        const filter = e.target.value;
+    // document.getElementById('status-filter').addEventListener('change', function(e) {
+    //     const filter = e.target.value;
 
-        if (filter === 'active') {
-            switchTab('active');
-        } else if (filter === 'archived') {
-            switchTab('archived');
-        } else {
-            // Show both (custom implementation if needed)
-            switchTab('active');
-        }
-    });
+    //     if (filter === 'active') {
+    //         switchTab('active');
+    //     } else if (filter === 'archived') {
+    //         switchTab('archived');
+    //     } else {
+    //         // Show both (custom implementation if needed)
+    //         switchTab('active');
+    //     }
+    // });
 
     // Archive Functions
     function confirmArchive(taskId) {

@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex flex-col min-h-screen overflow-hidden md:flex-row">
         <!-- Main Content -->
-        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto">
             <main class="w-full max-w-4xl p-4 mx-auto space-y-6 sm:p-6 lg:p-8">
                 <x-header-create title="Tambah User Baru"
                     description="Isi formulir berikut untuk membuat akun pengguna baru dalam sistem."
@@ -52,7 +52,7 @@
                                         </svg>
                                     </div>
                                     <input type="text" id="name" name="name" value="{{ old('name') }}"
-                                        class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('name') border-red-500 @enderror"
+                                        class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:border-[#1E2A40] focus:ring-[#D6E3F5] sm:text-sm @error('name') border-red-500 @enderror"
                                         placeholder="Masukkan nama lengkap" required>
                                 </div>
                                 @error('name')
@@ -74,7 +74,7 @@
                                         </svg>
                                     </div>
                                     <input type="email" id="email" name="email" value="{{ old('email') }}"
-                                        class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('email') border-red-500 @enderror"
+                                        class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:border-[#1E2A40] focus:ring-[#D6E3F5] sm:text-sm @error('email') border-red-500 @enderror"
                                         placeholder="email@example.com" required>
                                 </div>
                                 @error('email')
@@ -96,7 +96,7 @@
                                         </svg>
                                     </div>
                                     <select id="role" name="role"
-                                        class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('role') border-red-500 @enderror"
+                                        class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:border-[#1E2A40] focus:ring-[#D6E3F5] sm:text-sm @error('role') border-red-500 @enderror"
                                         required onchange="updateIdLabel()">
                                         <option value="" disabled selected>Pilih Role</option>
                                         <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin
@@ -128,7 +128,7 @@
                                         </svg>
                                     </div>
                                     <input type="password" id="password" name="password"
-                                        class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('password') border-red-500 @enderror"
+                                        class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:border-[#1E2A40] focus:ring-[#D6E3F5] sm:text-sm @error('password') border-red-500 @enderror"
                                         placeholder="Minimal 8 karakter" required>
                                     <button type="button" onclick="togglePassword('password')"
                                         class="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -161,7 +161,7 @@
                                         </svg>
                                     </div>
                                     <input type="password" id="password_confirmation" name="password_confirmation"
-                                        class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:border-[#1E2A40] focus:ring-[#D6E3F5] sm:text-sm"
                                         placeholder="Ulangi password" required>
                                     <button type="button" onclick="togglePassword('password_confirmation')"
                                         class="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -191,7 +191,7 @@
                                     </svg>
                                 </div>
                                 <div class="ml-3">
-                                    <h3 class="text-sm font-medium text-indigo-800 dark:text-indigo-300">Informasi
+                                    <h3 class="text-sm font-medium text-indigo-600 dark:text-indigo-300">Informasi
                                         Penting</h3>
                                     <div class="mt-2 text-sm text-indigo-700 dark:text-indigo-400">
                                         <ul class="pl-5 space-y-1 list-disc">
@@ -207,7 +207,7 @@
                         <div
                             class="flex items-center justify-end gap-4 pt-5 mt-6 border-t border-gray-200 dark:border-gray-700">
                             <a href="{{ route('admin.users.index') }}"
-                                class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
                                 Batal
                             </a>
                             <button type="submit"

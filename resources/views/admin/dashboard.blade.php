@@ -1,52 +1,42 @@
 <x-app-layout>
     <div class="flex min-h-screen overflow-hidden">
 
-        <!-- Sidebar -->
         <x-slot name="sidebar">
             <x-sidebar-admin />
         </x-slot>
 
-        <!-- Main Content -->
         <div class="flex-1 p-4 overflow-y-auto md:p-6">
             <div class="mx-auto max-w-7xl">
-                <!-- Header Section -->
-                <div class="flex flex-col items-start justify-between gap-4 mb-10 sm:flex-row sm:items-center">
-                    <div>
-                        <h1 class="text-xl font-bold text-gray-800 md:text-2xl">Selamat Datang, {{ Auth::user()->name }}
-                        </h1>
-                        <p class="mt-1 text-sm text-gray-600">Anda dapat mengelola akun pengguna, biodata, dan data
-                            akademik sekolah.
-                        </p>
-                    </div>
-                </div>
 
                 {{-- Info Cards --}}
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
                     <div
-                        class="p-4 text-white transition transform shadow-md sm:p-5 rounded-xl bg-gradient-to-r from-indigo-300 to-indigo-500 hover:scale-105">
+                        class="p-4 text-white transition transform shadow-md sm:p-5 rounded-xl bg-[linear-gradient(145deg,#2D3F63_0%,#1E2A40_100%)] hover:scale-105">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h3 class="text-lg font-medium">Total Guru</h3>
-                                <p class="mt-2 text-4xl font-bold">{{ $guruTotal }}</p>
+                                <h3 class="text-sm font-medium">Total Guru</h3>
+                                <p class="mt-2 font-serif text-4xl font-medium">{{ $guruTotal ?? 0 }}</p>
                             </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 opacity-50" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            <div
+                                class="flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-8 h-8 opacity-50">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                                 </svg>
                             </div>
                         </div>
                     </div>
 
                     <div
-                        class="p-5 text-white transition transform shadow-md rounded-xl bg-gradient-to-r from-yellow-300 to-yellow-500 hover:scale-105">
+                        class="p-5 text-white transition transform shadow-md rounded-xl bg-[linear-gradient(145deg,#D4A355_0%,#B07833_100%)] hover:scale-105">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h3 class="text-lg font-medium">Total Siswa</h3>
-                                <p class="mt-2 text-4xl font-bold">{{ $siswaTotal }}</p>
+                                <h3 class="text-sm font-medium">Total Siswa</h3>
+                                <p class="mt-2 font-serif text-4xl font-medium">{{ $siswaTotal ?? 0 }}</p>
                             </div>
-                            <div>
+                            <div
+                                class="flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 opacity-50" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path d="M12 14l9-5-9-5-9 5 9 5z" />
@@ -60,13 +50,14 @@
                     </div>
 
                     <div
-                        class="p-5 text-white transition transform shadow-md rounded-xl bg-gradient-to-r from-red-300 to-red-500 hover:scale-105">
+                        class="p-5 text-white transition transform shadow-md rounded-xl bg-[linear-gradient(145deg,#B5655A_0%,#8B4040_100%)] hover:scale-105">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h3 class="text-lg font-medium">Total Kelas</h3>
-                                <p class="mt-2 text-4xl font-bold">{{ $kelasTotal }}</p>
+                                <h3 class="text-sm font-medium">Total Kelas</h3>
+                                <p class="mt-2 font-serif text-4xl font-medium">{{ $kelasTotal ?? 0 }}</p>
                             </div>
-                            <div>
+                            <div
+                                class="flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-10 h-10 opacity-50">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -75,98 +66,202 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                {{-- 3 CARD BAWAH --}}
+                <div class="grid grid-cols-1 gap-6 mt-8 md:grid-cols-3">
 
                     {{-- Tahun Ajaran Aktif --}}
-                    <div class="mt-6">
-                        <div class="p-5 bg-white shadow-md rounded-xl">
-                            <h2 class="mb-2 text-lg font-semibold text-gray-700">Tahun Ajaran Aktif</h2>
-                            <p class="text-xl font-bold text-indigo-600">
-                                {{ $tahunAjaranAktif?->tahun_ajaran ?? 'Belum Ada Tahun Ajaran Aktif' }}
-                            </p>
+                    <div class="h-full">
+                        <div class="p-6 bg-[#FDFAF5] shadow-md rounded-xl h-full flex flex-col justify-between">
+                            <div>
+                                <h2 class="pb-3 mb-4 text-xs tracking-[0.2em] uppercase font-semibold 
+                                    text-[#3A3028] border-b border-[#E5DED6]">
+                                    Tahun Ajaran Aktif
+                                </h2>
+
+                                <p class="text-xs text-[#8C8070]">Periode Akademik</p>
+
+                                <p class="mt-3 mb-3 text-2xl font-bold text-[#2D3F63] font-serif">
+                                    {{ $tahunAjaranAktif?->tahun_ajaran ?? 'Belum Ada Tahun Ajaran Aktif' }}
+                                </p>
+
+                                @if($tahunAjaranAktif)
+                                <span class="px-3 py-1 text-xs font-medium rounded-full 
+                                    bg-[#EAF2EE] text-[#5C8270]">
+                                    ● Sedang Berlangsung
+                                </span>
+                                @endif
+                            </div>
+
+                            {{-- Button --}}
+                            <div class="mt-6">
+                                <a href="{{ route('admin.tahun_ajaran.create') }}"
+                                    class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white 
+                                    rounded-lg bg-[#2D3F63] hover:bg-[#1E2A40] transition">
+                                    + Tambah Tahun Ajaran
+                                </a>
+                            </div>
                         </div>
                     </div>
 
-                    {{-- Statistik Hafalan dan Surah Terpopuler --}}
-                    <div class="mt-6">
-                        <div class="p-6 bg-white shadow-md rounded-xl">
-                            <h4 class="mb-4 text-lg font-semibold text-gray-700">Statistik Hafalan per Kelas</h4>
-                            <canvas id="hafalanChart" class="w-full h-64"></canvas>
+                    {{-- Statistik Hafalan --}}
+                    <div class="h-full">
+                        <div class="p-6 bg-[#FDFAF5] shadow-md rounded-xl h-full flex flex-col">
+                            <h4 class="pb-3 mb-4 text-sm font-semibold border-b 
+                                text-[#3A3028] border-[#E5DED6] font-serif">
+                                Statistik Hafalan per Tingkatan
+                            </h4>
+
+                            <div class="relative w-full h-[260px]">
+                                <canvas id="hafalanChart"></canvas>
+                            </div>
                         </div>
                     </div>
-                    <div class="mt-6">
-                        <div class="p-6 bg-white shadow-md rounded-xl">
-                            <h4 class="mb-4 text-lg font-semibold text-gray-700">Surah Paling Banyak Dihafal</h4>
-                            <canvas id="surahPieChart" class="w-full h-64"></canvas>
+
+                    {{-- Surah Terbanyak --}}
+                    <div class="h-full">
+                        <div class="p-6 bg-[#FDFAF5] shadow-md rounded-xl h-full flex flex-col">
+                            <h4 class="pb-3 mb-4 text-sm font-semibold border-b 
+                                text-[#3A3028] border-[#E5DED6] font-serif">
+                                Surah Paling Banyak Dihafal
+                            </h4>
+
+                            <div class="relative w-full w-[150px] h-[150px] mx-auto">
+                                <canvas id="surahPieChart"></canvas>
+                            </div>
+
+                            <div class="mt-6 space-y-2">
+                                @foreach($surahStatistik as $index => $surah)
+                                    @php
+                                        $colors = ['#2D3F63', '#D4A355', '#B5655A', '#5C8270', '#6B5CA5'];
+                                        $total = $surahStatistik->sum('total');
+                                        $percentage = $total > 0 
+                                            ? round(($surah->total / $total) * 100) 
+                                            : 0;
+                                    @endphp
+
+                                    <div class="flex items-center justify-between px-4 py-2 
+                                        bg-[#F7EDDA] border rounded-lg border-[#E5DED6]">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-3 h-3 rounded-full"
+                                                style="background: {{ $colors[$index % 5] }}"></span>
+                                            <span class="text-xs text-[#3A3028]">
+                                                {{ $surah->nama }}
+                                            </span>
+                                        </div>
+                                        <span class="text-xs font-semibold text-[#3A3028]">
+                                            {{ $percentage }}%
+                                        </span>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
 
         @push('scripts')
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script>
-                const ctx = document.getElementById('hafalanChart');
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: @json($grafikHafalan->pluck('kelas_label')),
-                        datasets: [{
-                            label: 'Rata-rata Nilai Hafalan',
-                            data: @json($grafikHafalan->pluck('rata_rata')),
-                            backgroundColor: ['#6366f1', '#ef4444', '#f59e0b', '#10b981'],
-                            maxBarThickness: 60
-                        }]
+        @php
+            $barColors = $grafikHafalan->map(function ($g, $i) {
+                $colors = ['#2D3F63','#D4A355','#B5655A','#5C8270','#6B5CA5'];
+                return $colors[$i % count($colors)];
+            });
+        @endphp
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+
+            // ===== BAR CHART (FIX 0-100) =====
+            const ctx = document.getElementById('hafalanChart');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: @json($grafikHafalan->pluck('kelas_label')),
+                    datasets: [{
+                        data: @json($grafikHafalan->pluck('rata_rata')),
+                        backgroundColor: @json($barColors),
+                        borderRadius: 8,
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
                     },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                display: false
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 100,
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 10
+                            },
+                            grid: {
+                                color: '#ECE6DF'
                             }
                         },
-                        scales: {
-                            y: {
-                                suggestedMin: 0,
-                                suggestedMax: 100
-                            }
+                        x: {
+                            grid: { display: false }
                         }
                     }
-                });
+                }
+            });
 
-                const pieCtx = document.getElementById('surahPieChart');
-                new Chart(pieCtx, {
-                    type: 'pie',
-                    data: {
-                        labels: @json($surahStatistik->pluck('nama')),
-                        datasets: [{
-                            label: 'Jumlah Ayat',
-                            data: @json($surahStatistik->pluck('total')),
-                            backgroundColor: [
-                                // '#6366f1', '#ef4444', '#f59e0b', '#10b981',
-                                // '#3b82f6', '#8b5cf6', '#ec4899', '#22d3ee',
-                                // '#f97316', '#14b8a6'
 
-                                '#6366f1', // Indigo (Guru)
-                                '#facc15', // Yellow (Siswa)
-                                '#ef4444', // Red (Kelas)
-                                '#a855f7', // Purple (Tambahan)
-                                // Warna cadangan kalau data lebih dari 4
-                                '#10b981', '#3b82f6', '#8b5cf6', '#ec4899', '#22d3ee'
-                            ],
-                            borderColor: '#fff',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
-                            }
-                        }
+            // ===== DOUGHNUT CHART =====
+            const pieCtx = document.getElementById('surahPieChart');
+            const surahData = @json($surahStatistik->pluck('total'));
+            const totalSurah = surahData.reduce((a, b) => a + b, 0);
+
+            new Chart(pieCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: @json($surahStatistik->pluck('nama')),
+                    datasets: [{
+                        data: surahData,
+                        backgroundColor: ['#2D3F63','#D4A355','#B5655A','#5C8270','#6B5CA5'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: { display: false }
                     }
-                });
-            </script>
+                },
+                plugins: [{
+                    id: 'centerText',
+                    beforeDraw(chart) {
+                        const { width, height } = chart;
+                        const ctx = chart.ctx;
+
+                        ctx.save();
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+
+                        ctx.fillStyle = '#8C8070';
+                        ctx.font = '12px sans-serif';
+                        ctx.fillText('Total', width / 2, height / 2 - 8);
+
+                        ctx.fillStyle = '#2D3F63';
+                        ctx.font = 'bold 18px serif';
+                        ctx.fillText(totalSurah, width / 2, height / 2 + 10);
+
+                        ctx.restore();
+                    }
+                }]
+            });
+
+        </script>
         @endpush
+
+    </div>
 </x-app-layout>

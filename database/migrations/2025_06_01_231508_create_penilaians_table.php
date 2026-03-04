@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('pengumpulan_id')->nullable()->constrained('pengumpulans')->nullOnDelete();
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
             $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
-            $table->foreignId('tugas_hafalan_id')->constrained('tugas_hafalans')->onDelete('cascade');
+            // $table->foreignId('tugas_hafalan_id')->constrained('tugas_hafalans')->onDelete('cascade');
+            $table->foreignId('tugas_hafalan_id')->nullable()->constrained('tugas_hafalans')->onDelete('cascade');
             $table->enum('jenis_penilaian', ['langsung', 'pengumpulan'])->nullable();
             $table->enum('jenis_hafalan', ['baru', 'murajaah'])->nullable();
             $table->integer('nilai_tajwid')->nullable();

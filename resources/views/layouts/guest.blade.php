@@ -16,19 +16,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased text-gray-900 bg-gray-100 dark:bg-gray-900">
-    <div class="flex flex-col items-center justify-center min-h-screen px-4 py-6 sm:px-6 lg:px-8"
-        style="background-image: url('{{ asset('images/bg-sekolah.jpeg') }}'); background-size: cover; background-position: center;">
-
-        <div class="absolute inset-0 min-h-screen bg-black bg-opacity-10 backdrop-blur-md"></div>
-
-        <div
-            class="z-10 w-full max-w-sm overflow-hidden bg-white shadow-lg sm:max-w-md dark:bg-gray-800 sm:shadow-xl rounded-xl sm:rounded-2xl">
-            <div class="px-6 py-8 sm:px-8 sm:py-10">
-                {{ $slot }}
-            </div>
-        </div>
-    </div>
+<body class="font-sans antialiased text-gray-900 bg-[#E8E0D5]">
+    {{ $slot }}
 </body>
 
 </html>

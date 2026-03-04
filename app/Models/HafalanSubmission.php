@@ -14,7 +14,7 @@ class HafalanSubmission extends Model
     protected $fillable = [
         'tugas_hafalan_id',
         'student_id',
-        'status',
+        // 'status',
         'file_path_rekaman',
         'tanggal_dikumpulkan',
         'catatan_siswa',

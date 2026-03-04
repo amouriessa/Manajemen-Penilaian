@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex flex-col min-h-screen overflow-hidden md:flex-row">
         <!-- Main Content -->
-        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto">
             <main class="w-full max-w-4xl p-4 mx-auto space-y-6 sm:p-6 lg:p-8">
                 <x-header-create title="Tambah Data Guru"
                     description="Masukkan data guru dari pengguna yang sudah terdaftar dalam sistem."
@@ -45,7 +45,7 @@
                                     Nama <span class="text-red-500">*</span>
                                 </label>
                                 <select name="user_id" id="user_id" required
-                                    class="block w-full mt-1 text-sm border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                    class="block w-full mt-1 text-sm border-gray-300 rounded-lg shadow-sm focus:ring-indigo-100 focus:border-indigo-700">
                                 </select>
                                 @error('user_id')
                                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -61,7 +61,7 @@
                                     Email
                                 </label>
                                 <input type="text" id="user_email" readonly
-                                    class="block w-full mt-1 text-sm bg-gray-100 border-gray-300 rounded-sm shadow-sm cursor-not-allowed focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
+                                    class="block w-full mt-1 text-sm bg-gray-100 border-gray-300 rounded-sm shadow-sm cursor-not-allowed focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
                                 <p class="text-xs text-gray-500 dark:text-gray-400">Email akan terisi otomatis saat nama
                                     dipilih.</p>
                             </div>
@@ -106,7 +106,7 @@
                                     NIP <span class="text-red-500">*</span>
                                 </label>
                                 <input type="text" name="nip" id="nip" value="{{ old('nip') }}" required
-                                    class="block text-sm w-full mt-1 border-gray-300 rounded-sm shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('nip') border-red-500 ring-1 ring-red-500 @enderror">
+                                    class="block text-sm w-full mt-1 border-gray-300 rounded-sm shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('nip') border-red-500 ring-1 ring-red-500 @enderror">
                                 @error('nip')
                                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
@@ -147,7 +147,7 @@
                                     Tanggal Lahir
                                 </label>
                                 <input type="date" name="tanggal_lahir" id="tanggal_lahir" value="{{ old('tanggal_lahir') }}"
-                                    class="text-sm block w-full mt-1 border-gray-300 rounded-sm shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('tanggal_lahir') border-red-500 ring-1 ring-red-500 @enderror">
+                                    class="text-sm block w-full mt-1 border-gray-300 rounded-sm shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('tanggal_lahir') border-red-500 ring-1 ring-red-500 @enderror">
                                 @error('tanggal_lahir')
                                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
@@ -166,7 +166,7 @@
                                     </div>
                                     <input type="text" name="nomor_telp" id="nomor_telp" value="{{ old('nomor_telp') }}"
                                         placeholder="812xxxxxxx" required
-                                        class="text-sm block w-full pl-12 mt-1 border-gray-300 rounded-sm shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('nomor_telp') border-red-500 ring-1 ring-red-500 @enderror">
+                                        class="text-sm block w-full pl-12 mt-1 border-gray-300 rounded-sm shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('nomor_telp') border-red-500 ring-1 ring-red-500 @enderror">
                                 </div>
                                 @error('nomor_telp')
                                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -183,7 +183,7 @@
                                 </label>
                                 <input type="text" name="subject" id="subject" value="{{ old('subject') }}"
                                     required
-                                    class="text-sm block w-full mt-1 border-gray-300 rounded-sm shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('subject') border-red-500 ring-1 ring-red-500 @enderror">
+                                    class="text-sm block w-full mt-1 border-gray-300 rounded-sm shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('subject') border-red-500 ring-1 ring-red-500 @enderror">
                                 @error('subject')
                                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
@@ -200,7 +200,7 @@
                                     <div class="flex items-center">
                                         <input id="status_1" name="status" type="radio" value="1"
                                             {{ old('status') == '1' ? 'checked' : '' }}
-                                            class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600">
+                                            class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-600 dark:bg-gray-700 dark:border-gray-600">
                                         <label for="status_1"
                                             class="block ml-2 text-sm text-gray-700 dark:text-gray-300">
                                             Aktif
@@ -209,7 +209,7 @@
                                     <div class="flex items-center">
                                         <input id="status_0" name="status" type="radio" value="0"
                                             {{ old('status') == '0' ? 'checked' : '' }}
-                                            class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600">
+                                            class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-600 dark:bg-gray-700 dark:border-gray-600">
                                         <label for="status_0"
                                             class="block ml-2 text-sm text-gray-700 dark:text-gray-300">
                                             Tidak Aktif
@@ -228,7 +228,7 @@
                                     Alamat
                                 </label>
                                 <textarea name="alamat" id="alamat" rows="3" placeholder="Alamat lengkap"
-                                    class="text-sm block w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('alamat') border-red-500 ring-1 ring-red-500 @enderror">{{ old('alamat') }}</textarea>
+                                    class="text-sm block w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:text-white dark:border-gray-600 @error('alamat') border-red-500 ring-1 ring-red-500 @enderror">{{ old('alamat') }}</textarea>
                                 @error('alamat')
                                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('tugas_hafalan_id')->constrained('tugas_hafalans')->onDelete('cascade');
             $table->foreignId('student_id')->constrained('students');
             $table->string('file_pengumpulan');
-            $table->enum('status', ['pending', 'dinilai', 'ditolak', 'mengulang', 'telat', 'dikumpulkan']);
             $table->dateTime('submitted_at')->useCurrent();
             $table->timestamps();
         });

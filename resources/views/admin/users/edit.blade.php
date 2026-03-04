@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex flex-col min-h-screen overflow-hidden md:flex-row">
         <!-- Main Content -->
-        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        <div class="{{ empty($sidebar) ? 'w-full' : 'flex-1' }} overflow-y-auto">
             <main class="w-full max-w-4xl p-4 mx-auto space-y-6 sm:p-6 lg:p-8">
                 <x-header-create title="Edit User"
                     description="Update informasi pengguna dalam sistem."
@@ -28,7 +28,7 @@
                                 @endif
                             </div>
                             <label for="avatar" class="cursor-pointer">
-                                <span class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600">
+                                <span class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
                                     Ganti Foto Profil
                                 </span>
                                 <input id="avatar" name="avatar" type="file" class="hidden" accept="image/*" onchange="previewImage()">
@@ -70,7 +70,7 @@
                                         </svg>
                                     </div>
                                     <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}"
-                                        class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('name') border-red-500 @enderror"
+                                        class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:border-[#1E2A40] focus:ring-[#D6E3F5] sm:text-sm @error('name') border-red-500 @enderror"
                                         placeholder="Masukkan nama lengkap" required>
                                 </div>
                                 @error('name')
@@ -88,7 +88,7 @@
                                         </svg>
                                     </div>
                                     <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}"
-                                        class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('email') border-red-500 @enderror"
+                                        class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:border-[#1E2A40] focus:ring-[#D6E3F5] sm:text-sm @error('email') border-red-500 @enderror"
                                         placeholder="email@example.com" required>
                                 </div>
                                 @error('email')
@@ -109,7 +109,7 @@
                                         </svg>
                                     </div>
                                     <select id="role" name="role"
-                                        class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('role') border-red-500 @enderror"
+                                        class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:border-[#1E2A40] focus:ring-[#D6E3F5] sm:text-sm @error('role') border-red-500 @enderror"
                                         required onchange="updateIdLabel()">
                                         <option value="" disabled {{ old('role', $user->getRoleNames()->first()) ? '' : 'selected' }}>Pilih Role</option>
                                         @foreach($roles as $role)
@@ -164,7 +164,7 @@
                                             </svg>
                                         </div>
                                         <input type="password" id="password" name="password"
-                                            class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('password') border-red-500 @enderror"
+                                            class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:border-[#1E2A40] focus:ring-[#D6E3F5] sm:text-sm @error('password') border-red-500 @enderror"
                                             placeholder="Minimal 8 karakter">
                                         <button type="button" onclick="togglePassword('password')" class="absolute inset-y-0 right-0 flex items-center pr-3">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="eye-icon-password">
@@ -188,7 +188,7 @@
                                             </svg>
                                         </div>
                                         <input type="password" id="password_confirmation" name="password_confirmation"
-                                            class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            class="block w-full pl-10 border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:border-[#1E2A40] focus:ring-[#D6E3F5] sm:text-sm"
                                             placeholder="Ulangi password baru">
                                         <button type="button" onclick="togglePassword('password_confirmation')" class="absolute inset-y-0 right-0 flex items-center pr-3">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="eye-icon-password_confirmation">
@@ -202,16 +202,16 @@
                         </div>
 
                         <!-- Account Info Card -->
-                        <div class="p-4 mt-6 border border-blue-200 rounded-md bg-blue-50 dark:bg-blue-900/30 dark:border-blue-800">
+                        <div class="p-4 mt-6 border border-indigo-200 rounded-md bg-indigo-50">
                             <div class="flex">
                                 <div class="flex-shrink-0">
-                                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
                                     </svg>
                                 </div>
                                 <div class="ml-3">
-                                    <h3 class="text-sm font-medium text-blue-800 dark:text-blue-300">Informasi Akun</h3>
-                                    <div class="mt-2 text-sm text-blue-700 dark:text-blue-400">
+                                    <h3 class="text-sm font-medium text-indigo-600">Informasi Akun</h3>
+                                    <div class="mt-2 text-sm text-indigo-700 dark:text-indigo-400">
                                         <ul class="pl-5 space-y-1 list-disc">
                                             <li>Akun ini dibuat pada: {{ $user->created_at->format('d M Y H:i') }}</li>
                                             <li>Terakhir diperbarui: {{ $user->updated_at->format('d M Y H:i') }}</li>
@@ -224,10 +224,10 @@
 
                         <!-- Submit Button -->
                         <div class="flex items-center justify-end gap-4 pt-5 mt-6 border-t border-gray-200 dark:border-gray-700">
-                            <a href="{{ route('admin.users.index') }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <a href="{{ route('admin.users.index') }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
                                 Batal
                             </a>
-                            <button type="submit" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600">
+                            <button type="submit" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 -ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                 </svg>
