@@ -345,7 +345,7 @@
                                                     @else
                                                         {{-- Jika belum dinilai, tombol untuk menilai --}}
                                                         <a href="{{ route('teacher.penilaian.pengumpulan.create', $pengumpulan) }}"
-                                                            class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                                                            class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-150">
                                                             <svg class="h-3.5 w-3.5 mr-1" fill="none"
                                                                 stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"

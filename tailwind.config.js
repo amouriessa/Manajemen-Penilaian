@@ -12,16 +12,9 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                // UI default (body, form, tabel)
                 sans: ["Poppins", ...defaultTheme.fontFamily.sans],
-
-                // UI modern / panel / secondary text
                 ui: ["Manrope", ...defaultTheme.fontFamily.sans],
-
-                // Branding / headline kuat (uppercase cocok)
                 display: ["Koulen", ...defaultTheme.fontFamily.sans],
-
-                // Judul elegan / institusional
                 serif: ["Cormorant", ...defaultTheme.fontFamily.serif],
             },
             colors: {
@@ -31,7 +24,7 @@ export default {
                     600: "#2D3F63",
                     700: "#1E2A40",
                 },
-                white: "#FDFAF5",
+                white: "#FDFAF5", //cream background
                 red: {
                     100: "#F5E8E6",
                     600: "#B5655A",
@@ -47,8 +40,9 @@ export default {
                 green: {
                     100: "#EAF2EE",
                     600: "#7A9E8A",
-                }
-            }
+                },
+                textBody: "#3A3028",
+            },
         },
     },
 

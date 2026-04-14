@@ -29,7 +29,7 @@
 
                 <div
                     class="p-6 mb-8 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <h2 class="mb-4 text-xl font-semibold text-gray-900 dark:text-white">Detail Pengumpulan</h2>
+                    {{-- <h2 class="mb-4 text-xl font-semibold text-gray-900 dark:text-white">Detail Pengumpulan</h2> --}}
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div>
                             <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Nama Siswa:</p>
@@ -72,7 +72,7 @@
                             <div>
                                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">File Pengumpulan:</p>
                                 <a href="{{ route('teacher.pengumpulan.download', $pengumpulan) }}"
-                                    class="inline-flex items-center text-sm text-blue-600 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-500">
+                                    class="inline-flex items-center text-sm text-indigo-600 underline hover:text-indigo-800 dark:text-blue-400 dark:hover:text-blue-500">
                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
@@ -142,7 +142,7 @@
                                     (0-100)</label>
                                 <input type="number" name="nilai_tajwid" id="nilai_tajwid" min="0"
                                     max="100" value="{{ old('nilai_tajwid') }}"
-                                    class="block w-full mt-1 text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    class="block w-full mt-1 text-sm border-gray-300 rounded-md shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                     required>
                                 @error('nilai_tajwid')
                                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -154,7 +154,7 @@
                                     (0-100)</label>
                                 <input type="number" name="nilai_harakat" id="nilai_harakat" min="0"
                                     max="100" value="{{ old('nilai_harakat') }}"
-                                    class="block w-full mt-1 text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    class="block w-full mt-1 text-sm border-gray-300 rounded-md shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                     required>
                                 @error('nilai_harakat')
                                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -166,7 +166,7 @@
                                     (0-100)</label>
                                 <input type="number" name="nilai_makhraj" id="nilai_makhraj" min="0"
                                     max="100" value="{{ old('nilai_makhraj') }}"
-                                    class="block w-full mt-1 text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    class="block w-full mt-1 text-sm border-gray-300 rounded-md shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                     required>
                                 @error('nilai_makhraj')
                                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -179,7 +179,7 @@
                                 class="block text-sm font-medium text-gray-700 dark:text-gray-300">Catatan
                                 (Opsional)</label>
                             <textarea name="catatan" id="catatan" rows="4"
-                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">{{ old('catatan') }}</textarea>
+                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-100 focus:border-indigo-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white">{{ old('catatan') }}</textarea>
                             @error('catatan')
                                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                             @enderror

@@ -181,7 +181,7 @@
 
                                 <div id="surah-container">
                                     <div class="flex gap-2 mb-2 surah-row">
-                                        <select name="surah_data[0][surah_id]" class="w-1/3 text-xs border-gray-300 rounded-md"
+                                        <select name="surah_data[0][surah_id]" class="w-1/3 text-xs border-gray-300 rounded-md focus:ring-indigo-100 focus:border-indigo-700"
                                             required>
                                             <option value="">Pilih Surah</option>
                                             @foreach ($surahList as $surah)
@@ -190,10 +190,10 @@
                                         </select>
 
                                         <input type="number" name="surah_data[0][ayat_awal]" placeholder="Ayat Awal"
-                                            class="w-1/3 text-xs border-gray-300 rounded-md" min="1" required>
+                                            class="w-1/3 text-xs border-gray-300 rounded-md focus:ring-indigo-100 focus:border-indigo-700" min="1" required>
 
                                         <input type="number" name="surah_data[0][ayat_akhir]" placeholder="Ayat Akhir"
-                                            class="w-1/3 text-xs border-gray-300 rounded-md" min="1" required>
+                                            class="w-1/3 text-xs border-gray-300 rounded-md focus:ring-indigo-100 focus:border-indigo-700" min="1" required>
                                     </div>
                                 </div>
 

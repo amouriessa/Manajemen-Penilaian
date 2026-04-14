@@ -312,20 +312,26 @@ class TugasHafalanSiswaController extends Controller
         }
 
         if ($tanggalAwal && $tanggalAkhir) {
-            $archivedTugas = $archivedTugas->filter(function ($task) use ($tanggalAwal, $tanggalAkhir) {
+            $start = Carbon::parse($tanggalAwal)->startOfDay();
+            $end   = Carbon::parse($tanggalAkhir)->endOfDay();
+
+            $archivedTugas = $archivedTugas->filter(function ($task) use ($start, $end) {
                 if (!$task->assessmentDate) return false;
-                $assessmentDate = Carbon::parse($task->assessmentDate);
-                return $assessmentDate->between($tanggalAwal, $tanggalAkhir);
+                return $task->assessmentDate->between($start, $end);
             });
         } elseif ($tanggalAwal) {
-            $archivedTugas = $archivedTugas->filter(function ($task) use ($tanggalAwal) {
+            $start = Carbon::parse($tanggalAwal)->startOfDay();
+
+            $archivedTugas = $archivedTugas->filter(function ($task) use ($start) {
                 if (!$task->assessmentDate) return false;
-                return Carbon::parse($task->assessmentDate)->gte($tanggalAwal);
+                return $task->assessmentDate->gte($start);
             });
         } elseif ($tanggalAkhir) {
-            $archivedTugas = $archivedTugas->filter(function ($task) use ($tanggalAkhir) {
+            $end = Carbon::parse($tanggalAkhir)->endOfDay();
+
+            $archivedTugas = $archivedTugas->filter(function ($task) use ($end) {
                 if (!$task->assessmentDate) return false;
-                return Carbon::parse($task->assessmentDate)->lte($tanggalAkhir);
+                return $task->assessmentDate->lte($end);
             });
         }
 

@@ -89,9 +89,9 @@
                                     <th scope="col"
                                         class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                                         Waktu Submit</th>
-                                    <th scope="col"
+                                    {{-- <th scope="col"
                                         class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                        Status</th>
+                                        Status</th> --}}
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
@@ -147,7 +147,7 @@
                                         <div class="text-sm text-gray-900">
                                             {{ $submission->created_at->format('d M Y, H:i') }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    {{-- <td class="px-6 py-4 whitespace-nowrap">
                                         @php
                                             $statusClass = '';
                                             switch ($submission->status) {
@@ -167,7 +167,7 @@
                                         @endphp
                                         <span
                                             class="{{ $statusClass }}">{{ ucfirst(str_replace('_', ' ', $submission->status)) }}</span>
-                                    </td>
+                                    </td> --}}
                                 </tr>
                                 @empty
                                     <tr>

@@ -127,13 +127,22 @@ Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->name('teacher.')
 
     // Laporan
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
-    
+
     Route::get('/laporan/siswa-by-kelas', [LaporanController::class, 'siswaByKelas'])->name('laporan.siswa-by-kelas');
 
     Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
 });
 
 Route::middleware(['auth', 'role:student'])->prefix('student')->name('student.')->group(function () {
+    // Route::get('/tugas_hafalan/archive-redirect', function () {
+    // dd('MASUK');
+    //     })->name('tugas_hafalan.archive.redirect');
+
+    Route::get('/tugas_hafalan/archive-redirect', function () {
+    session()->put('hide_archive_notification', true);
+    return redirect()->route('student.tugas_hafalan.archive');
+        })->name('tugas_hafalan.archive.redirect');
+
     // Manajemen halaman hafalan siswa (tampilan awal)
     Route::get('/tugas_hafalan', [TugasHafalanSiswaController::class, 'index'])->name('tugas_hafalan.index');
 
@@ -149,11 +158,6 @@ Route::middleware(['auth', 'role:student'])->prefix('student')->name('student.')
 
     Route::get('pengumpulan/{pengumpulan}', [TugasHafalanSiswaController::class, 'showPengumpulan'])
         ->name('pengumpulan.show');
-
-    Route::get('/tugas_hafalan/archive-redirect', function () {
-    session()->put('hide_archive_notification', true);
-    return redirect()->route('tugas_hafalan.archive');
-        })->name('tugas_hafalan.archive.redirect');
 
 });
 
