@@ -62,4 +62,31 @@ class Penilaian extends Model
             default => 'Jiddan',
         };
     }
+
+    public function getJenisPenilaianLabelAttribute()
+    {
+        return match ($this->jenis_penilaian) {
+            'langsung' => 'Setoran',
+            'pengumpulan' => 'Tugas',
+            default => ucfirst($this->jenis_penilaian),
+        };
+    }
+
+    public function getJenisPenilaianBadgeAttribute()
+    {
+        return match ($this->jenis_penilaian) {
+            'langsung' => 'badge-langsung',
+            'pengumpulan' => 'badge-pengumpulan',
+            default => '',
+        };
+    }
+
+    public function getJenisPenilaianBadgeTailwindAttribute()
+    {
+        return match ($this->jenis_penilaian) {
+            'langsung' => 'bg-indigo-100 text-indigo-600',
+            'pengumpulan' => 'bg-purple-100 text-purple-600',
+            default => '',
+        };
+    }
 }

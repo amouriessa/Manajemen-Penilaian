@@ -41,6 +41,10 @@ export default {
                     100: "#EAF2EE",
                     600: "#7A9E8A",
                 },
+                purple: {
+                    100: "#ebdbfe",
+                    600: "#6B5CA5",
+                },
                 textBody: "#3A3028",
             },
         },

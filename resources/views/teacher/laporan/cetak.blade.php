@@ -199,37 +199,37 @@
 
         .badge-langsung {
             background: #dbeafe;
-            color: #1d4ed8;
+            color: #2D3F63;
         }
 
         .badge-pengumpulan {
-            background: #ede9fe;
-            color: #6d28d9;
+            background: #ebdbfe;
+            color: #6B5CA5;
         }
 
         .badge-a {
-            background: #dcfce7;
-            color: #166534;
+            background: #EAF2EE;
+            color: #7A9E8A;
         }
 
         .badge-b {
-            background: #dbeafe;
-            color: #1e40af;
+            background: #D6E3F5;
+            color: #2D3F63;
         }
 
         .badge-c {
-            background: #fef9c3;
-            color: #92400e;
+            background: #F7EDDA;
+            color: #B07833;
         }
 
         .badge-d {
-            background: #fee2e2;
-            color: #991b1b;
+            background: #F5E8E6;
+            color: #8B4040;
         }
 
         .nilai-total {
             font-weight: bold;
-            color: #4338ca;
+            color: #2D3F63;
         }
 
         /* ================================
@@ -254,7 +254,7 @@
         .ringkasan-item .nilai {
             font-size: 16px;
             font-weight: bold;
-            color: #4338ca;
+            color: #2D3F63;
         }
 
         .ringkasan-item .label {
@@ -306,25 +306,78 @@
             z-index: 999;
         }
 
-        .btn {
+        .btn-back-modern {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
             padding: 8px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
             font-size: 12px;
             font-weight: 600;
-        }
 
-        .btn-print {
-            background: #4f46e5;
-            color: #fff;
-        }
+            color: #ffffff;
+            background-color: #4b5563;
+            border-radius: 8px;
 
-        .btn-back {
-            background: #e5e7eb;
-            color: #374151;
             text-decoration: none;
-            display: inline-block;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+            transition: all 0.2s ease;
+        }
+
+        .btn-back-modern:hover {
+            background-color: #374151;
+        }
+
+        .btn-back-modern:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #6b7280, 0 0 0 4px #ffffff;
+        }
+
+        .btn-back-modern .icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .btn-print-modern {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 500;
+
+            color: #ffffff;
+            background-color: #4f46e5;
+            /* indigo-600 */
+            border: none;
+            border-radius: 8px;
+
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+
+            transition: all 0.2s ease;
+        }
+
+        .btn-print-modern:hover {
+            background-color: #4338ca;
+            /* indigo-700 */
+        }
+
+        .btn-print-modern:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #4f46e5, 0 0 0 4px #ffffff;
+        }
+
+        .btn-print-modern:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-print-modern .icon {
+            width: 16px;
+            height: 16px;
         }
     </style>
 </head>
@@ -350,7 +403,7 @@
             <h2>Laporan Penilaian Hafalan Al-Qur'an</h2>
             <div class="periode-info">
                 @if (request('periode') === 'bulan')
-                    Periode: {{ \Carbon\Carbon::create()->month(request('bulan'))->translatedFormat('F') }}
+                    Periode: {{ \Carbon\Carbon::create()->month((int) request('bulan'))->translatedFormat('F') }}
                     {{ request('tahun') }}
                 @elseif (request('periode') === 'tanggal')
                     Periode: {{ \Carbon\Carbon::parse(request('dari_tanggal'))->translatedFormat('d F Y') }}
@@ -432,9 +485,8 @@
                                 </td>
                                 @if ($idx === 0)
                                     <td rowspan="{{ $surahCount }}" style="text-align:center">
-                                        <span
-                                            class="badge {{ $item->jenis_penilaian === 'langsung' ? 'badge-langsung' : 'badge-pengumpulan' }}">
-                                            {{ ucfirst($item->jenis_penilaian) }}
+                                        <span class="badge {{ $item->jenis_penilaian_badge }}">
+                                            {{ $item->jenis_penilaian_label }}
                                         </span>
                                     </td>
                                     <td rowspan="{{ $surahCount }}" style="text-align:center">
@@ -468,9 +520,8 @@
                             <td style="text-align:center">{{ $no++ }}</td>
                             <td style="color:#999;font-style:italic">Surah tidak tersedia</td>
                             <td style="text-align:center">
-                                <span
-                                    class="badge {{ $item->jenis_penilaian === 'langsung' ? 'badge-langsung' : 'badge-pengumpulan' }}">
-                                    {{ ucfirst($item->jenis_penilaian) }}
+                                <span class="badge {{ $item->jenis_penilaian_badge }}">
+                                    {{ $item->jenis_penilaian_label }}
                                 </span>
                             </td>
                             <td style="text-align:center">{{ $item->jenis_hafalan }}</td>
@@ -543,8 +594,14 @@
 
     {{-- Tombol Aksi --}}
     <div class="action-bar no-print">
-        <a href="{{ url()->previous() }}" class="btn btn-back">← Kembali</a>
-        <button onclick="window.print()" class="btn btn-print">🖨 Cetak / Simpan PDF</button>
+        <a href="{{ url()->previous() }}" class="btn-back-modern">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Kembali
+        </a>
+        <button onclick="window.print()" class="btn-print-modern">Export PDF</button>
     </div>
 
     <script>
