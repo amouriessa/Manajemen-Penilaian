@@ -2,10 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,11 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'teacher']);
-        Role::create(['name' => 'student']);
-
         $this->call([
+            RoleSeeder::class,
             AdminUserSeeder::class,
             TeacherUserSeeder::class,
             StudentUserSeeder::class,

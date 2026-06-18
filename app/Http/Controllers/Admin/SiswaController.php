@@ -8,7 +8,7 @@ use App\Models\SiswaKelas;
 use App\Models\Student;
 use App\Models\TahunAjaran;
 use App\Models\TahunAngkatan;
-use App\Models\User;
+use App\Domains\User\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rule;

@@ -30,7 +30,7 @@ class AuthenticatedSessionController extends Controller
 
         // ✅ Update status is_logged_in jadi true
         $user = Auth::user();
-        if ($user instanceof \App\Models\User) {
+        if ($user instanceof \App\Domains\User\Models\User) {
             $user->is_logged_in = true;
             $user->save();
         }
@@ -46,7 +46,7 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user();
 
         // ✅ Update status is_logged_in jadi false
-        if ($user instanceof \App\Models\User) {
+        if ($user instanceof \App\Domains\User\Models\User) {
             $user->is_logged_in = false;
             $user->save();
         }

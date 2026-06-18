@@ -1,5 +1,6 @@
 <?php
 
+use App\Domains\User\Controllers\UserController;
 use App\Http\Controllers\FileAccessController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
@@ -10,7 +11,6 @@ use App\Http\Controllers\Admin\SiswaKelasController;
 use App\Http\Controllers\Admin\SurahController;
 use App\Http\Controllers\Admin\TahunAjaranController;
 use App\Http\Controllers\Admin\TahunAngkatanController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Student\TugasHafalanSiswaController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboard;
 use App\Http\Controllers\Teacher\LaporanController;

@@ -73,7 +73,6 @@ namespace App\Models{
  * @property int $tugas_hafalan_id
  * @property int $student_id
  * @property string $file_pengumpulan
- * @property string $status
  * @property string $submitted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -87,7 +86,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pengumpulan whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pengumpulan whereFilePengumpulan($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pengumpulan whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Pengumpulan whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pengumpulan whereStudentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pengumpulan whereSubmittedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pengumpulan whereTugasHafalanId($value)
@@ -114,6 +112,7 @@ namespace App\Models{
  * @property string $assessed_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $jenis_penilaian_label
  * @property-read mixed $predikat_label
  * @property-read \App\Models\Teacher $guru
  * @property-read \App\Models\Pengumpulan|null $pengumpulan
@@ -241,12 +240,12 @@ namespace App\Models{
  * @property int $id
  * @property int|null $tugas_hafalan_id
  * @property int $surah_id
+ * @property int|null $penilaian_id
+ * @property int|null $pengumpulan_id
  * @property int $ayat_awal
  * @property int $ayat_akhir
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int|null $penilaian_id
- * @property int|null $pengumpulan_id
  * @property-read \App\Models\Pengumpulan|null $pengumpulan
  * @property-read \App\Models\Penilaian|null $penilaian
  * @property-read \App\Models\Surah $surah
@@ -357,7 +356,6 @@ namespace App\Models{
  * @property string|null $deskripsi
  * @property string $jenis_tugas
  * @property string $tenggat_waktu
- * @property string $status
  * @property int $is_archived
  * @property int $is_for_all_student
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -387,7 +385,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TugasHafalan whereJenisTugas($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TugasHafalan whereKelasTahfidzId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TugasHafalan whereNama($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TugasHafalan whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TugasHafalan whereTeacherId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TugasHafalan whereTenggatWaktu($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TugasHafalan whereUpdatedAt($value)

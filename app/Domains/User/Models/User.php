@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace App\Domains\User\Models;
 
+use App\Models\Student;
+use App\Models\Teacher;
+use App\Shared\Enums\UserRole;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Cache;
-// use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  * User model.
@@ -76,13 +78,64 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Student::class);
     }
 
-    // public function role()
-    // {
-    //     return $this->belongsTo(Role::class);
-    // }
-
-    public function isOnline()
+    protected function status(): Attribute
     {
-        return Cache::has('user-is-online-' . $this->id);
+        return Attribute::make(
+            get: fn () =>
+                $this->is_logged_in
+                    ? 'Online'
+                    : 'Offline'
+        );
+    }
+
+    protected function statusClass(): Attribute
+    {
+        return Attribute::make(
+            get: fn () =>
+                $this->is_logged_in
+                    ? 'text-green-600'
+                    : 'text-red-600'
+        );
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('admin');
+    }
+
+    public function isTeacher(): bool
+    {
+        return $this->hasRole('teacher');
+    }
+
+    public function isStudent(): bool
+    {
+        return $this->hasRole('student');
+    }
+
+    public function roleEnum(): ?UserRole
+    {
+        $role = $this->roles->first()?->name;
+
+        return $role
+            ? UserRole::tryFrom($role)
+            : null;
+    }
+
+    protected function roleLabel(): Attribute
+    {
+        return Attribute::make(
+            get: fn () =>
+                $this->roleEnum()?->label() ?? '-'
+        );
+    }
+
+    protected function roleBadgeClass(): Attribute
+    {
+        return Attribute::make(
+            get: fn () =>
+                $this->roleEnum()?->badgeClass()
+                ?? 'bg-gray-100 text-gray-800'
+        );
     }
 }
