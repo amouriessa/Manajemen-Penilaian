@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Domains\Auth\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
+use App\Domains\Auth\Requests\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +28,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // ✅ Update status is_logged_in jadi true
         $user = Auth::user();
         if ($user instanceof \App\Domains\User\Models\User) {
             $user->is_logged_in = true;
@@ -45,7 +44,6 @@ class AuthenticatedSessionController extends Controller
     {
         $user = Auth::user();
 
-        // ✅ Update status is_logged_in jadi false
         if ($user instanceof \App\Domains\User\Models\User) {
             $user->is_logged_in = false;
             $user->save();
